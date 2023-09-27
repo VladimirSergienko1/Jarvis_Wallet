@@ -1,0 +1,126 @@
+.login_page{
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  height: 100vh;
+  width: 100vw;
+
+  .login_page__container{
+    width: 40rem;
+    padding: 1.44rem 4.37rem 3.44rem 5.44rem;
+    display: flex;
+    gap: 5rem;
+    border-radius: 2rem;
+    background: #F7F7F8;
+
+    .sign_in_block{
+      display: flex;
+      flex-direction: column;
+      width: 15rem;
+
+      .sign_in_form{
+        display: flex;
+        flex-direction: column;
+        .sign_in_title{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          color: #04071E;
+          text-align: center;
+          font-family: Roboto;
+          font-size: 1.25rem;
+          font-style: normal;
+          font-weight: 700;
+          line-height: normal;
+        }
+        .sign_in_label{
+          color: #04071E;
+          font-size: 0.8125rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+
+          margin-left: 12px;
+          margin-bottom: 10px;
+        }
+        .sign_in_input{
+          border: none;
+          height: 2.25rem;
+          padding-left: 12px;
+          font-family: Roboto;
+
+          border-radius: 1rem;
+          background: #EFEFF4;
+          margin-bottom: 1.88rem;
+        }
+        .sign_in_button{
+          width: 10rem;
+          align-self: center;
+
+          background: #34C759;
+          color: #F7F7F8;
+          font-family: Roboto;
+          font-size: 0.9375rem;
+          font-style: normal;
+          font-weight: 900;
+          line-height: normal;
+          border-radius: 2rem;
+          padding: 10px;
+          transition: 0.3s;
+          border: 1px solid #34C759;
+          &:hover{
+            background: #F7F7F8;
+            color: #34C759;
+          }
+        }
+
+      }
+
+      .sign_in_divider{
+        position: relative;
+        color: #AAACB6;
+        text-align: center;
+        font-family: Roboto;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+
+        &:before{
+          content: "";
+          position: absolute;
+          width: 60px;
+          height: 1px;
+          border: 1px solid #EBEBEC;
+          border-radius: 10px;
+          background-color: #EBEBEC;
+          display: block;
+          top: 50%;
+          left: 44px;
+        }
+        &:after{
+          content: "";
+          position: absolute;
+          width: 60px;
+          height: 1px;
+          border: 1px solid #EBEBEC;
+          border-radius: 10px;
+          background-color: #EBEBEC;
+          display: block;
+          top: 50%;
+          right: 44px;
+        }
+
+      }
+
+
+    }
+  }
+
+}
+
+
+
