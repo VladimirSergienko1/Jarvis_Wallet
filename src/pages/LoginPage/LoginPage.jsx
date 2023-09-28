@@ -1,5 +1,8 @@
 import styles from './LoginPage.module.scss'
-import info from '/src/assets/Info.svg'
+import info from '/src/assets/LoginPage/Info.svg'
+import AppleSignIn from '/src/assets/LoginPage/button_sign_in_apple.svg'
+import GoogleSignIn from '/src/assets/LoginPage/button_sign_in_google.svg'
+import MicrosoftSignIn from '/src/assets/LoginPage/button_sign_in_microsoft.svg'
 
 const LoginPage = () =>{
     return(
@@ -16,6 +19,16 @@ const LoginPage = () =>{
                         <button className={styles.sign_in_button}>Sign In</button>
                     </form>
                     <p className={styles.sign_in_divider}>or</p>
+                    <div className={styles.sign_in_links}>
+                        <a><img className={styles.sign_in_img} src={AppleSignIn}/></a>
+                        <a><img className={styles.sign_in_img} src={GoogleSignIn}/></a>
+                        <a><img  src={MicrosoftSignIn}/></a>
+                    </div>
+                    <div className={styles.sign_in_footer}>
+                        <a href={'#'}><p className={styles.sign_in_account}>Create account</p></a>
+                        <a href={'#'}><p className={styles.sign_in_account}>Forgot password?</p></a>
+
+                    </div>
 
 
                 </div>

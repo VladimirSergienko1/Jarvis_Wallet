@@ -1,5 +1,4 @@
 .login_page{
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,6 +54,7 @@
           border-radius: 1rem;
           background: #EFEFF4;
           margin-bottom: 1.88rem;
+          margin-top: 0.81rem;
         }
         .sign_in_button{
           width: 10rem;
@@ -71,6 +71,9 @@
           padding: 10px;
           transition: 0.3s;
           border: 1px solid #34C759;
+          cursor: pointer;
+
+          margin-bottom: 0.94rem;
           &:hover{
             background: #F7F7F8;
             color: #34C759;
@@ -89,11 +92,13 @@
         font-weight: 500;
         line-height: normal;
 
+        margin-bottom: 1.25rem ;
+
         &:before{
           content: "";
           position: absolute;
-          width: 60px;
-          height: 1px;
+          width: 3.75rem;
+          /*height: 1px;*/
           border: 1px solid #EBEBEC;
           border-radius: 10px;
           background-color: #EBEBEC;
@@ -104,14 +109,42 @@
         &:after{
           content: "";
           position: absolute;
-          width: 60px;
-          height: 1px;
+          width: 3.75rem;
+          /*height: 1px;*/
           border: 1px solid #EBEBEC;
           border-radius: 10px;
           background-color: #EBEBEC;
           display: block;
           top: 50%;
           right: 44px;
+        }
+
+      }
+      .sign_in_links{
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+
+        margin-bottom: 2.5rem;
+
+        .sign_in_img{
+
+        }
+
+
+      }
+      .sign_in_footer{
+        display: flex;
+        gap: 1.94rem;
+
+        .sign_in_account{
+          width: auto;
+          color: #32ADE6;
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          text-decoration-line: underline;
         }
 
       }
