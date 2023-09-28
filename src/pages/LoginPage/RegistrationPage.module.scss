@@ -1,0 +1,83 @@
+@import '/src/styles/UtilityStyles.scss';
+
+.registration_page{
+  @extend .utility_login_block;
+
+  .registration_page__container{
+    @extend .utility_login_container;
+
+    .reg_block{
+      display: flex;
+      flex-direction: column;
+      width: 15rem;
+
+      .reg_form{
+        display: flex;
+        flex-direction: column;
+        .reg_title{
+          @extend .utility_title;
+
+          margin-bottom: 0.94rem;
+        }
+        .reg_label{
+          @extend .utility_label;
+          position: relative;
+
+          margin-left: 12px;
+          margin-bottom: 10px;
+
+        }
+        .reg_label_required{
+          position: relative;
+          color: #04071E;
+          font-size: 0.8125rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+
+          margin-left: 12px;
+          margin-bottom: 10px;
+
+          &:after{
+            content: url("src/assets/LoginPage/required.svg");
+            position: relative;
+            bottom: 7px;
+            left: 3px;
+          }
+
+        }
+        .reg_input{
+          @extend .utility_input;
+
+          margin-bottom: 1.75rem;
+        }
+        .reg_footer{
+          display: flex;
+          gap: 0.88rem;
+          margin-top: 1.56rem;
+          .reg_back{
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            cursor: pointer;
+            &:before{
+              content: url("src/assets/LoginPage/Expand_left.svg");
+              position: absolute;
+              top: 55%;
+              left: 50%;
+              height: 24px;
+              transform: translateX(-50%) translateY(-50%);
+            }
+          }
+          .reg_button{
+            @extend .utility_btn;
+
+
+          }
+        }
+
+      }
+    }
+
+  }
+}

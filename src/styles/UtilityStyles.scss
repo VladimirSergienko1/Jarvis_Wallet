@@ -1,0 +1,87 @@
+.utility_login_block{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  height: 100vh;
+  width: 100vw;
+}
+
+.utility_login_container{
+  width: 40rem;
+  padding: 1.44rem 4.37rem 3.44rem 5.44rem;
+  display: flex;
+  gap: 5rem;
+  border-radius: 2rem;
+  background: #F7F7F8;
+}
+
+.utility_btn{
+  width: 10rem;
+  align-self: center;
+
+  background: #34C759;
+  color: #F7F7F8;
+  font-family: Roboto;
+  font-size: 0.9375rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  border-radius: 2rem;
+  padding: 10px;
+  transition: 0.3s;
+  border: 1px solid #34C759;
+  cursor: pointer;
+
+  &:hover{
+    background: #F7F7F8;
+    color: #34C759;
+  }
+}
+
+.utility_input{
+  border: none;
+  height: 2.25rem;
+  padding-left: 12px;
+  font-family: Roboto;
+
+  border-radius: 1rem;
+  background: #EFEFF4;
+}
+
+.utility_title{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  color: #04071E;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.utility_label{
+  color: #04071E;
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.utility_required_label{
+  position: relative;
+  color: #04071E;
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  &:after{
+    content: url("src/assets/LoginPage/required.svg");
+    position: relative;
+    bottom: 7px;
+    left: 3px;
+  }
+}

@@ -3,6 +3,7 @@ import {createBrowserRouter, Navigate} from "react-router-dom";
 import LoginPage from "../pages/LoginPage/LoginPage.jsx";
 import Error404 from "../pages/Errors/Error404.jsx";
 import Error403 from "../pages/Errors/Error403.jsx";
+import RegistrationPage from "../pages/LoginPage/RegistrationPage.jsx";
 
 
 const routes = createBrowserRouter([
@@ -13,6 +14,7 @@ const routes = createBrowserRouter([
         children: [
             {path: '/login', element: <LoginPage />},
             { path: '/', element: <Navigate to="/login" replace /> },
+            { path: '/registration', element: <RegistrationPage/> },
             { path: '/error403', element: <Error403/>  },
             { path: "*", element: <Error404/> },
 
