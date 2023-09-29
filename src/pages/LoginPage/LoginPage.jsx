@@ -3,6 +3,7 @@ import info from '/src/assets/LoginPage/Info.svg'
 import AppleSignIn from '/src/assets/LoginPage/button_sign_in_apple.svg'
 import GoogleSignIn from '/src/assets/LoginPage/button_sign_in_google.svg'
 import MicrosoftSignIn from '/src/assets/LoginPage/button_sign_in_microsoft.svg'
+import {Link} from "react-router-dom";
 
 const LoginPage = () =>{
     const handleSubmit = (e) =>{
@@ -29,7 +30,7 @@ const LoginPage = () =>{
                         <a><img className={styles.sign_in_img} src={MicrosoftSignIn}/></a>
                     </div>
                     <div className={styles.sign_in_footer}>
-                        <a href={'#'}><p className={styles.sign_in_account}>Create account</p></a>
+                        <Link to={'/registration'}><p className={styles.sign_in_account}>Create account</p></Link>
                         <a href={'#'}><p className={styles.sign_in_account}>Forgot password?</p></a>
 
                     </div>
