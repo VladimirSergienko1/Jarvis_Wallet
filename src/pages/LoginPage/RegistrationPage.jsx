@@ -10,6 +10,8 @@ import {Link} from "react-router-dom";
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import Input from 'react-phone-number-input/input'
+import {isPossiblePhoneNumber} from "react-phone-number-input";
 
 const validationSchema = Yup.object({
     name: Yup.string()
@@ -23,9 +25,16 @@ const validationSchema = Yup.object({
             /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
             "Invalid email format"
         ),
-    phone: Yup.string(),
-    password: Yup.string(),
-    rePassword: Yup.string(),
+    phone: Yup.string()
+        .test('is-valid-phone', 'Invalid phone number', value =>
+            value ? isPossiblePhoneNumber(value) : true
+        ),
+    password: Yup.string()
+        .min(8, 'Password must be at least 8 characters')
+        .required('Password is required'),
+    rePassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Password confirmation is required'),
 
 });
 const RegistrationPage = () =>{
@@ -35,7 +44,7 @@ const RegistrationPage = () =>{
         { value: 'kz', label: 'Kazakh' },
     ];
     const [selectedOption, setSelectedOption] = useState({ value: 'eng', label: 'English' });
-    const [emailIcon, setEmailIcon] = useState();
+    const [isNameValid, setIsNameValid] = useState(true);
 
     const formik = useFormik({
         initialValues: {
@@ -43,13 +52,11 @@ const RegistrationPage = () =>{
             email: '',
             phone: '',
             password: '',
-            rePassword: ''
-            // Другие поля
+            rePassword: '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
             console.log(values);
-            // Обработка отправки формы
         },
     });
 
@@ -74,7 +81,15 @@ const RegistrationPage = () =>{
                             {formik.touched.name && formik.errors.name && (
                                 <p className={styles.error_text}>{formik.errors.name}</p>
                             )}
-                            <img className={styles.error_img} src={emailIcon}/>
+                          {/*  <img className={styles.error_img} src={emailIcon}/>*/}
+                            {formik.touched.name && (
+                                formik.errors.name ? (
+                                    <img className={styles.error_img} src={errorIcon}/>
+                                ) : (
+                                    <img className={styles.error_img} src={correctIcon}/>
+                                )
+                            )}
+
 
                         </div>
                         <label htmlFor={'email_input'} className={styles.reg_label_required}>Email</label>
@@ -92,29 +107,79 @@ const RegistrationPage = () =>{
                             {formik.touched.email && formik.errors.email && (
                                 <p className={styles.error_text}>{formik.errors.email}</p>
                             )}
-                            <img className={styles.error_img} src={emailIcon}/>
-
+                            {formik.touched.email && (
+                                formik.errors.email ? (
+                                    <img className={styles.error_img} src={errorIcon}/>
+                                ) : (
+                                    <img className={styles.error_img} src={correctIcon}/>
+                                )
+                            )}
                         </div>
                         <label htmlFor={'phone_input'} className={styles.reg_label}>Phone number</label>
                         <div className={styles.input_container}>
-                            <input id={'phone_input'}
-                                   className={styles.reg_input}
-                                   name={'Phone'}
+                            <Input
+                                className={styles.reg_input}
+                                id="phone_input"
+                                name="phone"
+                                onChange={value => formik.setFieldValue('phone', value)}
+                                onBlur={() => formik.setFieldTouched('phone')}
+
                             />
-                            <img className={styles.error_img} src={correctIcon}/>
+                            {formik.touched.phone && formik.errors.phone && (
+                                <p className={styles.error_text}>{formik.errors.phone}</p>
+                            )}
+                            {formik.touched.phone && formik.values.phone && (
+                                formik.errors.phone ? (
+                                    <img className={styles.error_img} src={errorIcon}/>
+                                ) : (
+                                    <img className={styles.error_img} src={correctIcon}/>
+                                )
+                            )}
 
                         </div>
                         <label htmlFor={'pass_input'} className={styles.reg_label_required}>Password</label>
                         <div className={styles.input_container}>
-                            <input id={'pass_input'} className={styles.reg_input} />
-                            <p className={styles.error_text}>Error</p>
-                            <img className={styles.error_img} src={errorIcon}/>
+                            <input
+                                id="pass_input"
+                                name="password"
+                                type="password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.password}
+                                className={styles.reg_input}
+                            />
+                            {formik.touched.password && formik.errors.password && (
+                                <p className={styles.error_text}>{formik.errors.password}</p>
+                            )}
+                            {formik.touched.password && (
+                                formik.errors.password ? (
+                                    <img className={styles.error_img} src={errorIcon}/>
+                                ) : (
+                                    <img className={styles.error_img} src={correctIcon}/>
+                                )
+                            )}
                         </div>
                         <label htmlFor={'repass_input'} className={styles.reg_label_required}>Password again</label>
                         <div className={styles.input_container}>
-                            <input id={'repass_input'} className={styles.reg_input} />
-                            <p className={styles.error_text}>Error</p>
-                            <img className={styles.error_img} src={correctIcon}/>
+                            <input
+                                id="repass_input"
+                                name="rePassword"
+                                type="password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.rePassword}
+                                className={styles.reg_input}
+                            />
+                            {formik.touched.rePassword && formik.errors.rePassword && (
+                                <p className={styles.error_text}>{formik.errors.rePassword}</p>
+                            )}
+                            {formik.touched.rePassword && (
+                                formik.errors.rePassword ? (
+                                    <img className={styles.error_img} src={errorIcon}/>
+                                ) : (
+                                    <img className={styles.error_img} src={correctIcon}/>
+                                )
+                            )}
 
                         </div>
 

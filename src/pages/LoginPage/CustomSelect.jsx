@@ -5,7 +5,7 @@ import styles from './Select.module.scss'
  const CustomSelect = (props)=> {
 
     return (
-        <div style={{borderRadius:'10px'}}>
+        <div>
             <Select
                 styles={{
                     control: (baseStyles, state) => ({
@@ -14,8 +14,27 @@ import styles from './Select.module.scss'
                         background: '#EFEFF4',
                         cursor: "pointer",
                         marginBottom: '1.56rem',
-                        borderColor: state.isSelected ? "red" : "#EFEFF4",
+                        borderColor: state.isSelected ? "#EFEFF4" : "#EFEFF4",
+                        boxShadow: state.isFocused ? 0 : 0,
+                        "&:hover": {
+                            borderColor: state.isSelected ? "#EFEFF4" : "#EFEFF4"
+                        }
 
+                    }),
+                    menu: (baseStyles) => ({
+                        ...baseStyles,
+                        backgroundColor: '#EFEFF4',
+                    /*    borderRadius: '1rem',*/
+                    }),
+                    option: (baseStyles, state) => ({
+                        ...baseStyles,
+                        backgroundColor:
+                            state.isSelected ? '#dedede'
+                            : state.isFocused ? '#f0f0f0'
+                            : state.isActive ? '#f0f0f0'
+                            : null,
+                        color: '#333',
+                        cursor: 'pointer',
                     }),
                 }}
                 defaultValue={props.defaultValue}

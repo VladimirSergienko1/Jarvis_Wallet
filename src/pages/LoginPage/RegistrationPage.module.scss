@@ -50,8 +50,9 @@
 
           .error_img{
               position: absolute;
-              right: -35px;
-              top: 2px;
+              right: -30px;
+              top: 9px;
+
           }
 
 
@@ -63,6 +64,7 @@
         }
           .error_text{
             position: absolute;
+            width: 400px;
             color: #FF3B30;
             font-family: Roboto;
             font-size: 0.8125rem;
@@ -89,7 +91,7 @@
             &:before{
               content: url("src/assets/LoginPage/Expand_left.svg");
               position: absolute;
-              top: 55%;
+              top: 50%;
               left: 50%;
               height: 24px;
               transform: translateX(-50%) translateY(-50%);
