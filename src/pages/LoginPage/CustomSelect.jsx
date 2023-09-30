@@ -1,5 +1,4 @@
 import Select from 'react-select';
-import styles from './Select.module.scss'
 
 
  const CustomSelect = (props)=> {

@@ -44,7 +44,6 @@ const RegistrationPage = () =>{
         { value: 'kz', label: 'Kazakh' },
     ];
     const [selectedOption, setSelectedOption] = useState({ value: 'eng', label: 'English' });
-    const [isNameValid, setIsNameValid] = useState(true);
 
     const formik = useFormik({
         initialValues: {
@@ -66,7 +65,7 @@ const RegistrationPage = () =>{
                 <img src={info} alt="Info"/>
                 <div className={styles.reg_block}>
                     <form className={styles.reg_form} onSubmit={formik.handleSubmit}>
-                        <p className={styles.reg_title}>New user</p>
+                        <h2 className={styles.reg_title}>New user</h2>
                         <label htmlFor={'name_input'} className={styles.reg_label_required}>Name</label>
                         <div className={styles.input_container}>
                             <input
@@ -81,7 +80,6 @@ const RegistrationPage = () =>{
                             {formik.touched.name && formik.errors.name && (
                                 <p className={styles.error_text}>{formik.errors.name}</p>
                             )}
-                          {/*  <img className={styles.error_img} src={emailIcon}/>*/}
                             {formik.touched.name && (
                                 formik.errors.name ? (
                                     <img className={styles.error_img} src={errorIcon}/>

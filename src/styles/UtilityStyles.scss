@@ -86,3 +86,18 @@
     left: 3px;
   }
 }
+.utility_error_text{
+  position: absolute;
+  width: 400px;
+  color: #FF3B30;
+  font-family: Roboto;
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  bottom: 10px;
+  left: 12px;
+  transition: 0.3s ease-in-out;
+
+}

@@ -1,0 +1,112 @@
+@import '/src/styles/UtilityStyles.scss';
+
+.telegram_page {
+  @extend .utility_login_block;
+
+  .telegram_page__container {
+    @extend .utility_login_container;
+    padding: 5rem 4.25rem 2.94rem 5.44rem;
+
+    .telegram_block {
+      display: flex;
+      flex-direction: column;
+      width: 15rem;
+
+      .telegram_form {
+        display: flex;
+        flex-direction: column;
+
+        .telegram_title {
+          @extend .utility_title;
+          font-size: 1.5rem;
+          width: 15.75rem;
+
+          margin-bottom: 5.69rem;
+        }
+
+        .telegram_label {
+          @extend .utility_label;
+          position: relative;
+
+          margin-left: 12px;
+          margin-bottom: 10px;
+
+        }
+        .input_container{
+          position: relative;
+
+          .error_img{
+            position: absolute;
+            right: -30px;
+            top: 9px;
+
+          }
+
+
+          .telegram_input{
+            @extend .utility_input;
+            position: relative;
+
+            margin-bottom: 1.85rem;
+
+          }
+          .error_text{
+           @extend .utility_error_text;
+
+          }
+        }
+        .telegram_footer{
+          display: flex;
+          gap: 0.88rem;
+          margin-top: 1.56rem;
+          .telegram_back{
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            cursor: pointer;
+            &:before{
+              content: url("src/assets/LoginPage/Expand_left.svg");
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              height: 24px;
+              transform: translateX(-50%) translateY(-50%);
+            }
+          }
+          .telegram_button{
+            @extend .utility_btn;
+
+
+          }
+        }
+        .telegram_advantages_block{
+          display: flex;
+          flex-direction: column;
+          gap: 2.94rem;
+
+          margin-top: 4.44rem;
+          margin-bottom: 6.44rem ;
+
+          .advantages{
+            width: 300px;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            .advantages_label{
+              color: #04071E;
+              text-align: center;
+              font-size: 1rem;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+
+              margin-left: 0.31rem;
+
+            }
+
+          }
+        }
+      }
+    }
+  }
+}
