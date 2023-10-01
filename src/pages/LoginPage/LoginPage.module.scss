@@ -25,10 +25,27 @@
           margin-left: 12px;
           margin-bottom: 10px;
         }
-        .sign_in_input{
-          @extend .utility_input;
 
-          margin-bottom: 1.88rem;
+        .input_container{
+          position: relative;
+
+          .error_img{
+            position: absolute;
+            right: -30px;
+            top: 9px;
+
+          }
+
+          .sign_in_input{
+            @extend .utility_input;
+            position: relative;
+
+            margin-bottom: 1.85rem;
+          }
+          .error_text{
+            @extend .utility_error_text;
+
+          }
         }
         .sign_in_button{
           @extend .utility_btn;

@@ -5,7 +5,7 @@
 
   .telegram_page__container {
     @extend .utility_login_container;
-    padding: 5rem 4.25rem 2.94rem 5.44rem;
+    padding: 2rem 4.25rem 2.94rem 5.44rem;
 
     .telegram_block {
       display: flex;
@@ -21,7 +21,7 @@
           font-size: 1.5rem;
           width: 15.75rem;
 
-          margin-bottom: 5.69rem;
+          margin-bottom: 4.69rem;
         }
 
         .telegram_label {
@@ -84,8 +84,8 @@
           flex-direction: column;
           gap: 2.94rem;
 
-          margin-top: 4.44rem;
-          margin-bottom: 6.44rem ;
+          margin-top: 2.44rem;
+          margin-bottom: 3.44rem ;
 
           .advantages{
             width: 300px;

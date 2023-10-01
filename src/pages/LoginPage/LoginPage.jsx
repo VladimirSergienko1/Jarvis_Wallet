@@ -3,25 +3,129 @@ import info from '/src/assets/LoginPage/Info.svg'
 import AppleSignIn from '/src/assets/LoginPage/button_sign_in_apple.svg'
 import GoogleSignIn from '/src/assets/LoginPage/button_sign_in_google.svg'
 import MicrosoftSignIn from '/src/assets/LoginPage/button_sign_in_microsoft.svg'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+import * as Yup from "yup";
+import {isPossiblePhoneNumber} from "react-phone-number-input";
+import {useFormik} from "formik";
+import errorIcon from "../../assets/LoginPage/Error_round.svg";
+import correctIcon from "../../assets/LoginPage/Done_round.svg";
+import axios from "axios";
+
+const validationSchema = Yup.object({
+    email: Yup.string()
+        .email('Invalid email format')
+        .required('Email is required')
+        .matches(
+            /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
+            "Invalid email format"
+        ),
+    password: Yup.string()
+        .min(8, 'Password must be at least 8 characters')
+        .required('Password is required'),
+});
 
 const LoginPage = () =>{
-    const handleSubmit = (e) =>{
-        e.preventDefault();
-    }
+
+    const navigate = useNavigate()
+    const { t, i18n } = useTranslation();
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema: validationSchema,
+        onSubmit: async (values) => {
+            console.log(values);
+
+            try {
+                const response = await axios.post('https://jarviswallet.pro/api/v1/access/signin', {
+                    email: values.email,
+                    password: values.password
+                });
+
+                // Проверьте, успешен ли запрос
+                if (response.data.code === 0) {
+                    console.log("Success!", response.data);
+
+                    // Используйте response.data.access_token как ваш токен доступа
+                    const accessToken = response.data.access_token;
+                    const refreshToken = response.data.refresh_token;
+
+                    navigate('/main')
+
+                    // ... Возможно, вы захотите сохранить токены в состоянии компонента или в localStorage
+
+                } else {
+                    console.log("Error: ", response.data.message);
+                    // Обработайте ошибку аутентификации (например, показать сообщение пользователю)
+                }
+
+            } catch (error) {
+                console.error("An error occurred while fetching the data: ", error);
+                // Обработайте ошибку сети или сервера (например, показать сообщение пользователю)
+            }
+            /*navigate('/main')*/
+
+        },
+
+    });
 
     return(
         <div className={styles.login_page}>
             <div className={styles.login_page__container}>
                 <img src={info} alt="Info"/>
                 <div className={styles.sign_in_block}>
-                    <form className={styles.sign_in_form} onSubmit={handleSubmit}>
-                        <p className={styles.sign_in_title}>Login</p>
+                    <form className={styles.sign_in_form} onSubmit={formik.handleSubmit}>
+                        <p className={styles.sign_in_title}>{t('Login')}</p>
                         <label htmlFor={'email_input'} className={styles.sign_in_label}>Email</label>
-                        <input id={'email_input'} className={styles.sign_in_input} />
+                        <div className={styles.input_container}>
+                            <input
+                                id="email_input"
+                                name="email"
+                                type="email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
+                                className={styles.sign_in_input}
+
+                            />
+                            {formik.touched.email && formik.errors.email && (
+                                <p className={styles.error_text}>{formik.errors.email}</p>
+                            )}
+                         {/*   {formik.touched.email && (
+                                formik.errors.email ? (
+                                    <img className={styles.error_img} src={errorIcon}/>
+                                ) : (
+                                    <img className={styles.error_img} src={correctIcon}/>
+                                )
+                            )}*/}
+                        </div>
                         <label htmlFor={'pass_input'} className={styles.sign_in_label}>Password</label>
-                        <input id={'pass_input'} className={styles.sign_in_input} />
-                        <button className={styles.sign_in_button} type={"submit"} >Sign In</button>
+                        <div className={styles.input_container}>
+                            <input
+                                id="pass_input"
+                                name="password"
+                                type="password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.password}
+                                className={styles.sign_in_input}
+
+                            />
+                            {formik.touched.password && formik.errors.password && (
+                                <p className={styles.error_text}>{formik.errors.password}</p>
+                            )}
+                      {/*      {formik.touched.password && (
+                                formik.errors.password ? (
+                                    <img className={styles.error_img} src={errorIcon}/>
+                                ) : (
+                                    <img className={styles.error_img} src={correctIcon}/>
+                                )
+                            )}*/}
+                        </div>
+                        <button className={styles.sign_in_button} type={"submit"} >{t('Sign In')}</button>
                     </form>
                     <p className={styles.sign_in_divider}>or</p>
                     <div className={styles.sign_in_links}>
@@ -31,7 +135,7 @@ const LoginPage = () =>{
                     </div>
                     <div className={styles.sign_in_footer}>
                         <Link to={'/registration'}><p className={styles.sign_in_account}>Create account</p></Link>
-                        <a href={'#'}><p className={styles.sign_in_account}>Forgot password?</p></a>
+                        <Link to={'/recovery'}><p className={styles.sign_in_account}>Forgot password?</p></Link>
 
                     </div>
 
