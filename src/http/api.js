@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
-export const API_URL = 'https://jarviswallet.pro/api/v1';
+export const API_URL = 'https://jarviswallet.pro/api/v1/access/';
 
 const $api = axios.create({
     withCredentials: true,

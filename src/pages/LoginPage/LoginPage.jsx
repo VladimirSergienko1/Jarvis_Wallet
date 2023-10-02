@@ -12,6 +12,7 @@ import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import {loginFx} from "../../store/login_model.js";
 
 const validationSchema = Yup.object({
     email: Yup.string()
@@ -41,33 +42,12 @@ const LoginPage = () =>{
             console.log(values);
 
             try {
-                const response = await axios.post('https://jarviswallet.pro/api/v1/access/signin', {
-                    email: values.email,
-                    password: values.password
-                });
-
-                if (response.data.code === 0) {
-                    console.log("Success!", response.data);
-
-                    const accessToken = response.data.access_token;
-                    const refreshToken = response.data.refresh_token;
-
-                    /*Cookies.set('access_token', accessToken, { expires: 1 }); // expires определяет срок жизни cookie в днях
-                    Cookies.set('refresh_token', refreshToken, { expires: 1 });*/
-
-                    navigate('/main')
-
-
-                } else {
-                    console.log("Error: ", response.data.message);
-                    // Обработайте ошибку аутентификации (например, показать сообщение пользователю)
-                }
-
+                 await loginFx({email: values.email, password: values.password});
+                navigate('/main');
             } catch (error) {
-                console.error("An error occurred while fetching the data: ", error);
-                // Обработайте ошибку сети или сервера (например, показать сообщение пользователю)
+                console.error('Login error:', error);
             }
-            /*navigate('/main')*/
+
 
         },
 

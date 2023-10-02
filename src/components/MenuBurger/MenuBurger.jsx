@@ -19,11 +19,6 @@ const MenuBurger = () => {
 
     return(
         <div className={`${styles.menuBurger} ${isActive ? styles.active : ''}`}>
-           {/* {isActive && <ul className={styles.burgerExpanded}>
-                    <li className={styles.burgerItem}><img src={profileImg}/>Profile</li>
-                    <li className={styles.burgerItem}><img src={lightImg}/>Light</li>
-                    <li className={styles.burgerItem}><img src={proImg}/>Pro</li>
-            </ul>}*/}
             <ul className={`${styles.burgerExpanded} ${isActive ? styles.active : ''}`}>
                 <li className={styles.burgerItem}><img src={profileImg}/>Profile</li>
                 <li className={styles.burgerItem}><img src={lightImg}/>Light</li>
@@ -40,9 +35,9 @@ const MenuBurger = () => {
                     viewBox="0 0 32 32"
                     fill="none"
                 >
-                    <path d="M6.66663 9.33325H25.3333" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M6.66663 16H25.3333" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M6.66663 22.6667H25.3333" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M6.66663 9.33325H25.3333" stroke="#33363F" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M6.66663 16H25.3333" stroke="#33363F" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M6.66663 22.6667H25.3333" stroke="#33363F" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
             </div>
 
