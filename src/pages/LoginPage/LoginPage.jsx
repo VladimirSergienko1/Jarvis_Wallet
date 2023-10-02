@@ -11,6 +11,7 @@ import {useFormik} from "formik";
 import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 const validationSchema = Yup.object({
     email: Yup.string()
@@ -45,17 +46,17 @@ const LoginPage = () =>{
                     password: values.password
                 });
 
-                // Проверьте, успешен ли запрос
                 if (response.data.code === 0) {
                     console.log("Success!", response.data);
 
-                    // Используйте response.data.access_token как ваш токен доступа
                     const accessToken = response.data.access_token;
                     const refreshToken = response.data.refresh_token;
 
+                    /*Cookies.set('access_token', accessToken, { expires: 1 }); // expires определяет срок жизни cookie в днях
+                    Cookies.set('refresh_token', refreshToken, { expires: 1 });*/
+
                     navigate('/main')
 
-                    // ... Возможно, вы захотите сохранить токены в состоянии компонента или в localStorage
 
                 } else {
                     console.log("Error: ", response.data.message);
