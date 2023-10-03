@@ -5,9 +5,12 @@ class AuthService {
         return $api.post('/signin', {email, password});
     }
 
-    static async registration(email, password) {
-        return $api.post('/registration', {email, password});
+    static async registration(name, email, phoneNumber = null, password, language = "en") {
+        return $api.post('/registration', {name, email, phoneNumber, password, language});
     }
+
+
+
 
     static async logout() {
         return $api.post('/logout');

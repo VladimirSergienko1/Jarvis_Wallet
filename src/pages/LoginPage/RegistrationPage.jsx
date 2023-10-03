@@ -12,6 +12,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Input from 'react-phone-number-input/input'
 import {isPossiblePhoneNumber} from "react-phone-number-input";
+import {registrationFx} from "../../store/login_model.js";
 
 const validationSchema = Yup.object({
     name: Yup.string()
@@ -39,11 +40,17 @@ const validationSchema = Yup.object({
 });
 const RegistrationPage = () =>{
     const options = [
-        { value: 'eng', label: 'English' },
+        { value: 'en', label: 'English' },
         { value: 'ru', label: 'Russian' },
-        { value: 'kz', label: 'Kazakh' },
+        { value: 'kk', label: 'Kazakh' },
+        { value: 'ua', label: 'Ukrainian' },
     ];
     const [selectedOption, setSelectedOption] = useState({ value: 'eng', label: 'English' });
+
+    const handleLanguageChange = (option) => {
+        setSelectedOption(option);
+        formik.setFieldValue('language', option.value);
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -52,10 +59,20 @@ const RegistrationPage = () =>{
             phone: '',
             password: '',
             rePassword: '',
+            language: selectedOption.value,
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             console.log(values);
+
+            try {
+                await registrationFx({name: values.name, email: values.email, phone: values.phone, password: values.password, language: selectedOption.value});
+
+            } catch (e) {
+                console.log('registration Error:', e);
+
+            }
+
         },
     });
 
@@ -184,7 +201,7 @@ const RegistrationPage = () =>{
                         <label htmlFor={'language_input'} className={styles.reg_label}>Language</label>
                         <CustomSelect
                             defaultValue={selectedOption}
-                            onChange={setSelectedOption}
+                            onChange={handleLanguageChange}
                             options={options}
                         />
 

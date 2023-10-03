@@ -43,9 +43,8 @@ const LoginPage = () =>{
 
             try {
                  await loginFx({email: values.email, password: values.password});
-                navigate('/main');
-            } catch (error) {
-                console.error('Login error:', error);
+            } catch (e) {
+                console.error('Login error:', e);
             }
 
 
