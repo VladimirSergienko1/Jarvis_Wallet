@@ -12,7 +12,9 @@ import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import {loginFx} from "../../store/login_model.js";
+import {$isAuth, loginFx} from "../../store/login_model.js";
+import {useStore} from "effector-react";
+import {useEffect} from "react";
 
 const validationSchema = Yup.object({
     email: Yup.string()
@@ -29,7 +31,21 @@ const validationSchema = Yup.object({
 
 const LoginPage = () =>{
 
+    const isAuth = useStore($isAuth)
+
     const navigate = useNavigate()
+
+/*    setTimeout(() => {
+        console.log('Timeout',isAuth)
+    },5000)*/
+
+
+    useEffect(() => {
+        if (isAuth) {
+            navigate('/main');
+        }
+    }, [isAuth, navigate]);
+
     const { t, i18n } = useTranslation();
 
     const formik = useFormik({
@@ -41,11 +57,11 @@ const LoginPage = () =>{
         onSubmit: async (values) => {
             console.log(values);
 
-            try {
-                 await loginFx({email: values.email, password: values.password});
-            } catch (e) {
-                console.error('Login error:', e);
-            }
+
+                 await loginFx({email: values.email, password: values.password})
+               /*  if(isAuth){
+                     navigate('/main')
+                 }*/
 
 
         },

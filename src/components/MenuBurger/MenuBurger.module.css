@@ -5,7 +5,7 @@
   background: #F7F7F8;
   user-select: none;
   justify-content: flex-end;
-  transition: width 0.5s ease-in-out;
+  transition: width 0.4s ease-in-out;
   box-shadow: 0 20px 30px rgba(50, 49, 66, 0.2);
 }
 .menuBurger.active {

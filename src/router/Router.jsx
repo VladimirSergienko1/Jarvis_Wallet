@@ -1,5 +1,5 @@
 import App from '../App.jsx'
-import {createBrowserRouter, Navigate} from "react-router-dom";
+import {createBrowserRouter, createRoutesFromElements, Navigate, Route} from "react-router-dom";
 import LoginPage from "../pages/LoginPage/LoginPage.jsx";
 import Error404 from "../pages/Errors/Error404.jsx";
 import Error403 from "../pages/Errors/Error403.jsx";
@@ -33,5 +33,15 @@ const routes = createBrowserRouter([
         ]
     }
 ],{basename: '/'})
+
+/*const routes = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path="/" element={<Navigate to="/login" replace />}>
+            <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/registration" element={<RegistrationPage/>}/>
+            <Route path="*" element={<Error404/>}/>
+        </Route>
+    )
+)*/
 
 export default routes

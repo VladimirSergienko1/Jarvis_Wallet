@@ -8,7 +8,9 @@ const $api = axios.create({
 })
 
 $api.interceptors.request.use(config => {
-    config.headers.Authorization = `Bearer ${Cookies.get('token')}`;
+    config.headers.Authorization = `Bearer ${Cookies.get('access_token')}`;
+
+    /*console.log(Cookies.get('access_token'))*/
     return config;
 })
 

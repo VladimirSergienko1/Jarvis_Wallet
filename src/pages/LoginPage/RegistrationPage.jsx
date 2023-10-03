@@ -75,7 +75,6 @@ const RegistrationPage = () =>{
 
         },
     });
-
     return(
         <div className={styles.registration_page}>
             <div className={styles.registration_page__container}>
