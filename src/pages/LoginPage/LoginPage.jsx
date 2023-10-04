@@ -40,11 +40,11 @@ const LoginPage = () =>{
     },5000)*/
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (isAuth) {
             navigate('/main');
         }
-    }, [isAuth, navigate]);
+    }, [isAuth, navigate]);*/
 
     const { t, i18n } = useTranslation();
 
@@ -59,6 +59,7 @@ const LoginPage = () =>{
 
 
                  await loginFx({email: values.email, password: values.password})
+
                /*  if(isAuth){
                      navigate('/main')
                  }*/

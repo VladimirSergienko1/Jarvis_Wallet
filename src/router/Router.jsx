@@ -8,6 +8,8 @@ import TelegramRegistration from "../pages/LoginPage/TelegramRegistration.jsx";
 import PasswordRecovery from "../pages/LoginPage/PasswordRecovery.jsx";
 import NoAccess from "../pages/LoginPage/NoAccess.jsx";
 import Wallet from "../pages/WalletPage/Wallet.jsx";
+import PrivateRoute from "./AuthRoute.jsx";
+import Profile from "../components/Profile/Profile.jsx";
 
 
 const routes = createBrowserRouter([
@@ -22,14 +24,18 @@ const routes = createBrowserRouter([
             { path: '/telegram', element: <TelegramRegistration/> },
             { path: '/recovery', element: <PasswordRecovery/> },
             { path: '/ban', element: <NoAccess/> },
+            {path: '/wallet', element: <Wallet/>},
+            { path: '/profile', element: <Profile/> },
             { path: '/error403', element: <Error403/>  },
-
-            { path: '/main', element: <Wallet/> },
-
-
+            /*{
+                path: '/main',
+                element: <PrivateRoute/>,
+                children:[
+                    {path: '/main/wallet', element: <Wallet/>}
+                ]
+            },*/
+            /*{ path: '/main', element: <Wallet/> },*/
             { path: "*", element: <Error404/> },
-
-
         ]
     }
 ],{basename: '/'})

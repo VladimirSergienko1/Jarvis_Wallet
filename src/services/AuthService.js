@@ -1,4 +1,5 @@
 import $api from "../http/api.js";
+import { $apiUser } from "../http/api.js";
 
 class AuthService {
     static async login(email, password) {
@@ -9,7 +10,10 @@ class AuthService {
         return $api.post('/registration', {name, email, phoneNumber, password, language});
     }
 
+    static async checkAuth() {
+        return $apiUser.get('/current');
 
+    }
 
 
     static async logout() {

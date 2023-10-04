@@ -1,6 +1,9 @@
-import {createEffect, createEvent, createStore} from "effector";
+import {createEffect, createEvent, createStore, sample} from "effector";
 import AuthService from "../services/AuthService.js";
 import Cookies from "js-cookie";
+import axios from "axios";
+import $api from "../http/api.js";
+import {createGate} from "effector-react";
 
 
 export const $isAuth = createStore(false);
@@ -15,8 +18,6 @@ export const loginFx = createEffect( async ({email, password}) => {
         console.log('Success',response)
      /*   console.log('User', response.config.data)
         console.log('isAuth',$isAuth.getState());*/
-
-
         return response
     }
     catch (e) {
@@ -36,19 +37,34 @@ export const registrationFx = createEffect( async ({name, email, phone,password,
     catch (e) {
         console.log(e?.message)
     }
-
 })
 
-$isAuth.on(loginFx.done, () => true);
+export const checkAuthFx = createEffect(async (access_token) => {
+    try {
+        const response = await AuthService.checkAuth();
+        console.log('Success checkAuth',response)
+        return response.data
+    } catch (e) {
+        console.log(e?.message)
+        throw e;
+    }
+})
+
+$isAuth.on(loginFx.done, () => true)
+       .on(checkAuthFx.done, () => true)
+       .reset(checkAuthFx.fail);
+
+
 loginFx.failData.watch((error) => {
     console.log(error?.message);
-    $isAuth.reset(); // Если необходимо сбросить стор при ошибке
+    $isAuth.reset();
 });
 console.log('isAuth',$isAuth.getState());
-/*
-$isAuth.on(loginFx.doneData, (state, payload) => {
-    console.log('Payload from effect:', payload);
-    console.log('isAuth',$isAuth.getState());
-    return true;
-});
-*/
+
+export const AuthGate =createGate()
+
+sample({
+    /*source: $isAuth,*/
+    clock: AuthGate.open,
+    target: checkAuthFx
+})

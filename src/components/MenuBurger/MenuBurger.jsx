@@ -5,10 +5,13 @@ import {useState} from "react";
 import profileImg from '../../assets/MenuBurger/profile_img.svg';
 import lightImg from '../../assets/MenuBurger/light_img.svg';
 import proImg from '../../assets/MenuBurger/pro_img.svg';
+import Profile from "../Profile/Profile.jsx";
 
 const MenuBurger = () => {
     const [isActive, setIsActive] = useState(false)
     const [theme, setTheme] = useState(false)
+
+    const [openProfile, setOpenProfile] = useState(true)
 
     const toggleActive = ()=>{
         setIsActive(!isActive)
@@ -17,10 +20,15 @@ const MenuBurger = () => {
         setTheme(!!theme)
     }
 
+    const toggleProfile = ()=>{
+        setOpenProfile(!openProfile)
+    }
+    console.log('BurgerOpenProfile',openProfile)
+
     return(
         <div className={`${styles.menuBurger} ${isActive ? styles.active : ''}`}>
             <ul className={`${styles.burgerExpanded} ${isActive ? styles.active : ''}`}>
-                <li className={styles.burgerItem}><img src={profileImg}/>Profile</li>
+                <li className={styles.burgerItem} onClick={toggleProfile}><img src={profileImg}/>Profile</li>
                 <li className={styles.burgerItem}><img src={lightImg}/>Light</li>
                 <li className={styles.burgerItem}><img src={proImg}/>Pro</li>
             </ul>
@@ -40,6 +48,7 @@ const MenuBurger = () => {
                     <path d="M6.66663 22.6667H25.3333" stroke="#33363F" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
             </div>
+            {openProfile && <Profile/>}
 
         </div>
     )

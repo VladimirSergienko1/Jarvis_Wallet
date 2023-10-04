@@ -1,0 +1,35 @@
+@import '/src/styles/UtilityStyles.scss';
+
+  .profile__container {
+    @extend .utility_login_container;
+    position: fixed;
+    width: 42rem;
+    padding: 2.7rem 2.6rem 2.6rem 2.5rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+
+    .profile__header{
+      display: flex;
+      gap: 2rem;
+
+      .profile_header_title{
+
+      }
+      .profile__header_list{
+        @extend .utility_container_list;
+
+
+      }
+      .profile__list_item{
+        @extend .utility_container_item;
+
+      }
+      .profile__list_item_selected{
+        @extend .utility_container_item_selected;
+
+      }
+
+    }
+  }
