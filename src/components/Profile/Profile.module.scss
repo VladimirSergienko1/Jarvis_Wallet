@@ -8,27 +8,106 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    gap: 3.2rem;
+    flex-direction: column;
+
     z-index: 1000;
 
     .profile__header{
       display: flex;
-      gap: 2rem;
+      gap: 1.7rem;
+      align-items: center;
 
       .profile_header_title{
+        color: #04071E;
+        font-size: 2.25rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
 
       }
       .profile__header_list{
         @extend .utility_container_list;
+        align-items: center;
 
 
-      }
       .profile__list_item{
         @extend .utility_container_item;
+
 
       }
       .profile__list_item_selected{
         @extend .utility_container_item_selected;
+        padding: 0.6rem;
 
+        }
+      }
+    }
+    .profile__container_block{
+      display: flex;
+      padding: 0 1.25rem 0 1.25rem;
+
+      .block_image{
+        display: flex;
+        align-self: flex-start;
+        cursor: pointer;
+      }
+      .block_form{
+        display: flex;
+        flex-direction: column;
+        gap: 3.5rem;
+        margin-left: 2.7rem;
+
+        .input_container{
+          position: relative;
+          display: flex;
+          align-items: center;
+          .reg_label{
+            @extend .utility_label;
+            position: relative;
+            display: block;
+            align-self: center;
+            width: 90px;  // Пример фиксированной ширины
+
+            margin-right: 0.81rem;
+          }
+          .reg_input {
+            @extend .utility_input;
+            position: relative;
+          }
+
+          .error_text {
+            @extend .utility_error_text;
+            bottom: -20px;
+            left: 115px;
+          }
+        }
+
+          .reg_button{
+            @extend .utility_btn;
+            align-self: flex-end;
+
+            margin-top: -0.63rem;
+        }
+
+        .reg_footer{
+          display: flex;
+          gap: 0.88rem;
+          margin-top: 3.12rem;
+          justify-content: space-between;
+          .footer_back{
+            @extend .utility_btn;
+            color: #F7F7F8;
+            background-color: #7D7D8C;
+            border: 1px solid #7D7D8C;
+            &:hover{
+              color: #7D7D8C;
+            }
+          }
+          .footer_button_save{
+            @extend .utility_btn;
+          }
+        }
       }
 
     }

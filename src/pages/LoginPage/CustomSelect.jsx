@@ -7,12 +7,16 @@ import Select from 'react-select';
         <div>
             <Select
                 styles={{
+                    container: (provided) => ({
+                        ...provided,
+                        width: props.width || 240
+                    }),
                     control: (baseStyles, state) => ({
                         ...baseStyles,
                         borderRadius: '1rem',
                         background: '#EFEFF4',
                         cursor: "pointer",
-                        marginBottom: '1.56rem',
+                       /* marginBottom: '1.56rem',*/
                         borderColor: state.isSelected ? "#EFEFF4" : "#EFEFF4",
                         boxShadow: state.isFocused ? 0 : 0,
                         "&:hover": {

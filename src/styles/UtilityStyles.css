@@ -98,4 +98,41 @@
   transition: 0.3s ease-in-out;
 }
 
+.utility_container_list {
+  display: flex;
+  gap: 0.63rem;
+}
+.utility_container_list .utility_container_item {
+  list-style: none;
+  width: 8.75rem;
+  text-align: center;
+  cursor: pointer;
+  color: #04071E;
+  font-family: Roboto;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding: 0.4rem;
+  /*&:active{
+    color: white;
+  }*/
+}
+.utility_container_list .utility_container_item_selected {
+  list-style: none;
+  width: 8.75rem;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+  background-color: #34C759;
+  font-family: Roboto;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 2rem;
+  padding: 0.4em;
+  transition: 0.3s ease-in-out;
+}
+
 /*# sourceMappingURL=UtilityStyles.css.map */
