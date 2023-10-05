@@ -12,46 +12,91 @@ import {useFormik} from "formik";
 import {registrationFx} from "../../store/login_model.js";
 import * as Yup from "yup";
 import {Link} from "react-router-dom";
-import backBtn from "../../assets/LoginPage/button_register_background.svg";
+import gridImg from "../../assets/Profile/grid_image.svg";
 
-const validationSchema = Yup.object({
-    name: Yup.string()
-        .min(3, 'Name should be 3')
-        .max(8, 'Name should be 8'),
-        /*.required('Name is required'),*/
-    email: Yup.string()
-        .email('Invalid email format')
-      /*  .required('Email is required')*/
-        .matches(
-            /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
-            "Invalid email format"
-        ),
-    phone: Yup.string()
-        .test('is-valid-phone', 'Invalid phone number', value =>
-            value ? isPossiblePhoneNumber(value) : true
-        ),
-});
+
+
+const options = [
+    { value: 'en', label: 'English' },
+    { value: 'ru', label: 'Russian' },
+    { value: 'kk', label: 'Kazakh' },
+    { value: 'ua', label: 'Ukrainian' },
+];
 const Profile = () =>{
-    const [selectedItem, setSelectedItem] = useState(0);
-
-    const options = [
-        { value: 'en', label: 'English' },
-        { value: 'ru', label: 'Russian' },
-        { value: 'kk', label: 'Kazakh' },
-        { value: 'ua', label: 'Ukrainian' },
-    ];
+    const [selectedItem, setSelectedItem] = useState(2);
+    const [isAvatarOpen, setAvatarOpen] = useState(false);
+    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(null);
     const [selectedOption, setSelectedOption] = useState({ value: 'eng', label: 'English' });
+    const [isOverlayVisible, setIsOverlayVisible] = useState(true);
+
+    const [openProfile, setOpenProfile] = useState(false)
+
+    const daysInMonth = 30;
+    const passedDays = 6;
+    const passedDaysPercentage = (passedDays / daysInMonth) * 100;
+
+    let validationSchema;
+    if (selectedItem === 0) {
+        validationSchema = Yup.object({
+            name: Yup.string()
+                .min(3, 'Name should be 3')
+                .max(8, 'Name should be 8'),
+            /*.required('Name is required'),*/
+            email: Yup.string()
+                .email('Invalid email format')
+                /*  .required('Email is required')*/
+                .matches(
+                    /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
+                    "Invalid email format"
+                ),
+            phone: Yup.string()
+                .test('is-valid-phone', 'Invalid phone number', value =>
+                    value ? isPossiblePhoneNumber(value) : true
+                ),
+        });
+    }
+        else if (selectedItem === 1) {
+        validationSchema = Yup.object({
+            password: Yup.string()
+                .min(8, 'Password must be at least 8 characters')
+                .required('Password is required'),
+            rePassword: Yup.string()
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                .required('Password confirmation is required'),
+        });
+    }
 
     const handleLanguageChange = (option) => {
         setSelectedOption(option);
         formik.setFieldValue('language', option.value);
     };
+
+    const handleGridItemClick = (index) => {
+        setActiveIndex(index);
+        console.log(index)
+    };
+
+    const handleAvatarMenu = () =>{
+        setAvatarOpen(!isAvatarOpen);
+    }
+    const handleDeleteModal = () =>{
+        setDeleteModalOpen(!isDeleteModalOpen);
+    }
+
+    const handleOverlay = () =>{
+        setIsOverlayVisible(false)
+
+    }
+
     const formik = useFormik({
         initialValues: {
             name: '',
             email: '',
             phone: '',
             language: selectedOption.value,
+            password: '',
+            rePassword: '',
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
@@ -61,6 +106,8 @@ const Profile = () =>{
     });
 
     return(
+        <>
+            {isOverlayVisible && <div className={styles.overlay} onClick={handleOverlay}></div>}
             <div className={styles.profile__container}>
                 <div className={styles.profile__header}>
                     <h2 className={styles.profile_header_title}>Profile</h2>
@@ -73,8 +120,8 @@ const Profile = () =>{
                             onClick={()=>setSelectedItem(2)}>Subscriptions</li>
                     </ul>
                 </div>
-                {selectedItem === 0 && <div className={styles.profile__container_block}>
-                    <div className={styles.block_image}>
+                {(!isAvatarOpen && selectedItem === 0) && <div className={styles.profile__container_block}>
+                    <div className={styles.block_image} onClick={handleAvatarMenu}>
                         <img src={profileImg}/>
                     </div>
                         <form className={styles.block_form} onSubmit={formik.handleSubmit}>
@@ -90,8 +137,8 @@ const Profile = () =>{
                                       value={formik.values.name}
                                     className={styles.reg_input}
                                 />
-                                   {formik.touched.email && formik.errors.email && (
-                                    <p className={styles.error_text}>{formik.errors.email}</p>
+                                   {formik.touched.name && formik.errors.name && (
+                                    <p className={styles.error_text}>{formik.errors.name}</p>
                                 )}
                             </div>
                             <div className={styles.input_container}>
@@ -131,26 +178,185 @@ const Profile = () =>{
                                 options={options}
                             />
                             </div>
-                                <button className={styles.reg_button} type={"submit"} >Continue</button>
+                                <button className={styles.reg_button} type={"submit"}>Continue</button>
                         </form>
                 </div>}
 
-                {selectedItem === 1 && <div className={styles.profile__container_block}>
+                {/*Change Password BLOCK*/}
+                {(!isDeleteModalOpen && selectedItem === 1) && <div className={styles.change_password_container_block}>
                     <form className={styles.block_form} onSubmit={formik.handleSubmit}>
-                        <button className={styles.reg_button} type={"submit"} >Continue</button>
+                        <div className={styles.form_content}>
+                            <div className={styles.block_form_title}>Change password</div>
+                            <div className={styles.input_container}>
+                                <label htmlFor={'email_input'} className={styles.reg_label}>Password</label>
+                                <input
+                                    id="pass_input"
+                                    name="password"
+                                    type="password"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.password}
+                                    className={styles.reg_input}
+                                />
+                                {formik.touched.password && formik.errors.password && (
+                                    <p className={styles.error_text}>{formik.errors.password}</p>
+                                )}
+                            </div>
+                            <div className={styles.input_container}>
+                                <label htmlFor={'email_input'} className={styles.reg_label}>Email</label>
+                                <input
+                                    id="repass_input"
+                                    name="rePassword"
+                                    type="password"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.rePassword}
+                                    className={styles.reg_input}
+                                />
+                                {formik.touched.rePassword && formik.errors.rePassword && (
+                                    <p className={styles.error_text}>{formik.errors.rePassword}</p>
+                                )}
+                            </div>
+                        </div>
+                        <div className={styles.reg_footer}>
+                            <button className={styles.footer_back} type="button" onClick={()=>handleDeleteModal()}>Delete account</button>
+                            <button className={styles.footer_button_save} type={"submit"}>Save</button>
+                        </div>
                     </form>
                 </div>}
 
-                {selectedItem === 2 &&
-                    <div className={styles.profile__container_block}>
-                        <form className={styles.block_form} onSubmit={formik.handleSubmit}>
-                            <div className={styles.reg_footer}>
-                                <button className={styles.footer_back}>Back</button>
-                                <button className={styles.reg_button} type={"submit"} >Continue</button>
+                {/*DELETE ACC BLOCK*/}
+                {(selectedItem === 1 && isDeleteModalOpen) && <div className={styles.change_password_container_block}>
+                    <form className={styles.block_form} onSubmit={formik.handleSubmit}>
+                        <div className={styles.form_content}>
+                            <div className={styles.block_deletion_title}>After deleting your account, all your data including your account will disappear.</div>
+                            <div className={styles.input_container}>
+                                <label htmlFor={'email_input'} className={styles.reg_label}>Password</label>
+                                <input
+                                    id="pass_input"
+                                    name="password"
+                                    type="password"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.password}
+                                    className={styles.reg_input}
+                                />
+                                {formik.touched.password && formik.errors.password && (
+                                    <p className={styles.error_text}>{formik.errors.password}</p>
+                                )}
+                            </div>
+                        </div>
+                        <div className={styles.reg_footer}>
+                            <button className={styles.avatar_back} type="button" onClick={()=>handleDeleteModal()}>Back</button>
+                            <button className={styles.footer_back} type={"submit"}>Delete account</button>
+                        </div>
+                    </form>
+                </div>}
+
+                {/*AVATAR BLOCK OPENS WHEN PROFILE ICON CLICKED*/}
+                {isAvatarOpen &&
+                    selectedItem === 0 && <div className={styles.profile__container_block}>
+                        <div className={styles.block_image} onClick={handleAvatarMenu}>
+                            <img src={profileImg}/>
+                        </div>
+                        <form className={styles.avatar_form} onSubmit={formik.handleSubmit}>
+                            <div className={styles.avatar_block_title}>Choose an avatar</div>
+                            <div className={styles.avatar_grid}>
+                                {Array(16).fill(null).map((_, index) => (
+                                    <div
+                                        key={index}
+                                        className={`${styles.grid_item} ${index === activeIndex ? styles.active : ''}`}
+                                        onClick={() => handleGridItemClick(index)}
+                                    >
+                                        <img src={gridImg} alt={`grid-item-${index}`} />
+                                    </div>
+                                ))}
+                            </div>
+                            <div className={styles.avatar_footer}>
+                                <button className={styles.avatar_back} onClick={handleAvatarMenu} type="button">Back</button>
+                                <button className={styles.avatar_button} type={"submit"} >Continue</button>
                             </div>
                         </form>
                     </div>}
+
+                  {(selectedItem === 2 ) && <div className={styles.subscription__container}>
+                   <div className={styles.subscription_info}>
+                        <div className={styles.subscription__row} >
+                            <p className={styles.subscription__label}>Type</p>
+                            <p className={styles.subscription__label}>Base</p>
+                            <p className={styles.subscription__label}>Current subscription</p>
+                            <p className={styles.subscription__label}>Days until the end 24</p>
+                        </div>
+                        <div className={styles.subscription__row}>
+                            <p className={styles.subscription__label}>Time period</p>
+                            <p className={styles.subscription__label}>1 month</p>
+                            <div className={styles.subscription__line}>
+                                <div
+                                    className={styles.subscription__progress}
+                                    style={{ width: `${passedDaysPercentage}%` }}
+                                ></div>
+                            </div>
+                        </div>
+                   </div>
+                      <div className={styles.history_container}>
+                          <h2 className={styles.history_title}>History</h2>
+                          <div className={styles.history_row}>
+                              <p className={styles.row_label}>Id</p>
+                              <p className={styles.row_label}>Type</p>
+                              <p className={styles.row_label}>From</p>
+                              <p className={styles.row_label}>To</p>
+                              <p className={styles.row_label}>Status</p>
+                          </div>
+                          <div className={styles.history_list} >
+                              <div className={styles.history_item} >
+                                  <span>6</span>
+                                  <span>Base</span>
+                                  <span>12.06.2023</span>
+                                  <span>12.07.2023</span>
+                                  <span>Completed</span>
+                              </div>
+                              <div className={styles.history_item} >
+                                  <span>6</span>
+                                  <span>Base</span>
+                                  <span>12.06.2023</span>
+                                  <span>12.07.2023</span>
+                                  <span>Completed</span>
+                              </div>
+                              <div className={styles.history_item} >
+                                  <span>6</span>
+                                  <span>Base</span>
+                                  <span>12.06.2023</span>
+                                  <span>12.07.2023</span>
+                                  <span>Completed</span>
+                              </div>
+                              <div className={styles.history_item} >
+                                  <span>6</span>
+                                  <span>Base</span>
+                                  <span>12.06.2023</span>
+                                  <span>12.07.2023</span>
+                                  <span>Completed</span>
+                              </div>
+                              <div className={styles.history_item} >
+                                  <span>6</span>
+                                  <span>Base</span>
+                                  <span>12.06.2023</span>
+                                  <span>12.07.2023</span>
+                                  <span>Completed</span>
+                              </div>
+                              <div className={styles.history_item} >
+                                  <span>6</span>
+                                  <span>Base</span>
+                                  <span>12.06.2023</span>
+                                  <span>12.07.2023</span>
+                                  <span>Completed</span>
+                              </div>
+
+                          </div>
+                      </div>
+
+                </div>}
             </div>
+        </>
     )
 }
 

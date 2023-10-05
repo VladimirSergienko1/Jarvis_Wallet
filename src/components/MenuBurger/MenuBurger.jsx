@@ -11,7 +11,7 @@ const MenuBurger = () => {
     const [isActive, setIsActive] = useState(false)
     const [theme, setTheme] = useState(false)
 
-    const [openProfile, setOpenProfile] = useState(true)
+    const [openProfile, setOpenProfile] = useState(false)
 
     const toggleActive = ()=>{
         setIsActive(!isActive)
