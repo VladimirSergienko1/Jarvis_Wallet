@@ -22,7 +22,7 @@ const options = [
     { value: 'kk', label: 'Kazakh' },
     { value: 'ua', label: 'Ukrainian' },
 ];
-const Profile = () =>{
+const Profile = (props) =>{
     const [selectedItem, setSelectedItem] = useState(2);
     const [isAvatarOpen, setAvatarOpen] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -86,6 +86,7 @@ const Profile = () =>{
 
     const handleOverlay = () =>{
         setIsOverlayVisible(false)
+        props.toggleProfile();
 
     }
 

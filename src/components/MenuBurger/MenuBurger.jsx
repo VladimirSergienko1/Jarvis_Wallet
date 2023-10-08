@@ -48,7 +48,7 @@ const MenuBurger = () => {
                     <path d="M6.66663 22.6667H25.3333" stroke="#33363F" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
             </div>
-            {openProfile && <Profile/>}
+            {openProfile && <Profile toggleProfile={toggleProfile}/>}
 
         </div>
     )
