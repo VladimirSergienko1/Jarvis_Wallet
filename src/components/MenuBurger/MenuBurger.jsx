@@ -23,7 +23,6 @@ const MenuBurger = () => {
     const toggleProfile = ()=>{
         setOpenProfile(!openProfile)
     }
-    console.log('BurgerOpenProfile',openProfile)
 
     return(
         <div className={`${styles.menuBurger} ${isActive ? styles.active : ''}`}>
