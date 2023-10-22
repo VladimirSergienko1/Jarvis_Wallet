@@ -14,7 +14,10 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import {$isAuth, loginFx} from "../../store/login_model.js";
 import {useStore} from "effector-react";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {store} from "../../store/store.js";
+import {loginUser} from "../../features/login/loginSlice.js";
 
 const validationSchema = Yup.object({
     email: Yup.string()
@@ -30,21 +33,15 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage = () =>{
+    const isAuth = useSelector(store=>store.login.isLogged)
+    const dispatch = useDispatch()
 
-    const isAuth = useStore($isAuth)
+    console.log('loginPage',isAuth)
+
 
     const navigate = useNavigate()
 
-/*    setTimeout(() => {
-        console.log('Timeout',isAuth)
-    },5000)*/
 
-
-    /*useEffect(() => {
-        if (isAuth) {
-            navigate('/main');
-        }
-    }, [isAuth, navigate]);*/
 
     const { t, i18n } = useTranslation();
 
@@ -56,13 +53,7 @@ const LoginPage = () =>{
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             console.log(values);
-
-
-                 await loginFx({email: values.email, password: values.password})
-
-               /*  if(isAuth){
-                     navigate('/main')
-                 }*/
+            dispatch(loginUser(values));
 
 
         },
@@ -143,4 +134,4 @@ const LoginPage = () =>{
     )
 }
 
-export default LoginPage
+export default React.memo(LoginPage);
