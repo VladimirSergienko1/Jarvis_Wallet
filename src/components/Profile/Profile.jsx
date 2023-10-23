@@ -23,7 +23,7 @@ const options = [
     { value: 'ua', label: 'Ukrainian' },
 ];
 const Profile = (props) =>{
-    const [selectedItem, setSelectedItem] = useState(2);
+    const [selectedItem, setSelectedItem] = useState(0);
     const [isAvatarOpen, setAvatarOpen] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);

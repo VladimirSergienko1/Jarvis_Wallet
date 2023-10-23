@@ -13,6 +13,9 @@ import * as Yup from 'yup';
 import Input from 'react-phone-number-input/input'
 import {isPossiblePhoneNumber} from "react-phone-number-input";
 import {registrationFx} from "../../store/login_model.js";
+import {loginUser, registerUser, setRegistrationData} from "../../features/login/loginSlice.js";
+import {useDispatch, useSelector} from "react-redux";
+import {store} from "../../store/store.js";
 
 const validationSchema = Yup.object({
     name: Yup.string()
@@ -39,6 +42,8 @@ const validationSchema = Yup.object({
 
 });
 const RegistrationPage = () =>{
+    const dispatch = useDispatch()
+    const registrationData = useSelector((state) => state.login.registrationData);
     const options = [
         { value: 'en', label: 'English' },
         { value: 'ru', label: 'Russian' },
@@ -65,12 +70,17 @@ const RegistrationPage = () =>{
         onSubmit: async (values) => {
             console.log(values);
 
+          /*  try {
+                await dispatch(registerUser(values));
+            } catch (error) {
+                console.error("Ошибка авторизации:", error);
+            }*/
             try {
-                await registrationFx({name: values.name, email: values.email, phone: values.phone, password: values.password, language: selectedOption.value});
-
-            } catch (e) {
-                console.log('registration Error:', e);
-
+                dispatch(setRegistrationData(values));
+                const currentRegistrationData = store.getState().login.registrationData;
+                console.log('Store',currentRegistrationData);
+            } catch (error) {
+                console.error("Ошибка авторизации:", error);
             }
 
         },
@@ -211,7 +221,7 @@ const RegistrationPage = () =>{
                              </div>
                             </Link>
 
-                            <button className={styles.reg_button} type={"submit"} >Continue</button>
+                            <button className={styles.reg_button} type={"submit"}>Continue</button>
                         </div>
                     </form>
 

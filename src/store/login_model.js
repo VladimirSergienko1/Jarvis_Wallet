@@ -39,6 +39,7 @@ export const registrationFx = createEffect( async ({name, email, phone,password,
     }
 })
 
+
 export const checkAuthFx = createEffect(async (access_token) => {
     try {
         const response = await AuthService.checkAuth();

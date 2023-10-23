@@ -16,7 +16,6 @@ import {$isAuth, loginFx} from "../../store/login_model.js";
 import {useStore} from "effector-react";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {store} from "../../store/store.js";
 import {loginUser} from "../../features/login/loginSlice.js";
 
 const validationSchema = Yup.object({
@@ -33,14 +32,17 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage = () =>{
+
     const isAuth = useSelector(store=>store.login.isLogged)
     const dispatch = useDispatch()
 
-    console.log('loginPage',isAuth)
-
-
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if (isAuth) {
+            navigate('/wallet');
+        }
+    }, [isAuth]);
 
 
     const { t, i18n } = useTranslation();
@@ -52,12 +54,12 @@ const LoginPage = () =>{
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            console.log(values);
-            dispatch(loginUser(values));
-
-
+            try {
+                await dispatch(loginUser(values));
+            } catch (error) {
+                console.error("Ошибка авторизации:", error);
+            }
         },
-
     });
 
     return(
