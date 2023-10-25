@@ -6,7 +6,7 @@ import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
 import CustomSelect from "./CustomSelect.jsx";
 import {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -43,6 +43,7 @@ const validationSchema = Yup.object({
 });
 const RegistrationPage = () =>{
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const registrationData = useSelector((state) => state.login.registrationData);
     const options = [
         { value: 'en', label: 'English' },
@@ -78,6 +79,7 @@ const RegistrationPage = () =>{
             try {
                 dispatch(setRegistrationData(values));
                 const currentRegistrationData = store.getState().login.registrationData;
+                navigate('/telegram')
                 console.log('Store',currentRegistrationData);
             } catch (error) {
                 console.error("Ошибка авторизации:", error);

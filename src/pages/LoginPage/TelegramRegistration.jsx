@@ -9,6 +9,7 @@ import fireIcon from "../../assets/LoginPage/fire_icon.svg";
 import lampIcon from "../../assets/LoginPage/lamp_icon.svg";
 import * as Yup from "yup";
 import {useFormik} from "formik";
+import {useSelector} from "react-redux";
 
 
 const validationSchema = Yup.object({
@@ -18,6 +19,8 @@ const validationSchema = Yup.object({
         .required('Name is required'),
 });
 const TelegramRegistration = () =>{
+   const registrationData = useSelector((state) => state.login.registrationData);
+    console.log('RegData',registrationData)
 
     const formik = useFormik({
         initialValues: {
