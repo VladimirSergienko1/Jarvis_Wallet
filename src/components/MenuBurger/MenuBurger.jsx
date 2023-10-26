@@ -30,6 +30,7 @@ const MenuBurger = () => {
                 <li className={styles.burgerItem} onClick={toggleProfile}><img src={profileImg}/>Profile</li>
                 <li className={styles.burgerItem}><img src={lightImg}/>Light</li>
                 <li className={styles.burgerItem}><img src={proImg}/>Pro</li>
+                <li className={styles.burgerItem}><img src={proImg}/>Log Out</li>
             </ul>
 
             <div className={styles.menuBackground} onClick={toggleActive}>

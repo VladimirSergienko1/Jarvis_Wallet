@@ -9,7 +9,8 @@ import fireIcon from "../../assets/LoginPage/fire_icon.svg";
 import lampIcon from "../../assets/LoginPage/lamp_icon.svg";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {registerUser} from "../../features/login/loginSlice.js";
 
 
 const validationSchema = Yup.object({
@@ -20,6 +21,7 @@ const validationSchema = Yup.object({
 });
 const TelegramRegistration = () =>{
    const registrationData = useSelector((state) => state.login.registrationData);
+   const dispatch = useDispatch()
     console.log('RegData',registrationData)
 
     const formik = useFormik({
@@ -28,7 +30,9 @@ const TelegramRegistration = () =>{
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(values);
+            const RegistrationData = {...registrationData, telegram: values?.username}
+            console.log('TgData',RegistrationData);
+            dispatch(registerUser(RegistrationData));
         },
     });
 

@@ -27,9 +27,9 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
     'register/user',
-    async ({name, email, phone, password, language}, {rejectedWithValue})=>{
+    async ({name, email, phone, password, language, telegram}, {rejectedWithValue})=>{
         try {
-            const response = await AuthService.registration(name, email, phone, password, language)
+            const response = await AuthService.registration(name, email, phone, password, language, telegram)
             return response.data
         }
         catch (error){

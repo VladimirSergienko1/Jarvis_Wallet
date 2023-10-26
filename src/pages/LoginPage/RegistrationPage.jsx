@@ -82,7 +82,7 @@ const RegistrationPage = () =>{
                 navigate('/telegram')
                 console.log('Store',currentRegistrationData);
             } catch (error) {
-                console.error("Ошибка авторизации:", error);
+                console.error("Ошибка регистрации:", error);
             }
 
         },

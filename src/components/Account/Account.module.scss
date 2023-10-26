@@ -1,0 +1,110 @@
+@import '/src/styles/UtilityStyles.scss';
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.account__container {
+  @extend .utility_login_container;
+  position: fixed;
+  width: 42rem;
+  padding: 2rem 2.5rem 2em 2.5rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 2.5rem;
+  flex-direction: column;
+  min-height: 565.04px;
+  z-index: 1000;
+
+
+  .account__header {
+    display: flex;
+    gap: 1.7rem;
+    align-items: center;
+
+    .account_header_title {
+      color: #04071E;
+      font-size: 2.25rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+
+    }
+  }
+  .block_form{
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    min-height: 410px;
+    max-height: 410px;
+    .block_form_title{
+      color: #04071E;
+      text-align: center;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+    .input_group{
+      display: flex;
+      gap: 2rem;
+
+      .input_container{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .reg_label{
+          @extend .utility_label;
+          position: relative;
+          display: block;
+          align-self: center;
+          width: 90px;
+
+          margin-right: 9.81rem;
+        }
+        .reg_input {
+          @extend .utility_input;
+          position: relative;
+          width: 17.5rem;
+        }
+
+        .error_text {
+          @extend .utility_error_text;
+          bottom: -20px;
+          left: 115px;
+        }
+      }
+    }
+
+    .reg_button{
+      @extend .utility_btn;
+      align-self: flex-end;
+      margin-top: auto
+    }
+
+    .reg_footer{
+      display: flex;
+      gap: 0.88rem;
+      margin-top: 3.12rem;
+      justify-content: space-between;
+      .footer_back{
+        @extend .utility_btn;
+        color: #F7F7F8;
+        background-color: #7D7D8C;
+        border: 1px solid #7D7D8C;
+        &:hover{
+          color: #7D7D8C;
+        }
+      }
+      .footer_button_save{
+        @extend .utility_btn;
+      }
+    }
+  }
+}

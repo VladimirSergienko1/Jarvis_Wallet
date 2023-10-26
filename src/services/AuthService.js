@@ -6,8 +6,8 @@ class AuthService {
         return $api.post('/signin', {email, password});
     }
 
-    static async registration(name, email, phoneNumber = null, password, language = "en") {
-        return $api.post('/registration', {name, email, phoneNumber, password, language});
+    static async registration(name, email, phoneNumber = null, password, language = "en",telegram = null) {
+        return $api.post('/registration', {name, email, phoneNumber, password, language, telegram});
     }
 
     static async checkAuth() {

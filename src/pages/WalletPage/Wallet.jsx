@@ -6,9 +6,15 @@ import menuBurger from "../../assets/WalletsPage/menu.svg";
 import {matchPath} from "react-router-dom";
 import {useState} from "react";
 import MenuBurger from "../../components/MenuBurger/MenuBurger.jsx";
+import Account from "../../components/Account/Account.jsx";
 
 const Wallet = () =>{
     const [selectedItem, setSelectedItem] = useState(0);
+    const [accountModalVisible, setAccountModalVisible] = useState(false)
+
+    const openAccModal = ()=>{
+        setAccountModalVisible(!accountModalVisible)
+    }
 
     const handleSelect = (index)=>{
         setSelectedItem(index)
@@ -20,7 +26,9 @@ const Wallet = () =>{
             <div className={styles.wallet__container}>
                 <div className={styles.container_header}>
                     <h2 className={styles.header_title}>Accounts</h2>
-                    <img src={PlusIcon} style={{cursor: 'pointer'}}/>
+                    <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}}/>
+                    <Account accountModalVisible={accountModalVisible} />
+
                 </div>
                 <div className={styles.container_body}>
                     <input className={styles.body_input}/>

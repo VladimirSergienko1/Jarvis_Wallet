@@ -10,6 +10,7 @@ import {$isAuth, checkAuthFx, loginFx} from "./store/login_model.js";
 import {useStore} from "effector-react";
 import {checkAuth} from "./features/login/loginSlice.js";
 import {useDispatch} from "react-redux";
+import MainLayout from "./pages/MainLayout.jsx";
 
 function App() {
     const isAuth = useStore($isAuth);
@@ -29,7 +30,7 @@ function App() {
 
     <>
         {/*<h1>{isAuth ?  'Authorized' : 'Unauthorized'}</h1>*/}
-        <Outlet />
+        <MainLayout/>
     </>
   )
 }
