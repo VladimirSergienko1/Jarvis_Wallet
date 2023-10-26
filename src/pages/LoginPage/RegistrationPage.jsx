@@ -12,7 +12,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Input from 'react-phone-number-input/input'
 import {isPossiblePhoneNumber} from "react-phone-number-input";
-import {registrationFx} from "../../store/login_model.js";
 import {loginUser, registerUser, setRegistrationData} from "../../features/login/loginSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import {store} from "../../store/store.js";

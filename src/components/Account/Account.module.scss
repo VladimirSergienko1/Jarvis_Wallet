@@ -16,7 +16,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  gap: 2.5rem;
+  gap: 1rem;
   flex-direction: column;
   min-height: 565.04px;
   z-index: 1000;
@@ -26,6 +26,10 @@
     display: flex;
     gap: 1.7rem;
     align-items: center;
+    justify-content: space-between;
+    .help_button{
+      cursor: pointer;
+    }
 
     .account_header_title {
       color: #04071E;
@@ -39,9 +43,9 @@
   .block_form{
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
-    min-height: 410px;
-    max-height: 410px;
+    gap: 1.5rem;
+    min-height: 440px;
+    max-height: 440px;
     .block_form_title{
       color: #04071E;
       text-align: center;
@@ -63,10 +67,31 @@
           @extend .utility_label;
           position: relative;
           display: block;
-          align-self: center;
+          align-self: flex-start;
           width: 90px;
 
-          margin-right: 9.81rem;
+          margin-left: 12px;
+          margin-bottom: 10px;
+        }
+        .reg_label_required{
+          position: relative;
+          color: #04071E;
+          font-size: 0.8125rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          width: 90px;
+          align-self: flex-start;
+
+          margin-left: 12px;
+          margin-bottom: 10px;
+
+          &:after{
+            content: url("src/assets/LoginPage/required.svg");
+            position: relative;
+            bottom: 7px;
+            left: 3px;
+          }
         }
         .reg_input {
           @extend .utility_input;

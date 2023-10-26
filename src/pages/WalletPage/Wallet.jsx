@@ -11,9 +11,16 @@ import Account from "../../components/Account/Account.jsx";
 const Wallet = () =>{
     const [selectedItem, setSelectedItem] = useState(0);
     const [accountModalVisible, setAccountModalVisible] = useState(false)
+    const [isOverlayVisible, setIsOverlayVisible] = useState(false);
 
     const openAccModal = ()=>{
         setAccountModalVisible(!accountModalVisible)
+        setIsOverlayVisible(true)
+    }
+
+    const handleOverlay = () =>{
+        setAccountModalVisible(false)
+        setIsOverlayVisible(false)
     }
 
     const handleSelect = (index)=>{
@@ -27,7 +34,7 @@ const Wallet = () =>{
                 <div className={styles.container_header}>
                     <h2 className={styles.header_title}>Accounts</h2>
                     <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}}/>
-                    <Account accountModalVisible={accountModalVisible} />
+                    <Account accountModalVisible={accountModalVisible} isOverlayVisible={isOverlayVisible} handleOverlay={handleOverlay} />
 
                 </div>
                 <div className={styles.container_body}>
