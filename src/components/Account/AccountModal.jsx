@@ -4,7 +4,7 @@ import CustomSelect from "../../pages/LoginPage/CustomSelect.jsx";
 import AccountIcons from "../AccountIcons/AccountIcons.jsx";
 import button_help from "../../assets/Account/button_help.svg"
 
-const Account = ({accountModalVisible, isOverlayVisible, handleOverlay})=>{
+const AccountModal = ({accountModalVisible, isOverlayVisible, handleOverlay})=>{
     const options = [
         { value: 'USD', label: 'USD' },
         { value: 'EUR', label: 'EUR' },
@@ -93,4 +93,4 @@ return(
     </>
 )
 }
-export default Account
+export default AccountModal
