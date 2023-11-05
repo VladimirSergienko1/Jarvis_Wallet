@@ -10,7 +10,7 @@
   border: 1px solid green;
 
   .wallet__container {
-    width: 22.5rem;
+    min-width: 22.5rem;
     max-height: 57.21rem;
     padding: 1.25rem;
     border-radius: 2rem;
@@ -41,6 +41,7 @@
       .body_input{
         @extend .utility_input;
         width: 20rem;
+        margin-bottom: 1.5rem;
 
         margin-top: 2rem;
       }

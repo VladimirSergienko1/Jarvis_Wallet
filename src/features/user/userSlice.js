@@ -3,10 +3,10 @@ import AuthService from "../../services/AuthService.js";
 
 export const createAccount = createAsyncThunk(
     'create/account',
-    async ({name, comment, currency, balance, ico_id}, {getState , dispatch,rejectedWithValue})=>{
+    async ({name, comment, currency, value, ico_id}, {getState , dispatch,rejectedWithValue})=>{
         try {
-            const response = await AuthService.createAccount(name, comment, currency, balance, ico_id)
-            dispatch(setUserAccounts(response.data));
+            const response = await AuthService.createAccount(name, comment, currency, value, ico_id)
+            //dispatch(setUserAccounts(response.data));
             return response.data
         }
         catch (error){
@@ -48,7 +48,7 @@ const initialState ={
     isLogged: false,
     isLoading: true,
     userData: null,
-    userAccounts: null,
+    userAccounts: [],
 }
 
 const userSlice = createSlice({
@@ -99,9 +99,10 @@ const userSlice = createSlice({
            // state.isLoading = true;
              })
             .addCase(createAccount.fulfilled, (state, action) => {
-               /* state.isLoading = false;
-                state.userData = action.payload
-                console.log('userData Slice test',action)*/
+                //state.isLoading = false;
+                //state.userAccounts = [...state.userAccounts, action.payload];
+                state.userAccounts.push(action.payload);
+                console.log('userData Slice test',action)
             })
             .addCase(createAccount.rejected, (state, action) => {
                 state.error = action.payload;

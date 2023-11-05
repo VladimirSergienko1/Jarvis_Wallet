@@ -5,8 +5,6 @@ import AccountIcons from "../AccountIcons/AccountIcons.jsx";
 import button_help from "../../assets/Account/button_help.svg"
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import {setRegistrationData} from "../../features/login/loginSlice.js";
-import {store} from "../../store/store.js";
 import {useDispatch} from "react-redux";
 import {createAccount} from "../../features/user/userSlice.js";
 
@@ -25,7 +23,7 @@ const validationSchema = Yup.object({
         .test('is-valid-phone', 'Invalid phone number', value =>
             value ? isPossiblePhoneNumber(value) : true
         ),*/
-    balance: Yup.number()
+    value: Yup.number()
         .positive('Value must be positive')
         .integer('Value must be an integer')
         .required('Start balance is required'),
@@ -55,7 +53,7 @@ const AccountModal = ({accountModalVisible, isOverlayVisible, handleOverlay})=>{
         initialValues: {
             name:   '',
             comment:  '',
-            balance:  '',
+            value:  '',
             currency: selectedOption.value,
             ico_id: activeIndex
         },
@@ -63,8 +61,6 @@ const AccountModal = ({accountModalVisible, isOverlayVisible, handleOverlay})=>{
         onSubmit: async (values) => {
             console.log(values);
             const accountData = {...values, ico_id: activeIndex}
-            console.log('accountData',accountData)
-
             try {
                 dispatch(createAccount(accountData));
             } catch (error) {
@@ -102,15 +98,15 @@ return(
                         <label htmlFor={'balance_input'} className={styles.reg_label_required}>Start balance</label>
                         <input
                             id="balancel_input"
-                            name="balance"
+                            name="value"
                             type="number"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            value={formik.values.balance}
+                            value={formik.values.value}
                             className={styles.reg_input}
                         />
-                        {formik.touched.balance && formik.errors.balance && (
-                            <p className={styles.error_text}>{formik.errors.balance}</p>
+                        {formik.touched.value && formik.errors.value && (
+                            <p className={styles.error_text}>{formik.errors.value}</p>
                         )}
                     </div>
                 </div>

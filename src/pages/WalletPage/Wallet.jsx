@@ -8,10 +8,18 @@ import acc_img from '../../assets/Account/acc_img.svg'
 import rightArrow from '../../assets/Account/rightArrow.svg'
 import {checkAuth, getAccountList} from "../../features/user/userSlice.js";
 import {useDispatch, useSelector} from "react-redux";
+import AccountList from "../../components/Account/AccountList.jsx";
+import InitialWalletView from "../../components/Wallet/InitialWalletView.jsx";
+import AccountWalletView from "../../components/Account/AccountWalletView.jsx";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const Wallet = () =>{
     const dispatch = useDispatch();
     const isLoading = useSelector((state) => state.login.isLoading);
+    const accounts = useSelector((state) => state.user.userAccounts);
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         dispatch(checkAuth())
@@ -21,7 +29,6 @@ const Wallet = () =>{
         dispatch(getAccountList())
     }, [dispatch]);
 
-    const [selectedItem, setSelectedItem] = useState(0);
     const [accountModalVisible, setAccountModalVisible] = useState(false)
     const [isOverlayVisible, setIsOverlayVisible] = useState(false);
 
@@ -35,56 +42,37 @@ const Wallet = () =>{
         setIsOverlayVisible(false)
     }
 
-    const handleSelect = (index)=>{
-        setSelectedItem(index)
-    }
-
+    useEffect(() => {
+        const currentPath = location.pathname;
+        if (currentPath === '/wallet/account/create') {
+            setAccountModalVisible(true);
+            setIsOverlayVisible(true);
+        }
+    }, [location]);
 
     return(
         <>
             {isLoading && <div>Загрузка...</div>}
         <div className={styles.wallet_page}>
-            <div className={styles.wallet__container}>
+            <div className={styles.wallet__container} style={{overflowY:'auto'}}>
                 <div className={styles.container_header}>
                     <h2 className={styles.header_title}>Accounts</h2>
                     <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}}/>
                     <AccountModal accountModalVisible={accountModalVisible} isOverlayVisible={isOverlayVisible} handleOverlay={handleOverlay} />
-
                 </div>
                 <div className={styles.container_body}>
                     <input className={styles.body_input}/>
-                    <div className={styles.body_empty}>
+                    {!accounts.length ? (<div className={styles.body_empty}>
                         <img className={styles.empty_image} src={wallet}/>
-                        <h2 className={styles.empty_title}>No wallets available</h2>
-                        <div style={{display:'flex', width: '20rem', border: '1px solid red', padding: '1rem 1.25rem',
-                        borderRadius: '0.5rem', background:'#EFEFF4'}}>
-                            <img src={acc_img}/>
-                            <div style={{display:'flex', alignItems:'center', marginLeft:'1.25rem', justifyContent:'space-between',width:'100%'}}>
-                                <p>Kaspi</p>
-                                <img style={{display:'flex'}} src={rightArrow}/>
-                            </div>
-                        </div>
-                    </div>
+                         <h2 className={styles.empty_title}>No wallets available</h2>
+                    </div>)
+                    :
+                    <AccountList/>
+                        }
                 </div>
             </div>
-            <div className={styles.wallet_nav_container}>
-                <div className={styles.nav_container_header}>
-                    <h2 className={styles.nav_header_title}>Jarvis Wallet</h2>
-                    <MenuBurger/>
-                </div>
-                <div className={styles.nav_container_body}>
-                    <ul className={styles.nav_container_list}>
-                        <li className={selectedItem===0 ? styles.nav_container_item_selected : styles.nav_container_item}
-                            onClick={()=>handleSelect(0)}>All</li>
-                        <li className={selectedItem===1 ? styles.nav_container_item_selected : styles.nav_container_item}
-                            onClick={()=>handleSelect(1)}>Accounting</li>
-                        <li className={selectedItem===2 ? styles.nav_container_item_selected : styles.nav_container_item}
-                            onClick={()=>handleSelect(2)}>System</li>
-                    </ul>
-
-                </div>
-
-            </div>
+          <InitialWalletView/>
+          {/*<AccountWalletView/>*/}
         </div>
         </>
     )

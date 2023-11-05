@@ -19,8 +19,8 @@ class AuthService {
         return $api.post('/logout');
     }
 
-    static async createAccount(name, comment, currency, balance,ico_id  = 0){
-        return $apiAccounts.post('/create', {name, comment, currency, balance, ico_id})
+    static async createAccount(name, comment, currency, value,ico_id  = 0){
+        return $apiAccounts.post('/create', {name, comment, currency, value, ico_id})
     }
 
     static async getAccountList (){
