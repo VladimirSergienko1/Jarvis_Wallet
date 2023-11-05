@@ -26,18 +26,18 @@ export const loginFx = createEffect( async ({email, password}) => {
     }
 })
 
-export const registrationFx = createEffect( async ({name, email, phone,password,language}) => {
+/*export const registrationFx = createEffect( async ({name, email, phone,password,language}) => {
     try {
         const response = await AuthService.registration(name, email, phone, password, language);
 
         console.log('Success',response)
         console.log('User', response.config.data)
-     /*   console.log('isAuth',$isAuth.getState());*/
+     /!*   console.log('isAuth',$isAuth.getState());*!/
     }
     catch (e) {
         console.log(e?.message)
     }
-})
+})*/
 
 
 export const checkAuthFx = createEffect(async (access_token) => {

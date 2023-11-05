@@ -30,7 +30,7 @@ const TelegramRegistration = () =>{
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            const RegistrationData = {...registrationData, telegram: values?.username}
+            const RegistrationData = {...registrationData, telegram_username: values?.username, ico_id: 0}
             console.log('TgData',RegistrationData);
             dispatch(registerUser(RegistrationData));
         },

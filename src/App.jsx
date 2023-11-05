@@ -8,18 +8,20 @@ import {useEffect} from "react";
 import Cookies from "js-cookie";
 import {$isAuth, checkAuthFx, loginFx} from "./store/login_model.js";
 import {useStore} from "effector-react";
-import {checkAuth} from "./features/login/loginSlice.js";
-import {useDispatch} from "react-redux";
+import {checkAuth} from "./features/user/userSlice.js";
+import {useDispatch, useSelector} from "react-redux";
 import MainLayout from "./pages/MainLayout.jsx";
 
 function App() {
-    const isAuth = useStore($isAuth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    //del
+    const test = useSelector((state) => state.user.userData);
+    console.log('BLALAL',test)
+    //
     useEffect(() => {
         dispatch(checkAuth()).then((action) => {
-            if (action.type === 'login/checkAuth/fulfilled') {
+            if (action.type === 'user/checkAuth/fulfilled') {
                 navigate('/wallet');
             }
         });

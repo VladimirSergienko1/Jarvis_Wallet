@@ -28,7 +28,7 @@ const validationSchema = Yup.object({
             /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
             "Invalid email format"
         ),
-    phone: Yup.string()
+    phone_number: Yup.string()
         .test('is-valid-phone', 'Invalid phone number', value =>
             value ? isPossiblePhoneNumber(value) : true
         ),
@@ -44,13 +44,14 @@ const RegistrationPage = () =>{
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const registrationData = useSelector((state) => state.login.registrationData);
+
     const options = [
         { value: 'en', label: 'English' },
         { value: 'ru', label: 'Russian' },
         { value: 'kk', label: 'Kazakh' },
         { value: 'ua', label: 'Ukrainian' },
     ];
-    const [selectedOption, setSelectedOption] = useState({ value: 'eng', label: 'English' });
+    const [selectedOption, setSelectedOption] = useState({ value: 'en', label: 'English' });
 
     const handleLanguageChange = (option) => {
         setSelectedOption(option);
@@ -61,7 +62,7 @@ const RegistrationPage = () =>{
         initialValues: {
             name: '',
             email: '',
-            phone: '',
+            phone_number: '',
             password: '',
             rePassword: '',
             language: selectedOption.value,
@@ -70,13 +71,9 @@ const RegistrationPage = () =>{
         onSubmit: async (values) => {
             console.log(values);
 
-          /*  try {
-                await dispatch(registerUser(values));
-            } catch (error) {
-                console.error("Ошибка авторизации:", error);
-            }*/
+            const { rePassword, ...submissionValues } = values;
             try {
-                dispatch(setRegistrationData(values));
+                dispatch(setRegistrationData(submissionValues ));
                 const currentRegistrationData = store.getState().login.registrationData;
                 navigate('/telegram')
                 console.log('Store',currentRegistrationData);
@@ -145,16 +142,16 @@ const RegistrationPage = () =>{
                             <Input
                                 className={styles.reg_input}
                                 id="phone_input"
-                                name="phone"
-                                onChange={value => formik.setFieldValue('phone', value)}
-                                onBlur={() => formik.setFieldTouched('phone')}
+                                name="phone_number"
+                                onChange={value => formik.setFieldValue('phone_number', value)}
+                                onBlur={() => formik.setFieldTouched('phone_number')}
 
                             />
-                            {formik.touched.phone && formik.errors.phone && (
-                                <p className={styles.error_text}>{formik.errors.phone}</p>
+                            {formik.touched.phone_number && formik.errors.phone_number && (
+                                <p className={styles.error_text}>{formik.errors.phone_number}</p>
                             )}
-                            {formik.touched.phone && formik.values.phone && (
-                                formik.errors.phone ? (
+                            {formik.touched.phone_number && formik.values.phone_number && (
+                                formik.errors.phone_number ? (
                                     <img className={styles.error_img} src={errorIcon}/>
                                 ) : (
                                     <img className={styles.error_img} src={correctIcon}/>
@@ -221,15 +218,11 @@ const RegistrationPage = () =>{
                                  <img  src={backBtn} alt={'back_button'}/>
                              </div>
                             </Link>
-
                             <button className={styles.reg_button} type={"submit"}>Continue</button>
                         </div>
                     </form>
-
                 </div>
-
             </div>
-
         </div>
     )
 

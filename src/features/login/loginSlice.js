@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import AuthService from "../../services/AuthService.js";
 import Cookies from "js-cookie";
 import { notification } from 'antd';
+import {setUserData} from "../user/userSlice.js";
 
 const openNotification = (type, message, description) => {
     notification[type]({
@@ -27,24 +28,10 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
     'register/user',
-    async ({name, email, phone, password, language, telegram}, {rejectedWithValue})=>{
+    async ({name, email, phone_number, password, language, telegram_username ,ico_id}, {rejectedWithValue})=>{
         try {
-            const response = await AuthService.registration(name, email, phone, password, language, telegram)
+            const response = await AuthService.registration(name, email, phone_number, password, language, telegram_username, ico_id)
             return response.data
-        }
-        catch (error){
-            return rejectedWithValue(error.message)
-        }
-    }
-)
-
-export const checkAuth = createAsyncThunk(
-    'login/checkAuth',
-    async (_,{rejectedWithValue}) =>{
-        try {
-            const response = await AuthService.checkAuth()
-            console.log('Success Auth',response)
-            return response.data;
         }
         catch (error){
             console.log(error.message)
@@ -53,19 +40,21 @@ export const checkAuth = createAsyncThunk(
     }
 )
 
+
+
 const initialState ={
-    isLogged: false,
     registrationData: null,
     error: null,
+    isLoading: false,
 }
 
 const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        setLoggedIn: (state, action) => {
+       /* setLoggedIn: (state, action) => {
             state.isLogged = action.payload;
-        },
+        },*/
         setRegistrationData: (state, action) => {
             state.registrationData = action.payload;
         },
@@ -88,15 +77,10 @@ const loginSlice = createSlice({
             .addCase(registerUser.rejected, (state, action) => {
                 state.error = action.payload;
             })
-            .addCase(checkAuth.fulfilled, (state, action) => {
-                state.isLogged = true;
-            })
-            .addCase(checkAuth.rejected, (state, action) => {
-                state.error = action.payload;
-            });
+
     },
 })
 
 console.log('loginSlice',loginSlice)
-export const {setLoggedIn,setRegistrationData,clearRegistrationData} = loginSlice.actions
+export const {setRegistrationData} = loginSlice.actions
 export default loginSlice.reducer

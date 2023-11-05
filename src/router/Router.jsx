@@ -24,7 +24,11 @@ const routes = createBrowserRouter([
             { path: '/telegram', element: <TelegramRegistration/> },
             { path: '/recovery', element: <PasswordRecovery/> },
             { path: '/ban', element: <NoAccess/> },
-            {path: '/wallet', element: <Wallet/>},
+            {path: '/wallet',  element: (
+                    <PrivateRoute>
+                        <Wallet/>
+                    </PrivateRoute>
+                )},
             { path: '/profile', element: <Profile/> },
             { path: '/error403', element: <Error403/>  },
             /*{
@@ -39,15 +43,5 @@ const routes = createBrowserRouter([
         ]
     }
 ],{basename: '/'})
-
-/*const routes = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path="/" element={<Navigate to="/login" replace />}>
-            <Route path="/login" element={<LoginPage/>}/>
-            <Route path="/registration" element={<RegistrationPage/>}/>
-            <Route path="*" element={<Error404/>}/>
-        </Route>
-    )
-)*/
 
 export default routes

@@ -1,16 +1,26 @@
 import styles from "./Wallet.module.scss";
 import PlusIcon from "../../assets/WalletsPage/plus_icon.svg";
 import wallet from "../../assets/WalletsPage/wallet.svg";
-import menuBackground from "../../assets/WalletsPage/menu-background.svg";
-import menuBurger from "../../assets/WalletsPage/menu.svg";
-import {matchPath} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import MenuBurger from "../../components/MenuBurger/MenuBurger.jsx";
 import AccountModal from "../../components/Account/AccountModal.jsx";
 import acc_img from '../../assets/Account/acc_img.svg'
 import rightArrow from '../../assets/Account/rightArrow.svg'
+import {checkAuth, getAccountList} from "../../features/user/userSlice.js";
+import {useDispatch, useSelector} from "react-redux";
 
 const Wallet = () =>{
+    const dispatch = useDispatch();
+    const isLoading = useSelector((state) => state.login.isLoading);
+
+    useEffect(() => {
+        dispatch(checkAuth())
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getAccountList())
+    }, [dispatch]);
+
     const [selectedItem, setSelectedItem] = useState(0);
     const [accountModalVisible, setAccountModalVisible] = useState(false)
     const [isOverlayVisible, setIsOverlayVisible] = useState(false);
@@ -31,6 +41,8 @@ const Wallet = () =>{
 
 
     return(
+        <>
+            {isLoading && <div>Загрузка...</div>}
         <div className={styles.wallet_page}>
             <div className={styles.wallet__container}>
                 <div className={styles.container_header}>
@@ -74,6 +86,7 @@ const Wallet = () =>{
 
             </div>
         </div>
+        </>
     )
 }
 

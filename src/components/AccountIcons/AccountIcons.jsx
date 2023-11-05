@@ -2,12 +2,8 @@ import React, {useState} from 'react';
 import styles from "./AccountIcons.module.scss";
 import gridImg from "../../assets/Profile/grid_image.svg";
 
-const AccountIcons = () => {
-    const [activeIndex, setActiveIndex] = useState(null);
-    const handleGridItemClick = (index) => {
-        setActiveIndex(index);
-        console.log(index)
-    };
+const AccountIcons = ({activeIndex,handleGridItemClick}) => {
+
     return (
         <div>
             <div className={styles.avatar_block_title}>Icon</div>

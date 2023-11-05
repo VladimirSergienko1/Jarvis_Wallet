@@ -1,16 +1,16 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useStore } from "effector-react";
-import {$isAuth, checkAuthFx} from "../store/login_model.js";
-import {useEffect} from "react";
-import Cookies from "js-cookie";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import Wallet from "../pages/WalletPage/Wallet.jsx";
 
-const PrivateRoute = ()=> {
+const PrivateRoute = () => {
+    const isAuth = !!Cookies.get('access_token');
 
-    const isAuth = useStore($isAuth);
-        console.log('PrivateRoute', isAuth);
+    if (!isAuth) {
+        return <Navigate to="/login" replace />;
+    }
 
+    return <Wallet />;
+};
 
-    return isAuth ? <Outlet /> : <Navigate to="/login"/> ;
-}
-
-export default PrivateRoute
+export default PrivateRoute;

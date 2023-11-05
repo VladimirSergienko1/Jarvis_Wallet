@@ -4,6 +4,8 @@ import api from "js-cookie";
 export const API_URL = 'https://jarviswallet.pro/api/v1/access/';
 export const API_URL_USERS = 'https://jarviswallet.pro/api/v1/users/';
 
+export const API_URL_ACCOUNTS = 'https://jarviswallet.pro/api/v1/accounts/'
+
 export const $api = axios.create({
     withCredentials: true,
     baseURL: API_URL
@@ -12,6 +14,17 @@ export const $api = axios.create({
 export const $apiUser = axios.create({
     withCredentials: true,
     baseURL: API_URL_USERS
+})
+
+export const $apiAccounts = axios.create({
+    withCredentials: true,
+    baseURL: API_URL_ACCOUNTS
+})
+
+$apiAccounts.interceptors.request.use(config => {
+    config.headers.Authorization = `Bearer ${Cookies.get('access_token')}`;
+    /*console.log(Cookies.get('access_token'))*/
+    return config;
 })
 
 $api.interceptors.request.use(config => {

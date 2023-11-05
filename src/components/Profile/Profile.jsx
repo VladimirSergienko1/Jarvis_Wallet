@@ -1,7 +1,5 @@
-
 import styles from './Profile.module.scss'
-import MenuBurger from "../MenuBurger/MenuBurger.jsx";
-import {useState} from "react";
+import React, {useMemo, useState} from "react";
 import profileImg from "../../assets/Profile/profile_image.svg";
 import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
@@ -9,11 +7,9 @@ import {isPossiblePhoneNumber} from "react-phone-number-input";
 import Input from 'react-phone-number-input/input'
 import CustomSelect from "../../pages/LoginPage/CustomSelect.jsx";
 import {useFormik} from "formik";
-import {registrationFx} from "../../store/login_model.js";
 import * as Yup from "yup";
-import {Link} from "react-router-dom";
 import gridImg from "../../assets/Profile/grid_image.svg";
-
+import {useDispatch, useSelector} from "react-redux";
 
 
 const options = [
@@ -22,8 +18,44 @@ const options = [
     { value: 'kk', label: 'Kazakh' },
     { value: 'ua', label: 'Ukrainian' },
 ];
+
+const validationSchemaInfo = Yup.object({
+    name: Yup.string()
+        .min(3, 'Name should be 3 characters or more')
+        .max(8, 'Name should be 8 characters or less'),
+    email: Yup.string()
+        .email('Invalid email format')
+        .matches(
+            /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
+            "Invalid email format"
+        ),
+    phone: Yup.string()
+        .test('is-valid-phone', 'Invalid phone number', value =>
+            value ? isPossiblePhoneNumber(value) : true
+        ),
+});
+
+const validationSchemaSecurity = Yup.object({
+    password: Yup.string()
+        .min(8, 'Password must be at least 8 characters')
+        .required('Password is required'),
+    rePassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Password confirmation is required'),
+});
+
+const validationSchemas = {
+    0: validationSchemaInfo,
+    1: validationSchemaSecurity,
+};
 const Profile = (props) =>{
+    const dispatch = useDispatch();
+    const isLoading = useSelector((state) => state.login.isLoading);
+    const userInfo = useSelector(userStore=>userStore.user.userData)
+    console.log('profile',userInfo)
+
     const [selectedItem, setSelectedItem] = useState(0);
+
     const [isAvatarOpen, setAvatarOpen] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);
@@ -36,36 +68,10 @@ const Profile = (props) =>{
     const passedDays = 6;
     const passedDaysPercentage = (passedDays / daysInMonth) * 100;
 
-    let validationSchema;
-    if (selectedItem === 0) {
-        validationSchema = Yup.object({
-            name: Yup.string()
-                .min(3, 'Name should be 3')
-                .max(8, 'Name should be 8'),
-            /*.required('Name is required'),*/
-            email: Yup.string()
-                .email('Invalid email format')
-                /*  .required('Email is required')*/
-                .matches(
-                    /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
-                    "Invalid email format"
-                ),
-            phone: Yup.string()
-                .test('is-valid-phone', 'Invalid phone number', value =>
-                    value ? isPossiblePhoneNumber(value) : true
-                ),
-        });
-    }
-        else if (selectedItem === 1) {
-        validationSchema = Yup.object({
-            password: Yup.string()
-                .min(8, 'Password must be at least 8 characters')
-                .required('Password is required'),
-            rePassword: Yup.string()
-                .oneOf([Yup.ref('password'), null], 'Passwords must match')
-                .required('Password confirmation is required'),
-        });
-    }
+    const currentValidationSchema = useMemo(() => {
+        return validationSchemas[selectedItem] || validationSchemas[0];
+    }, [selectedItem]);
+
 
     const handleLanguageChange = (option) => {
         setSelectedOption(option);
@@ -92,14 +98,14 @@ const Profile = (props) =>{
 
     const formik = useFormik({
         initialValues: {
-            name: '',
-            email: '',
-            phone: '',
-            language: selectedOption.value,
-            password: '',
+            name: userInfo?.name || '',
+            email: userInfo?.email || '',
+            phone: userInfo?.phone_number || '',
+            language: userInfo?.language || selectedOption.value,
+            password: userInfo?.password ||'',
             rePassword: '',
         },
-        validationSchema: validationSchema,
+        validationSchema: currentValidationSchema,
         onSubmit: async (values) => {
             console.log(values);
 
@@ -108,6 +114,7 @@ const Profile = (props) =>{
 
     return(
         <>
+            {isLoading && <div>Загрузка...</div>}
             {isOverlayVisible && <div className={styles.overlay} onClick={handleOverlay}></div>}
             <div className={styles.profile__container}>
                 <div className={styles.profile__header}>
@@ -133,9 +140,9 @@ const Profile = (props) =>{
                                     id="name_input"
                                     name="name"
                                     type="text"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.name}
                                     className={styles.reg_input}
                                 />
                                    {formik.touched.name && formik.errors.name && (
@@ -148,9 +155,9 @@ const Profile = (props) =>{
                                     id="email_input"
                                     name="email"
                                     type="email"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.email}
                                     className={styles.reg_input}
                                 />
                                    {formik.touched.email && formik.errors.email && (
@@ -163,9 +170,9 @@ const Profile = (props) =>{
                                     className={styles.reg_input}
                                     id="phone_input"
                                     name="phone"
+                                    value={formik.values.phone}
                                     onChange={value => formik.setFieldValue('phone', value)}
                                     onBlur={() => formik.setFieldTouched('phone')}
-
                                 />
                                 {formik.touched.phone && formik.errors.phone && (
                                     <p className={styles.error_text}>{formik.errors.phone}</p>
@@ -179,7 +186,7 @@ const Profile = (props) =>{
                                 options={options}
                             />
                             </div>
-                                <button className={styles.reg_button} type={"submit"}>Continue</button>
+                                <button className={styles.reg_button} type={"submit"}>Save</button>
                         </form>
                 </div>}
 
@@ -227,7 +234,8 @@ const Profile = (props) =>{
                 </div>}
 
                 {/*DELETE ACC BLOCK*/}
-                {(selectedItem === 1 && isDeleteModalOpen) && <div className={styles.change_password_container_block}>
+                {(selectedItem === 1 && isDeleteModalOpen) &&
+                    <div className={styles.change_password_container_block}>
                     <form className={styles.block_form} onSubmit={formik.handleSubmit}>
                         <div className={styles.form_content}>
                             <div className={styles.block_deletion_title}>After deleting your account, all your data including your account will disappear.</div>
@@ -361,4 +369,4 @@ const Profile = (props) =>{
     )
 }
 
-export default Profile
+export default React.memo(Profile)
