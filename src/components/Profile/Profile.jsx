@@ -10,6 +10,7 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import gridImg from "../../assets/Profile/grid_image.svg";
 import {useDispatch, useSelector} from "react-redux";
+import SubscriptionInfo from "./SubscriptionInfo.jsx";
 
 
 const options = [
@@ -63,10 +64,6 @@ const Profile = (props) =>{
     const [isOverlayVisible, setIsOverlayVisible] = useState(true);
 
     const [openProfile, setOpenProfile] = useState(false)
-
-    const daysInMonth = 30;
-    const passedDays = 6;
-    const passedDaysPercentage = (passedDays / daysInMonth) * 100;
 
     const currentValidationSchema = useMemo(() => {
         return validationSchemas[selectedItem] || validationSchemas[0];
@@ -263,8 +260,8 @@ const Profile = (props) =>{
                 </div>}
 
                 {/*AVATAR BLOCK OPENS WHEN PROFILE ICON CLICKED*/}
-                {isAvatarOpen &&
-                    selectedItem === 0 && <div className={styles.profile__container_block}>
+                {isAvatarOpen && selectedItem === 0 &&
+                     <div className={styles.profile__container_block}>
                         <div className={styles.block_image} onClick={handleAvatarMenu}>
                             <img src={profileImg}/>
                         </div>
@@ -288,82 +285,7 @@ const Profile = (props) =>{
                         </form>
                     </div>}
 
-                  {(selectedItem === 2 ) && <div className={styles.subscription__container}>
-                   <div className={styles.subscription_info}>
-                        <div className={styles.subscription__row} >
-                            <p className={styles.subscription__label}>Type</p>
-                            <p className={styles.subscription__label}>Base</p>
-                            <p className={styles.subscription__label}>Current subscription</p>
-                            <p className={styles.subscription__label}>Days until the end 24</p>
-                        </div>
-                        <div className={styles.subscription__row}>
-                            <p className={styles.subscription__label}>Time period</p>
-                            <p className={styles.subscription__label}>1 month</p>
-                            <div className={styles.subscription__line}>
-                                <div
-                                    className={styles.subscription__progress}
-                                    style={{ width: `${passedDaysPercentage}%` }}
-                                ></div>
-                            </div>
-                        </div>
-                   </div>
-                      <div className={styles.history_container}>
-                          <h2 className={styles.history_title}>History</h2>
-                          <div className={styles.history_row}>
-                              <p className={styles.row_label}>Id</p>
-                              <p className={styles.row_label}>Type</p>
-                              <p className={styles.row_label}>From</p>
-                              <p className={styles.row_label}>To</p>
-                              <p className={styles.row_label}>Status</p>
-                          </div>
-                          <div className={styles.history_list} >
-                              <div className={styles.history_item} >
-                                  <span>6</span>
-                                  <span>Base</span>
-                                  <span>12.06.2023</span>
-                                  <span>12.07.2023</span>
-                                  <span>Completed</span>
-                              </div>
-                              <div className={styles.history_item} >
-                                  <span>6</span>
-                                  <span>Base</span>
-                                  <span>12.06.2023</span>
-                                  <span>12.07.2023</span>
-                                  <span>Completed</span>
-                              </div>
-                              <div className={styles.history_item} >
-                                  <span>6</span>
-                                  <span>Base</span>
-                                  <span>12.06.2023</span>
-                                  <span>12.07.2023</span>
-                                  <span>Completed</span>
-                              </div>
-                              <div className={styles.history_item} >
-                                  <span>6</span>
-                                  <span>Base</span>
-                                  <span>12.06.2023</span>
-                                  <span>12.07.2023</span>
-                                  <span>Completed</span>
-                              </div>
-                              <div className={styles.history_item} >
-                                  <span>6</span>
-                                  <span>Base</span>
-                                  <span>12.06.2023</span>
-                                  <span>12.07.2023</span>
-                                  <span>Completed</span>
-                              </div>
-                              <div className={styles.history_item} >
-                                  <span>6</span>
-                                  <span>Base</span>
-                                  <span>12.06.2023</span>
-                                  <span>12.07.2023</span>
-                                  <span>Completed</span>
-                              </div>
-
-                          </div>
-                      </div>
-
-                </div>}
+                  {selectedItem === 2  && <SubscriptionInfo/>}
             </div>
         </>
     )
