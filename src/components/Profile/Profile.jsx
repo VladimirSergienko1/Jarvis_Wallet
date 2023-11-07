@@ -10,7 +10,7 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import gridImg from "../../assets/Profile/grid_image.svg";
 import {useDispatch, useSelector} from "react-redux";
-import SubscriptionInfo from "./SubscriptionInfo.jsx";
+import SubscriptionBlock from "./SubscriptionBlock.jsx";
 
 
 const options = [
@@ -280,12 +280,12 @@ const Profile = (props) =>{
                             </div>
                             <div className={styles.avatar_footer}>
                                 <button className={styles.avatar_back} onClick={handleAvatarMenu} type="button">Back</button>
-                                <button className={styles.avatar_button} type={"submit"} >Continue</button>
+                                <button className={styles.avatar_button} type={"submit"}>Continue</button>
                             </div>
                         </form>
                     </div>}
 
-                  {selectedItem === 2  && <SubscriptionInfo/>}
+                  {selectedItem === 2  && <SubscriptionBlock/>}
             </div>
         </>
     )

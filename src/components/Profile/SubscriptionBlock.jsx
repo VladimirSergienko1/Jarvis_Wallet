@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "./Profile.module.scss";
 
-const SubscriptionInfo = () => {
+const SubscriptionBlock = () => {
     const daysInMonth = 30;
     const passedDays = 6;
     const passedDaysPercentage = (passedDays / daysInMonth) * 100;
@@ -84,4 +84,4 @@ const SubscriptionInfo = () => {
     );
 };
 
-export default SubscriptionInfo;
+export default SubscriptionBlock;

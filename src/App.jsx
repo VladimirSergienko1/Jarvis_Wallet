@@ -3,7 +3,7 @@ import './fonts/stylesheet.css'
 import './App.css'
 
 
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import Cookies from "js-cookie";
 import {$isAuth, checkAuthFx, loginFx} from "./store/login_model.js";
@@ -15,6 +15,8 @@ import MainLayout from "./pages/MainLayout.jsx";
 function App() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    console.log(location.pathname)
     //del
     const test = useSelector((state) => state.user.userData);
     console.log('BLALAL',test)
@@ -22,7 +24,9 @@ function App() {
     useEffect(() => {
         dispatch(checkAuth()).then((action) => {
             if (action.type === 'user/checkAuth/fulfilled') {
-                navigate('/wallet');
+                if (location.pathname === '/login'){
+                    navigate('/wallet');
+                }
             }
         });
     }, [dispatch, navigate]);

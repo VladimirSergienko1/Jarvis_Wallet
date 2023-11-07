@@ -23,11 +23,15 @@ const Wallet = () =>{
 
     useEffect(() => {
         dispatch(checkAuth())
-    }, [dispatch]);
+    }, []);
+
+/*    useEffect(() => {
+        dispatch(checkAuth())
+    }, [dispatch]);*/
 
     useEffect(() => {
         dispatch(getAccountList())
-    }, [dispatch]);
+    }, []);
 
     const [accountModalVisible, setAccountModalVisible] = useState(false)
     const [isOverlayVisible, setIsOverlayVisible] = useState(false);
