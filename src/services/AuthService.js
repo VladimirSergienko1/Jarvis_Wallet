@@ -27,6 +27,10 @@ class AuthService {
         return $apiAccounts.get('/list')
 
     }
+    static async getSingleAccount (id){
+        return $apiAccounts.get(`/${id}`)
+
+    }
 }
 
 export default AuthService;

@@ -44,6 +44,20 @@ export const getAccountList = createAsyncThunk(
     }
 )
 
+export const getSingleAccount = createAsyncThunk(
+    'get/singleAccount',
+    async ({id},{rejectedWithValue})=>{
+        try {
+            const response = await AuthService.getSingleAccount(id)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+
 const initialState ={
     isLogged: false,
     isLoading: true,
@@ -64,10 +78,6 @@ const userSlice = createSlice({
     },
     extraReducers:(builder)=> {
         builder
-      //  [checkAuth.pending]: (state, action) => {
-      //  },
-      //  [checkAuth.rejected]: (state, action) => {
-      //  },
             .addCase(checkAuth.pending, (state,action)=>{
             state.isLoading = true;
             })
@@ -81,7 +91,8 @@ const userSlice = createSlice({
                 state.error = action.payload;
                 state.isLoading = false;
             })
-        //
+
+            //
             .addCase(getAccountList.pending, (state,action)=>{
            // state.isLoading = true;
             })
@@ -94,6 +105,7 @@ const userSlice = createSlice({
                 state.error = action.payload;
                 state.isLoading = false;
             })
+
             //
             .addCase(createAccount.pending, (state,action)=>{
            // state.isLoading = true;
@@ -107,7 +119,20 @@ const userSlice = createSlice({
             .addCase(createAccount.rejected, (state, action) => {
                 state.error = action.payload;
                 //state.isLoading = false;
-            });
+            })
+            .addCase(getSingleAccount.pending,(state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(getSingleAccount.fulfilled,(state, action) => {
+                state.isLoading = false;
+            })
+            .addCase(getSingleAccount.rejected,(state, action) => {
+                state.isLoading = false;
+            })
+
+
+
+
     },
 })
 

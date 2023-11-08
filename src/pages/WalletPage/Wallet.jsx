@@ -75,8 +75,8 @@ const Wallet = () =>{
                         }
                 </div>
             </div>
-          <InitialWalletView/>
-          {/*<AccountWalletView/>*/}
+          {/*<InitialWalletView/>*/}
+          <AccountWalletView/>
         </div>
         </>
     )
