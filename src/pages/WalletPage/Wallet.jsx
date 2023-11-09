@@ -12,10 +12,11 @@ import AccountList from "../../components/Account/AccountList.jsx";
 import InitialWalletView from "../../components/Wallet/InitialWalletView.jsx";
 import AccountWalletView from "../../components/Account/AccountWalletView.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
+import {RotatingLines} from "react-loader-spinner";
 
 const Wallet = () =>{
     const dispatch = useDispatch();
-    const isLoading = useSelector((state) => state.login.isLoading);
+    const isLoading = useSelector((state) => state.user.accountsLoading);
     const accounts = useSelector((state) => state.user.userAccounts);
 
     const navigate = useNavigate();
@@ -54,14 +55,15 @@ const Wallet = () =>{
         }
     }, [location]);
 
+
+
     return(
         <>
-            {isLoading && <div>Загрузка...</div>}
         <div className={styles.wallet_page}>
             <div className={styles.wallet__container} style={{overflowY:'auto'}}>
                 <div className={styles.container_header}>
                     <h2 className={styles.header_title}>Accounts</h2>
-                    <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}}/>
+                    <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}} alt={'plusIcon'}/>
                     <AccountModal accountModalVisible={accountModalVisible} isOverlayVisible={isOverlayVisible} handleOverlay={handleOverlay} />
                 </div>
                 <div className={styles.container_body}>
@@ -75,8 +77,16 @@ const Wallet = () =>{
                         }
                 </div>
             </div>
-          {/*<InitialWalletView/>*/}
-          <AccountWalletView/>
+            {isLoading ?  (<div style={{display:'flex', justifyContent:'center',alignItems:'center', width:'inherit'}}>
+                    <RotatingLines
+                    strokeColor="grey"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="96"
+                    visible={true}
+                /></div>
+                ) : location.pathname === '/wallet' ? <InitialWalletView/> : <AccountWalletView/>}
+
         </div>
         </>
     )

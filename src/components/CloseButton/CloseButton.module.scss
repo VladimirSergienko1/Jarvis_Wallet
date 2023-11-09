@@ -1,0 +1,32 @@
+.menuBurger {
+  width: 64px;
+  display: flex;
+  border-radius: 2rem;
+  background: #F7F7F8;
+  user-select: none;
+  outline: 1px solid transparent;
+
+  justify-content: flex-end;
+  box-shadow: 0 20px 30px rgba(50, 49, 66, 0.2);
+  transition:  outline 0.3s ease-in-out;
+  z-index: 1000;
+  &:hover {
+    outline: 1px solid #7D7D8C;
+  }
+/*  &:active{
+    background: #7D7D8C;
+  }*/
+
+  .menuBackground{
+    position: relative;
+    cursor: pointer;
+    width: 64px;
+    height: 64px;
+  }
+  .burgerIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

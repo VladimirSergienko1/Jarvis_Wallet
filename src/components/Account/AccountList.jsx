@@ -8,7 +8,7 @@ const AccountList = () => {
     console.log(accounts)
     return (
         <div >
-            {accounts && accounts?.map(({ name, id, ico_id }) => (
+            {accounts?.map(({ name, id, ico_id }) => (
                 <div key={id}>
                     <Account name={name} id={id} ico_id={ico_id}/>
                 </div>

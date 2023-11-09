@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import {createAccount} from "../../features/user/userSlice.js";
+import CloseButton from "../CloseButton/CloseButton.jsx";
 
 
 const validationSchema = Yup.object({
@@ -72,7 +73,8 @@ const AccountModal = ({accountModalVisible, isOverlayVisible, handleOverlay})=>{
 return(
     <>
         {isOverlayVisible && <div className={styles.overlay} onClick={handleOverlay}></div>}
-        {accountModalVisible &&  <div className={styles.account__container}>
+        {accountModalVisible &&
+            <div className={styles.account__container}>
             <div className={styles.account__header}>
                 <h2 className={styles.account_header_title}>Add new account</h2>
                 <img className={styles.help_button} src={button_help}/>

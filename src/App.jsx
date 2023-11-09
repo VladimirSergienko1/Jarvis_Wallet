@@ -6,7 +6,6 @@ import './App.css'
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import Cookies from "js-cookie";
-import {$isAuth, checkAuthFx, loginFx} from "./store/login_model.js";
 import {useStore} from "effector-react";
 import {checkAuth} from "./features/user/userSlice.js";
 import {useDispatch, useSelector} from "react-redux";

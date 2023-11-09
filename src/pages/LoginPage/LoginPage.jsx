@@ -6,14 +6,11 @@ import MicrosoftSignIn from '/src/assets/LoginPage/button_sign_in_microsoft.svg'
 import {Link, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import * as Yup from "yup";
-import {isPossiblePhoneNumber} from "react-phone-number-input";
 import {useFormik} from "formik";
 import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import {$isAuth, loginFx} from "../../store/login_model.js";
-import {useStore} from "effector-react";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../../features/login/loginSlice.js";

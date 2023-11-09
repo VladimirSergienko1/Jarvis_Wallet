@@ -1,41 +1,47 @@
 import React, {useEffect} from 'react';
-import styles from "../../pages/WalletPage/Wallet.module.scss";
+import styles from "./Account.module.scss";
 import MenuBurger from "../MenuBurger/MenuBurger.jsx";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getSingleAccount} from "../../features/user/userSlice.js";
+import AccountBalance from "./AccountBalance.jsx";
+import EditButton from "./EditButton.jsx";
+import CloseButton from "../CloseButton/CloseButton.jsx";
 
 const AccountWalletView = () => {
     const dispatch = useDispatch();
-    const { accountId } = useParams(); // Получение id из параметров URL
+    const { accountId } = useParams();
 
-    const isLoading = useSelector((state) => state.user.isLoading);
-    const error = useSelector((state) => state.user.error);
+   /* const isLoading = useSelector((state) => state.user.isLoading);
+    const error = useSelector((state) => state.user.error);*/
 
     const accountData = useSelector((state) =>
         state.user.userAccounts.find(account=> account.id.toString() === accountId)
     );
 
+    const { value = null, currency = null } = accountData || {};
+
+
     useEffect(() => {
         if (accountId) {
             dispatch(getSingleAccount({ id: accountId }));
         }
-    }, [accountId, dispatch]);
+    }, [accountId]);
 
-    /*if (isLoading) {
-        return <div>Loading...</div>;
-    }*/
 
     return (
-        <div className={styles.wallet_nav_container}>
-            <div className={styles.nav_container_header}>
-                <div style={{display:'flex', gap:'1rem'}}>
-                    <h2 className={styles.nav_header_title}>Accounts</h2>
-                    <h2 style={{display:'flex',alignSelf:'center'}}>{accountData?.name || 'No data'}</h2>
-                    {accountData?.comment}
+        <div className={styles.account__view_nav_container}>
+            <div className={styles.account__nav_header}>
+                <div className={styles.account__nav_header_row}>
+                    <h3 className={styles.account__nav_header_title}>Accounts</h3>
+                    <h3 className={styles.account__nav_header_subtitle}>{accountData?.name || 'No data'}</h3>
                 </div>
-                <MenuBurger />
+                <div style={{display:'flex',alignItems:'center', gap: '1rem'}}>
+                    <EditButton/>
+                    <CloseButton />
+                </div>
             </div>
+            <AccountBalance value={value} currency={currency}/>
         </div>
     );
 };

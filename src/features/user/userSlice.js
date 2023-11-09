@@ -6,7 +6,6 @@ export const createAccount = createAsyncThunk(
     async ({name, comment, currency, value, ico_id}, {getState , dispatch,rejectedWithValue})=>{
         try {
             const response = await AuthService.createAccount(name, comment, currency, value, ico_id)
-            //dispatch(setUserAccounts(response.data));
             return response.data
         }
         catch (error){
@@ -61,6 +60,7 @@ export const getSingleAccount = createAsyncThunk(
 const initialState ={
     isLogged: false,
     isLoading: true,
+    accountsLoading: true,
     userData: null,
     userAccounts: [],
 }
@@ -94,16 +94,16 @@ const userSlice = createSlice({
 
             //
             .addCase(getAccountList.pending, (state,action)=>{
-           // state.isLoading = true;
+                state.accountsLoading = true;
             })
             .addCase(getAccountList.fulfilled, (state, action) => {
-              //  state.isLoading = false;
+                state.accountsLoading = false;
                 state.userAccounts = action.payload
                 console.log('userAccounts Slice test',action)
             })
             .addCase(getAccountList.rejected, (state, action) => {
                 state.error = action.payload;
-                state.isLoading = false;
+                state.accountsLoading = false;
             })
 
             //
