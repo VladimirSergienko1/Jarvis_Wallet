@@ -74,6 +74,9 @@ const userSlice = createSlice({
         },
         setUserAccounts: (state, action) => {
             state.userAccounts = action.payload;
+        },
+        setUserTheme : (state, action)=>{
+            state.userData.style = action.payload
         }
     },
     extraReducers:(builder)=> {
@@ -136,5 +139,5 @@ const userSlice = createSlice({
     },
 })
 
-export const {setUserData,setUserAccounts } = userSlice.actions
+export const {setUserData,setUserAccounts,setUserTheme } = userSlice.actions
 export default userSlice.reducer

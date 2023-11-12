@@ -6,21 +6,28 @@ import profileImg from '../../assets/MenuBurger/profile_img.svg';
 import lightImg from '../../assets/MenuBurger/light_img.svg';
 import proImg from '../../assets/MenuBurger/pro_img.svg';
 import Profile from "../Profile/Profile.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {setUserTheme} from "../../features/user/userSlice.js";
 
 const MenuBurger = () => {
+    const dispatch = useDispatch();
+    const userTheme = useSelector((state)=> state.user.userData?.style)
+
     const [isActive, setIsActive] = useState(false)
-    const [theme, setTheme] = useState(false)
+    const [theme, setTheme] = useState(userTheme || 'light');
 
     const [openProfile, setOpenProfile] = useState(false)
 
     const toggleActive = ()=>{
         setIsActive(!isActive)
     }
-    const toggleTheme = ()=>{
-        setTheme(!!theme)
+    const toggleTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        dispatch(setUserTheme(newTheme))
+        setTheme(newTheme)
     }
 
-    const toggleProfile = ()=>{
+    const toggleProfile = ()=> {
         setOpenProfile(!openProfile)
     }
 
@@ -28,7 +35,7 @@ const MenuBurger = () => {
         <div className={`${styles.menuBurger} ${isActive ? styles.active : ''}`}>
             <ul className={`${styles.burgerExpanded} ${isActive ? styles.active : ''}`}>
                 <li className={styles.burgerItem} onClick={toggleProfile}><img src={profileImg}/>Profile</li>
-                <li className={styles.burgerItem}><img src={lightImg}/>Light</li>
+                <li className={styles.burgerItem} onClick={toggleTheme}><img src={lightImg}/>Light</li>
                 <li className={styles.burgerItem}><img src={proImg}/>Pro</li>
                 <li className={styles.burgerItem}><img src={proImg}/>Log Out</li>
             </ul>

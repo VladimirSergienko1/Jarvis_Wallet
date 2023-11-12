@@ -1,10 +1,7 @@
 import './fonts/stylesheet.css'
-
-import './App.css'
-
-
+import './index.scss'
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import React, {Suspense, useEffect} from "react";
 import Cookies from "js-cookie";
 import {useStore} from "effector-react";
 import {checkAuth} from "./features/user/userSlice.js";
@@ -15,7 +12,8 @@ function App() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    console.log(location.pathname)
+    const userTheme = useSelector((state)=> state.user.userData?.style)
+    console.log('userTheme',userTheme)
     //del
     const test = useSelector((state) => state.user.userData);
     console.log('BLALAL',test)
@@ -33,10 +31,13 @@ function App() {
 
   return (
 
-    <>
+    <div className={`app ${userTheme}`}>
         {/*<h1>{isAuth ?  'Authorized' : 'Unauthorized'}</h1>*/}
-        <MainLayout/>
-    </>
+        <Suspense fallback={<div>Loading...</div>}>
+            <MainLayout/>
+        </Suspense>
+
+    </div>
   )
 }
 
