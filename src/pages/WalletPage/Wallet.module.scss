@@ -13,8 +13,8 @@
     max-height: 57.21rem;
     padding: 1.25rem;
     border-radius: 2rem;
-    background: #F7F7F8;
-    box-shadow: 0 20px 30px rgba(50, 49, 66, 0.2);
+    background: var(--bg-accent);
+    box-shadow: var(--shadow);
 
 
     .container_header {
@@ -22,10 +22,10 @@
       padding: 0 0.75rem 0.7rem 0.75rem;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #EBEBEC;
+      border-bottom: 2px solid var(--secondary-color);
 
       .header_title{
-        color: #04071E;
+        color: var(--primary-color);
         font-family: Roboto;
         font-size: 18px;
         font-style: normal;
@@ -94,7 +94,7 @@
       margin-bottom: 1.85rem;
 
       .nav_header_title{
-        color: #04071E;
+        color: var(--primary-color);
         font-family: Roboto;
         font-size: 2.5rem;
         font-style: normal;
@@ -118,8 +118,7 @@
           width: 8.75rem;
           text-align: center;
           cursor: pointer;
-
-          color: #04071E;
+          color: var(--primary-color);
           font-family: Roboto;
           font-size: 1rem;
           font-style: normal;
@@ -139,7 +138,7 @@
           cursor: pointer;
 
           color: white;
-          background-color: #34C759;
+          background-color: var(--primary-green);
           font-family: Roboto;
           font-size: 1rem;
           font-style: normal;

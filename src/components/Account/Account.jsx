@@ -20,7 +20,7 @@ const Account = ({name, id, ico_id}) => {
                 <div key={id} className={`${styles.account__card_body} ${id.toString() === accountId ? styles.active : ''}`}>
                     <img src={accImg_dict[ico_id]} alt="account_image"/>
                     <div className={styles.account__card_inner}>
-                        <p>{name}</p>
+                        <p className={styles.account__card_inner_text}>{name}</p>
                         <img style={{display: 'flex'}} src={rightArrow} alt="Arrow"/>
                     </div>
                 </div>

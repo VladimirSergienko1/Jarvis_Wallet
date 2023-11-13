@@ -30,7 +30,7 @@
       align-items: center;
 
       .profile_header_title{
-        color: #04071E;
+        color: var(--primary-color);
         font-size: 2.25rem;
         font-style: normal;
         font-weight: 700;
@@ -73,7 +73,7 @@
         margin-left: 2.7rem;
 
         .block_form_title{
-          color: #04071E;
+          color: var(--primary-color);
           text-align: center;
           font-size: 1rem;
           font-style: normal;
@@ -152,7 +152,7 @@
           margin: auto;
 
           .block_form_title{
-            color: #04071E;
+            color: var(--primary-color);
             text-align: center;
             font-size: 1rem;
             font-style: normal;
@@ -163,7 +163,7 @@
           //Acc deletion block
           .block_deletion_title{
             width: 320px;
-            color: #04071E;
+            color: var(--primary-color);
             text-align: center;
             font-family: Roboto;
             font-size: 16px;
@@ -276,7 +276,7 @@
         display: flex;
         flex-direction: column;
         .history_title{
-          color: #04071E;
+          color: var(--primary-color);
           font-size: 1.25rem;
           font-style: normal;
           font-weight: 600;
@@ -328,7 +328,7 @@
   margin-left: 3.7rem;
 
   .avatar_block_title{
-    color: #04071E;
+    color: var(--primary-color);
     text-align: center;
     font-size: 16px;
     font-style: normal;

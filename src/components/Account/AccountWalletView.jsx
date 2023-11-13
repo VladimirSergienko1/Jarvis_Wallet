@@ -7,6 +7,8 @@ import {getSingleAccount} from "../../features/user/userSlice.js";
 import AccountBalance from "./AccountBalance.jsx";
 import EditButton from "./EditButton.jsx";
 import CloseButton from "../CloseButton/CloseButton.jsx";
+import LineChart from "../Chart/LineChart.jsx";
+import ChartBlock from "../Chart/ChartBlock.jsx";
 
 const AccountWalletView = () => {
     const dispatch = useDispatch();
@@ -42,6 +44,7 @@ const AccountWalletView = () => {
                 </div>
             </div>
             <AccountBalance value={value} currency={currency}/>
+            <ChartBlock/>
         </div>
     );
 };

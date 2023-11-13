@@ -13,8 +13,8 @@
   display: flex;
   gap: 5rem;
   border-radius: 2rem;
-  background: #F7F7F8;
-  box-shadow: 0 20px 30px rgba(50, 49, 66, 0.2);
+  background: var(--bg-accent);
+  box-shadow: var(--shadow);
 }
 
 
@@ -22,7 +22,7 @@
   width: 10rem;
   align-self: center;
 
-  background: #34C759;
+  background: var(--primary-green);
   color: #F7F7F8;
   font-family: Roboto;
   font-size: 0.9375rem;
@@ -32,12 +32,12 @@
   border-radius: 2rem;
   padding: 10px;
   transition: 0.3s;
-  border: 1px solid #34C759;
+  border: 1px solid var(--primary-green);
   cursor: pointer;
 
   &:hover{
     background: #F7F7F8;
-    color: #34C759;
+    color: var(--primary-green);
   }
 }
 
@@ -45,11 +45,12 @@
   width: 240px;
   border: none;
   height: 2.25rem;
+  color: var(--primary-color);
   padding-left: 12px;
   font-family: Roboto;
 
   border-radius: 1rem;
-  background: #EFEFF4;
+  background: var(--secondary-color);
 }
 
 .utility_title{
@@ -57,7 +58,7 @@
   flex-direction: column;
   justify-content: center;
 
-  color: #04071E;
+  color: var(--primary-color);
   text-align: center;
   font-family: Roboto;
   font-size: 1.25rem;
@@ -67,7 +68,7 @@
 }
 
 .utility_label{
-  color: #04071E;
+  color: var(--primary-color);
   font-size: 0.8125rem;
   font-style: normal;
   font-weight: 500;
@@ -75,7 +76,7 @@
 }
 .utility_required_label{
   position: relative;
-  color: #04071E;
+  color: var(--primary-color);
   font-size: 0.8125rem;
   font-style: normal;
   font-weight: 500;
@@ -114,7 +115,7 @@
     text-align: center;
     cursor: pointer;
 
-    color: #04071E;
+    color: var(--primary-color);
     font-family: Roboto;
     font-size: 1rem;
     font-style: normal;
@@ -134,7 +135,7 @@
     cursor: pointer;
 
     color: white;
-    background-color: #34C759;
+    background-color: var(--primary-green);
     font-family: Roboto;
     font-size: 1rem;
     font-style: normal;

@@ -31,7 +31,7 @@ function App() {
 
   return (
 
-    <div className={`app ${userTheme}`}>
+    <div className={`app ${userTheme || 'light'}`}>
         {/*<h1>{isAuth ?  'Authorized' : 'Unauthorized'}</h1>*/}
         <Suspense fallback={<div>Loading...</div>}>
             <MainLayout/>
