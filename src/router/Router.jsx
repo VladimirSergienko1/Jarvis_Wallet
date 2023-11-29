@@ -52,12 +52,17 @@ import AccountModal from "../components/Account/AccountModal.jsx";
 const routes = createBrowserRouter([
     {
         path: '/',
+        element: <Navigate to="/main/login" replace />,
+        errorElement: <Error403/>
+    },
+    {
+        path: '/main',
         element: <App/>,
         errorElement: <Error403/>,
         children: [
             {
                 index: true,
-                element: <Navigate to="/login" replace />,
+                element: <Navigate to="/main/login" replace />,
                 errorElement: <Error403/>
             },
             {
@@ -116,14 +121,7 @@ const routes = createBrowserRouter([
             }
         ]
     },
-    {
-        path: '/login',
-        element: <LoginPage />,
-    },
-    {
-        path: '/register',
-        element: <RegistrationPage />,
-    }
+
 ], { basename: '/' });
 
 

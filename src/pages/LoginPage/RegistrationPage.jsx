@@ -213,7 +213,7 @@ const RegistrationPage = () =>{
                         />
 
                         <div className={styles.reg_footer}>
-                            <Link to={'/login'}>
+                            <Link to={'/main/login'}>
                              <div className={styles.reg_back}>
                                  <img  src={backBtn} alt={'back_button'}/>
                              </div>

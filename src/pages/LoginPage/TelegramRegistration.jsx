@@ -82,7 +82,7 @@ const TelegramRegistration = () =>{
                         </div>
 
                         <div className={styles.telegram_footer}>
-                            <Link to={'/registration'}>
+                            <Link to={'/main/registration'}>
                                 <div className={styles.telegram_back}>
                                     <img  src={backBtn} alt={'back_button'}/>
                                 </div>

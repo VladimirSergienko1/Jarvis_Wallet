@@ -121,8 +121,8 @@ const LoginPage = () =>{
                         <a><img className={styles.sign_in_img} src={MicrosoftSignIn}/></a>
                     </div>
                     <div className={styles.sign_in_footer}>
-                        <Link to={'/registration'}><p className={styles.sign_in_account}>Create account</p></Link>
-                        <Link to={'/recovery'}><p className={styles.sign_in_account}>Forgot password?</p></Link>
+                        <Link to={'/main/registration'}><p className={styles.sign_in_account}>Create account</p></Link>
+                        <Link to={'/main/recovery'}><p className={styles.sign_in_account}>Forgot password?</p></Link>
 
                     </div>
 
