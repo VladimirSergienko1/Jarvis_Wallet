@@ -12,7 +12,7 @@ const Account = ({name, id, ico_id}) => {
 
     const { accountId } = useParams();
     const handleAccountClick = () => {
-        navigate(`/wallet/account/${id}`);
+        navigate(`/main/account/${id}`);
     };
 
     return (

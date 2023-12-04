@@ -52,7 +52,7 @@ import AccountModal from "../components/Account/AccountModal.jsx";
 const routes = createBrowserRouter([
     {
         path: '/',
-        element: <Navigate to="/main/login" replace />,
+        element: <Navigate to="/main/login" replace />, //FIXME
         errorElement: <Error403/>
     },
     {
@@ -62,7 +62,11 @@ const routes = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to="/main/login" replace />,
+                element: (
+                    <PrivateRoute>
+                        <Wallet/>
+                    </PrivateRoute>
+                ),
                 errorElement: <Error403/>
             },
             {
@@ -91,24 +95,14 @@ const routes = createBrowserRouter([
                 errorElement: <Error403/>
             },
             {
-                path: 'wallet',
-                element: (
-                    <PrivateRoute>
-                        <Wallet/>
-                    </PrivateRoute>
-                ),
-                children: [
-                    {
-                        path: 'account/:accountId',
-                        element: <AccountWalletView />,
-                        errorElement: <Error403/>
-                    },
-                    {
-                        path: 'account/create',
-                        element: <AccountModal />,
-                        errorElement: <Error403/>
-                    }
-                ]
+                path: 'account/:accountId',
+                element: <Wallet />, //FIXME
+                errorElement: <Error403/>
+            },
+            {
+                path: 'account/create',
+                element: <Wallet />,  //FIXME
+                errorElement: <Error403/>
             },
             {
                 path: 'profile',
@@ -121,7 +115,6 @@ const routes = createBrowserRouter([
             }
         ]
     },
-
 ], { basename: '/' });
 
 

@@ -7,7 +7,7 @@ const PrivateRoute = () => {
     const isAuth = !!Cookies.get('access_token');
 
     if (!isAuth) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/main/login" replace />;
     }
 
     return <Wallet />;

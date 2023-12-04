@@ -49,7 +49,7 @@ const Wallet = () =>{
 
     useEffect(() => {
         const currentPath = location.pathname;
-        if (currentPath === '/wallet/account/create') {
+        if (currentPath === '/main/account/create') {
             setAccountModalVisible(true);
             setIsOverlayVisible(true);
         }
@@ -85,8 +85,7 @@ const Wallet = () =>{
                     width="96"
                     visible={true}
                 /></div>
-                ) : location.pathname === '/wallet' ? <InitialWalletView/> : <AccountWalletView/>}
-
+                ) : location.pathname === '/main' ? <InitialWalletView/> : <AccountWalletView/>}
         </div>
         </>
     )

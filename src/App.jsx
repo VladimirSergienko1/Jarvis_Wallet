@@ -22,7 +22,7 @@ function App() {
         dispatch(checkAuth()).then((action) => {
             if (action.type === 'user/checkAuth/fulfilled') {
                 if (location.pathname === '/login'){
-                    navigate('/wallet');
+                    navigate('/main');
                 }
             }
         });

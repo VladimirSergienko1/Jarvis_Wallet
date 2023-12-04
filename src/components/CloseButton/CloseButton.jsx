@@ -9,7 +9,7 @@ const CloseButton = () => {
 
     let navigate = useNavigate()
     const goBack = ()=>{
-        navigate('/wallet')
+        navigate('/main')
     }
     return (
             <div className={styles.menuBurger} onClick={goBack}>
