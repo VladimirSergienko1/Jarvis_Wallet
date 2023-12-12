@@ -59,7 +59,7 @@ const Wallet = () =>{
 
     return(
         <>
-        <div className={styles.wallet_page}>
+        <div className={styles.wallet_page}> {/*FIXME Убрать/дл styles.wallet_page из mainLayout*/}
             <div className={styles.wallet__container} style={{overflowY:'auto'}}>
                 <div className={styles.container_header}>
                     <h2 className={styles.header_title}>Accounts</h2>

@@ -61,15 +61,6 @@ const routes = createBrowserRouter([
         errorElement: <Error403/>,
         children: [
             {
-                index: true,
-                element: (
-                    <PrivateRoute>
-                        <Wallet/>
-                    </PrivateRoute>
-                ),
-                errorElement: <Error403/>
-            },
-            {
                 path: 'login',
                 element: <LoginPage />,
                 errorElement: <Error403/>
@@ -95,15 +86,26 @@ const routes = createBrowserRouter([
                 errorElement: <Error403/>
             },
             {
-                path: 'account/:accountId',
-                element: <Wallet />, //FIXME
-                errorElement: <Error403/>
+                path: '/main',
+                element: (
+                    <PrivateRoute>
+                        <Wallet/>
+                    </PrivateRoute>
+                ),
+                children: [
+                    {
+                        path: 'account/:accountId',
+                        element: <AccountWalletView />,
+                        errorElement: <Error403/>
+                    },
+                    {
+                        path: 'account/create',
+                        element: <AccountModal />,
+                        errorElement: <Error403/>
+                    }
+                ]
             },
-            {
-                path: 'account/create',
-                element: <Wallet />,  //FIXME
-                errorElement: <Error403/>
-            },
+
             {
                 path: 'profile',
                 element: <Profile />,
@@ -113,6 +115,32 @@ const routes = createBrowserRouter([
                 path: "*",
                 element: <Error404/>,
             }
+        ]
+    },
+    {
+        path: 'accounting', //FIXME
+        element: <App/>,
+        errorElement: <Error403/>,
+        children: [
+            {
+                index: true,
+                element: (
+                    <PrivateRoute>
+                        <Wallet/>
+                    </PrivateRoute>
+                ),
+                errorElement: <Error403/>
+            },
+            {
+                path: 'income',
+                element: <Wallet />, //FIXME
+                errorElement: <Error403/>
+            },
+            {
+                path: 'expenses',
+                element: <Wallet />, //FIXME
+                errorElement: <Error403/>
+            },
         ]
     },
 ], { basename: '/' });

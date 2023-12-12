@@ -10,7 +10,7 @@ import CloseButton from "../CloseButton/CloseButton.jsx";
 import LineChart from "../Chart/LineChart.jsx";
 import ChartBlock from "../Chart/ChartBlock.jsx";
 
-const AccountWalletView = () => {
+const   AccountWalletView = () => {
     const dispatch = useDispatch();
     const { accountId } = useParams();
 

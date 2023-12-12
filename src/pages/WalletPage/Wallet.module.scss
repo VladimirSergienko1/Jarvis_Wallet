@@ -147,14 +147,60 @@
           border-radius: 2rem;
           padding: 0.4em;
           transition: 0.3s ease-in-out;
+        }
+      }
+    }
 
+    .categoryCardContainer{
+      display:flex;
+      justify-content: center;
+      gap: 3.5rem;
+      row-gap: 2rem;
+      padding-top: 3rem;
+      flex-wrap: wrap;
 
+    }
+    .categoryCard{
+      @extend .utility_login_container;
+      width: 26.3rem;
+      padding: 1rem 1.5rem 1rem 2.5rem;
+      justify-content: space-between;
+      gap: 0;
 
+      .cardDesc{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .descCategory{
+          color: #7D7D8C;
+          font-family: Roboto;
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+        }
+        .descTitle{
+          color: var(--primary-color);
+          font-family: Roboto;
+          font-size: 2rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
         }
       }
 
-    }
+      /* .cardImageContainer{
+         display: flex;
+         justify-content: flex-end;
+       }*/
 
+      .cardImage{
+        display: flex;
+        height: 110px;
+        width: 110px;
+      }
+    }
   }
 }
 

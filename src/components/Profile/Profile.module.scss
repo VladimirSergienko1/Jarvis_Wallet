@@ -45,9 +45,9 @@
       .profile__list_item{
         @extend .utility_container_item;
         @extend .utility_container_item_selected;
-        color: black;
+        color: var(--primary-color);
         padding: 0.6rem;
-        background-color: #F0F0F6;
+        background-color: var(--secondary-color);
 
       }
       .profile__list_item_selected{
