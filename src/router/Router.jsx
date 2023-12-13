@@ -12,6 +12,8 @@ import PrivateRoute from "./AuthRoute.jsx";
 import Profile from "../components/Profile/Profile.jsx";
 import AccountWalletView from "../components/Account/AccountWalletView.jsx";
 import AccountModal from "../components/Account/AccountModal.jsx";
+import IncomePage from "../pages/Accounting/IncomePage.jsx";
+import ExpensesPage from "../pages/Accounting/ExpensesPage.jsx";
 
 
 /*const routes = createBrowserRouter([
@@ -95,17 +97,16 @@ const routes = createBrowserRouter([
                 children: [
                     {
                         path: 'account/:accountId',
-                        element: <AccountWalletView />,
+                       /* element: <AccountWalletView />,*/ //FIXME
                         errorElement: <Error403/>
                     },
                     {
                         path: 'account/create',
-                        element: <AccountModal />,
+                        /*element: <AccountModal />,*/ //FIXME
                         errorElement: <Error403/>
                     }
                 ]
             },
-
             {
                 path: 'profile',
                 element: <Profile />,
@@ -118,31 +119,34 @@ const routes = createBrowserRouter([
         ]
     },
     {
-        path: 'accounting', //FIXME
+        path: '/accounting', //FIXME
         element: <App/>,
         errorElement: <Error403/>,
         children: [
             {
-                index: true,
+                path: '/accounting',
                 element: (
                     <PrivateRoute>
                         <Wallet/>
                     </PrivateRoute>
                 ),
-                errorElement: <Error403/>
-            },
-            {
-                path: 'income',
-                element: <Wallet />, //FIXME
-                errorElement: <Error403/>
-            },
-            {
-                path: 'expenses',
-                element: <Wallet />, //FIXME
-                errorElement: <Error403/>
+                children: [
+                    {
+                        path: 'income',
+                        /*element: <IncomePage />,*/ //FIXME
+                        errorElement: <Error403/>
+                    },
+                    {
+                        path: 'expenses',
+                       /* element: <AccountModal />,*/ //FIXME
+                        errorElement: <Error403/>
+                    }
+                ]
             },
         ]
     },
+
+
 ], { basename: '/' });
 
 

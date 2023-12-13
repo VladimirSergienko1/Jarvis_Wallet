@@ -73,7 +73,7 @@ const RegistrationPage = () =>{
 
             const { rePassword, ...submissionValues } = values;
             try {
-                dispatch(setRegistrationData(submissionValues ));
+                dispatch(setRegistrationData(submissionValues));
                 const currentRegistrationData = store.getState().login.registrationData;
                 navigate('/telegram')
                 console.log('Store',currentRegistrationData);

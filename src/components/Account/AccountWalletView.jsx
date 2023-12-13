@@ -39,7 +39,7 @@ const   AccountWalletView = () => {
                     <h3 className={styles.account__nav_header_subtitle}>{accountData?.name || 'No data'}</h3>
                 </div>
                 <div style={{display:'flex',alignItems:'center', gap: '1rem'}}>
-                    <EditButton/>
+                    <EditButton title={'Edit'}/>
                     <CloseButton />
                 </div>
             </div>

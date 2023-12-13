@@ -5,9 +5,10 @@ import AccountIcons from "../AccountIcons/AccountIcons.jsx";
 import button_help from "../../assets/Account/button_help.svg"
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {createAccount} from "../../features/user/userSlice.js";
 import CloseButton from "../CloseButton/CloseButton.jsx";
+import {setOverAndAccModal} from "../../features/ui/uiSlice.js";
 
 
 const validationSchema = Yup.object({
@@ -30,8 +31,10 @@ const validationSchema = Yup.object({
         .required('Start balance is required'),
 
 });
-const AccountModal = ({accountModalVisible, isOverlayVisible, handleOverlay})=>{
+const AccountModal = ({})=>{
     const dispatch = useDispatch()
+    const accountModalIsVisible = useSelector((state) => state.ui.accountModalIsVisible)
+    const overlayIsVisible = useSelector((state) => state.ui.overlayIsVisible)
     const options = [
         { value: 'USD', label: 'USD' },
         { value: 'EUR', label: 'EUR' },
@@ -72,8 +75,8 @@ const AccountModal = ({accountModalVisible, isOverlayVisible, handleOverlay})=>{
 
 return(
     <>
-        {isOverlayVisible && <div className={styles.overlay} onClick={handleOverlay}></div>}
-        {accountModalVisible &&
+        {overlayIsVisible && <div className={styles.overlay} onClick={()=>dispatch(setOverAndAccModal(false,false))}></div>}
+        {accountModalIsVisible &&
             <div className={styles.account__container}>
             <div className={styles.account__header}>
                 <h2 className={styles.account_header_title}>Add new account</h2>

@@ -7,17 +7,21 @@ import AccountModal from "../../components/Account/AccountModal.jsx";
 import acc_img from '../../assets/Account/acc_img.svg'
 import rightArrow from '../../assets/Account/rightArrow.svg'
 import {checkAuth, getAccountList} from "../../features/user/userSlice.js";
+import {setAccountModalVisible, setOverlayVisible} from "../../features/ui/uiSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import AccountList from "../../components/Account/AccountList.jsx";
 import InitialWalletView from "../../components/Wallet/InitialWalletView.jsx";
 import AccountWalletView from "../../components/Account/AccountWalletView.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {RotatingLines} from "react-loader-spinner";
+import IncomePage from "../Accounting/IncomePage.jsx";
+import ExpensesPage from "../Accounting/ExpensesPage.jsx";
 
 const Wallet = () =>{
     const dispatch = useDispatch();
     const isLoading = useSelector((state) => state.user.accountsLoading);
     const accounts = useSelector((state) => state.user.userAccounts);
+    const accountModalVisible = useSelector((state) => state.ui.accountModalIsVisible)
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -34,26 +38,37 @@ const Wallet = () =>{
         dispatch(getAccountList())
     }, []);
 
-    const [accountModalVisible, setAccountModalVisible] = useState(false)
-    const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+    //const [isOverlayVisible, setIsOverlayVisible] = useState(false);
 
     const openAccModal = ()=>{
-        setAccountModalVisible(!accountModalVisible)
-        setIsOverlayVisible(true)
+        dispatch(setAccountModalVisible(!accountModalVisible))
+        dispatch(setOverlayVisible(true))
     }
 
     const handleOverlay = () =>{
-        setAccountModalVisible(false)
-        setIsOverlayVisible(false)
+        dispatch(setAccountModalVisible(false))
+        dispatch(setOverlayVisible(false))
     }
 
     useEffect(() => {
         const currentPath = location.pathname;
         if (currentPath === '/main/account/create') {
-            setAccountModalVisible(true);
-            setIsOverlayVisible(true);
+            dispatch(setAccountModalVisible(true))
+            dispatch(setOverlayVisible(true))
         }
     }, [location]);
+
+    const contentView = () => {
+        const path = {
+            '/main': <InitialWalletView />,
+            '/accounting/income': <IncomePage />,
+            '/accounting/expenses': <ExpensesPage />,
+            // Добавьте другие пути и компоненты здесь
+        };
+
+        return path[location.pathname] || <AccountWalletView />;
+    };
+
 
 
 
@@ -64,7 +79,7 @@ const Wallet = () =>{
                 <div className={styles.container_header}>
                     <h2 className={styles.header_title}>Accounts</h2>
                     <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}} alt={'plusIcon'}/>
-                    <AccountModal accountModalVisible={accountModalVisible} isOverlayVisible={isOverlayVisible} handleOverlay={handleOverlay} />
+                    <AccountModal handleOverlay={handleOverlay} />
                 </div>
                 <div className={styles.container_body}>
                     <input className={styles.body_input}/>
@@ -77,15 +92,17 @@ const Wallet = () =>{
                         }
                 </div>
             </div>
-            {isLoading ?  (<div style={{display:'flex', justifyContent:'center',alignItems:'center', width:'inherit'}}>
+            {isLoading ? (
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: 'inherit'}}>
                     <RotatingLines
-                    strokeColor="grey"
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    width="96"
-                    visible={true}
-                /></div>
-                ) : location.pathname === '/main' ? <InitialWalletView/> : <AccountWalletView/>}
+                        strokeColor="grey"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="96"
+                        visible={true}
+                    />
+                </div>
+            ) : contentView()}
         </div>
         </>
     )
