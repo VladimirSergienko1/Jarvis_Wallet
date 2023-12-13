@@ -7,9 +7,11 @@ const EditButton = ({title}) => {
     const dispatch = useDispatch();
 
     return (
-        <div className={styles.account__edit} /*onClick={()=> dispatch(setOverAndAccModal(true, true))}*/>
+        <div className={styles.account__edit} onClick={()=> dispatch(setOverAndAccModal(true, true))}>
             <span>{title}</span>
+{/*
             <AccountModal />
+*/}
         </div>
     );
 };

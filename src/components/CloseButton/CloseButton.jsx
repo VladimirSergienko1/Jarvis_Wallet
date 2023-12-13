@@ -5,18 +5,22 @@ import menuBackground from "../../assets/WalletsPage/menu-background.svg";
 import Profile from "../Profile/Profile.jsx";
 import {setOverAndAccModal} from "../../features/ui/uiSlice.js";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 const CloseButton = () => {
     const dispatch = useDispatch();
-
+    const accountModalVisible = useSelector((state) => state.ui.accountModalIsVisible)
     let navigate = useNavigate()
-    const goBack = ()=>{
-        dispatch(setOverAndAccModal(false, false))
-        navigate('/main')
+    const close = ()=>{
+        if(accountModalVisible){
+            dispatch(setOverAndAccModal(false, false))
+        }
+        else {
+            navigate('/main')
+        }
     }
     return (
-            <div className={styles.menuBurger} onClick={goBack}>
+            <div className={styles.menuBurger} onClick={close}>
                 <div className={styles.menuBackground}>
                     <img  className={styles.burgerIcon} src={closeImg} alt={'close'}/>
                 </div>

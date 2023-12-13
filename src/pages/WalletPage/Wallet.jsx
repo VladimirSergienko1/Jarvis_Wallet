@@ -7,7 +7,7 @@ import AccountModal from "../../components/Account/AccountModal.jsx";
 import acc_img from '../../assets/Account/acc_img.svg'
 import rightArrow from '../../assets/Account/rightArrow.svg'
 import {checkAuth, getAccountList} from "../../features/user/userSlice.js";
-import {setAccountModalVisible, setOverlayVisible} from "../../features/ui/uiSlice.js";
+import {setAccountModalVisible, setOverAndAccModal, setOverlayVisible} from "../../features/ui/uiSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import AccountList from "../../components/Account/AccountList.jsx";
 import InitialWalletView from "../../components/Wallet/InitialWalletView.jsx";
@@ -22,6 +22,7 @@ const Wallet = () =>{
     const isLoading = useSelector((state) => state.user.accountsLoading);
     const accounts = useSelector((state) => state.user.userAccounts);
     const accountModalVisible = useSelector((state) => state.ui.accountModalIsVisible)
+    const overlayIsVisible = useSelector((state) => state.ui.overlayIsVisible)
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -38,23 +39,16 @@ const Wallet = () =>{
         dispatch(getAccountList())
     }, []);
 
-    //const [isOverlayVisible, setIsOverlayVisible] = useState(false);
 
     const openAccModal = ()=>{
         dispatch(setAccountModalVisible(!accountModalVisible))
-        dispatch(setOverlayVisible(true))
-    }
-
-    const handleOverlay = () =>{
-        dispatch(setAccountModalVisible(false))
-        dispatch(setOverlayVisible(false))
+        dispatch(setOverlayVisible(!overlayIsVisible))
     }
 
     useEffect(() => {
         const currentPath = location.pathname;
         if (currentPath === '/main/account/create') {
-            dispatch(setAccountModalVisible(true))
-            dispatch(setOverlayVisible(true))
+            dispatch(setOverAndAccModal(true, true))
         }
     }, [location]);
 
@@ -69,9 +63,6 @@ const Wallet = () =>{
         return path[location.pathname] || <AccountWalletView />;
     };
 
-
-
-
     return(
         <>
         <div className={styles.wallet_page}>
@@ -79,7 +70,7 @@ const Wallet = () =>{
                 <div className={styles.container_header}>
                     <h2 className={styles.header_title}>Accounts</h2>
                     <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}} alt={'plusIcon'}/>
-                    <AccountModal handleOverlay={handleOverlay} />
+                    <AccountModal  />
                 </div>
                 <div className={styles.container_body}>
                     <input className={styles.body_input}/>
