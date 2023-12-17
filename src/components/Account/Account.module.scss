@@ -107,28 +107,22 @@
       }
     }
 
-    .reg_button{
-      @extend .utility_btn;
-      align-self: flex-end;
-      margin-top: auto
-    }
-
     .reg_footer{
       display: flex;
-      gap: 0.88rem;
-      margin-top: 3.12rem;
+      margin-top: auto;
       justify-content: space-between;
-      .footer_back{
+      .reg_button{
+        @extend .utility_btn;
+        margin-left: auto;
+      }
+      .del_button{
         @extend .utility_btn;
         color: #F7F7F8;
-        background-color: #7D7D8C;
-        border: 1px solid #7D7D8C;
+        background-color: #FF3B30;
+        border: 1px solid #FF3B30;
         &:hover{
-          color: #7D7D8C;
+          color: #FF3B30;
         }
-      }
-      .footer_button_save{
-        @extend .utility_btn;
       }
     }
   }

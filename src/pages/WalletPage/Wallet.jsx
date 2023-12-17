@@ -70,7 +70,7 @@ const Wallet = () =>{
                 <div className={styles.container_header}>
                     <h2 className={styles.header_title}>Accounts</h2>
                     <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}} alt={'plusIcon'}/>
-                    <AccountModal  />
+                    <AccountModal/>
                 </div>
                 <div className={styles.container_body}>
                     <input className={styles.body_input}/>

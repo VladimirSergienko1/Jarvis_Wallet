@@ -20,6 +20,7 @@ const   AccountWalletView = () => {
     const accountData = useSelector((state) =>
         state.user.userAccounts.find(account=> account.id.toString() === accountId)
     );
+    console.log('accountData',accountData)
 
     const { value = null, currency = null } = accountData || {};
 

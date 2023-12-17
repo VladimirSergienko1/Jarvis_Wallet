@@ -1,5 +1,5 @@
 import styles from "../Account/Account.module.scss";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import CustomSelect from "../../pages/LoginPage/CustomSelect.jsx";
 import AccountIcons from "../AccountIcons/AccountIcons.jsx";
 import button_help from "../../assets/Account/button_help.svg"
@@ -8,7 +8,7 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {createAccount} from "../../features/user/userSlice.js";
 import CloseButton from "../CloseButton/CloseButton.jsx";
-import {setOverAndAccModal} from "../../features/ui/uiSlice.js";
+import {setAccountModalDataForEditing, setOverAndAccModal} from "../../features/ui/uiSlice.js";
 
 
 const validationSchema = Yup.object({
@@ -35,6 +35,8 @@ const AccountModal = ({})=>{
     const dispatch = useDispatch()
     const accountModalIsVisible = useSelector((state) => state.ui.accountModalIsVisible)
     const overlayIsVisible = useSelector((state) => state.ui.overlayIsVisible)
+    const accountModalDataForEditing = useSelector((state) => state.ui.accountModalDataForEditing);
+    console.log('accountModalDataForEditing',accountModalDataForEditing)
     const options = [
         { value: 'USD', label: 'USD' },
         { value: 'EUR', label: 'EUR' },
@@ -53,11 +55,16 @@ const AccountModal = ({})=>{
         formik.setFieldValue('currency', option.value);
     };
 
+    const handleOverlayClick = () =>{
+        dispatch(setOverAndAccModal(false,false))
+        dispatch(setAccountModalDataForEditing(null))
+    }
+
     const formik = useFormik({
         initialValues: {
-            name:   '',
-            comment:  '',
-            value:  '',
+            name: '',
+            comment: '',
+            value: '',
             currency: selectedOption.value,
             ico_id: activeIndex
         },
@@ -72,14 +79,25 @@ const AccountModal = ({})=>{
             }
         },
     });
+    useEffect(() => {
+        formik.resetForm({
+            values: {
+                name: accountModalDataForEditing?.name || '',
+                comment: accountModalDataForEditing?.comment || '',
+                value: accountModalDataForEditing?.value || '',
+                currency: selectedOption.value,
+                ico_id: activeIndex
+            }
+        });
+    }, [accountModalDataForEditing]);
 
 return(
     <>
-        {overlayIsVisible && <div className={styles.overlay} onClick={()=>dispatch(setOverAndAccModal(false,false))}></div>}
+        {overlayIsVisible && <div className={styles.overlay} onClick={handleOverlayClick}></div>}
         {accountModalIsVisible &&
             <div className={styles.account__container}>
             <div className={styles.account__header}>
-                <h2 className={styles.account_header_title}>Add new account</h2>
+                <h2 className={styles.account_header_title}>{accountModalDataForEditing ? 'Edit account' : 'Add new account'}</h2>
                 <img className={styles.help_button} src={button_help}/>
             </div>
             <form className={styles.block_form} onSubmit={formik.handleSubmit}>
@@ -102,7 +120,7 @@ return(
                     <div className={styles.input_container}>
                         <label htmlFor={'balance_input'} className={styles.reg_label_required}>Start balance</label>
                         <input
-                            id="balancel_input"
+                            id="balance_input"
                             name="value"
                             type="number"
                             onChange={formik.handleChange}
@@ -139,10 +157,13 @@ return(
                             options={options}
                             width={'280px'}
                         />
-                        </div>
-                     </div>
+                    </div>
+                </div>
                 <AccountIcons activeIndex={activeIndex} handleGridItemClick={handleGridItemClick}/>
+                <div className={styles.reg_footer}>
+                    {accountModalDataForEditing &&  <button className={styles.del_button} type={"submit"}>Delete</button>}
                     <button className={styles.reg_button} type={"submit"}>Continue</button>
+                </div>
             </form>
         </div>}
     </>

@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const initialState ={
     accountModalIsVisible: false,
+    accountModalDataForEditing: null,
     overlayIsVisible: false,
     error: null,
     isLoading: false,
@@ -21,6 +22,9 @@ const uiSlice = createSlice({
             state.overlayIsVisible = action.payload;
             state.accountModalIsVisible = action.payload;
         },
+        setAccountModalDataForEditing: (state,action) => {
+            state.accountModalDataForEditing = action.payload
+        }
 
     },
     extraReducers: (builder) => {
@@ -33,5 +37,5 @@ const uiSlice = createSlice({
 })
 
 console.log('uiSlice',uiSlice)
-export const {setAccountModalVisible,setOverlayVisible, setOverAndAccModal} = uiSlice.actions
+export const {setAccountModalVisible,setOverlayVisible, setOverAndAccModal, setAccountModalDataForEditing} = uiSlice.actions
 export default uiSlice.reducer

@@ -3,7 +3,7 @@ import styles from "./CloseButton.module.scss";
 import closeImg from "../../assets/Account/close.svg";
 import menuBackground from "../../assets/WalletsPage/menu-background.svg";
 import Profile from "../Profile/Profile.jsx";
-import {setOverAndAccModal} from "../../features/ui/uiSlice.js";
+import {setAccountModalDataForEditing, setOverAndAccModal} from "../../features/ui/uiSlice.js";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -14,6 +14,7 @@ const CloseButton = () => {
     const close = ()=>{
         if(accountModalVisible){
             dispatch(setOverAndAccModal(false, false))
+            dispatch(setAccountModalDataForEditing(null))
         }
         else {
             navigate('/main')
