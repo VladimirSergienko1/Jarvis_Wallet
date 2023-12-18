@@ -43,7 +43,7 @@ import Select from 'react-select';
                 defaultValue={props.defaultValue}
                 onChange={props.onChange}
                 options={props.options}
-                placeholder='All'
+                placeholder={props.placeholder}
             />
         </div>
     );

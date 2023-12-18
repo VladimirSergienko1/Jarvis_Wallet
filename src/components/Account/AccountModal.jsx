@@ -8,7 +8,7 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {createAccount, deleteAccount, editAccount} from "../../features/user/userSlice.js";
 import CloseButton from "../CloseButton/CloseButton.jsx";
-import {setAccountModalDataForEditing, setOverAndAccModal} from "../../features/ui/uiSlice.js";
+import {setAccountModalDataForEditing, setOverAndAccModal, setOverAndIncomeModal} from "../../features/ui/uiSlice.js";
 import {useParams} from "react-router-dom";
 
 
@@ -32,7 +32,7 @@ const validationSchema = Yup.object({
         .required('Start balance is required'),
 
 });
-const AccountModal = ({})=>{
+const AccountModal = ()=>{
     const dispatch = useDispatch()
     const accountModalIsVisible = useSelector((state) => state.ui.accountModalIsVisible)
     const overlayIsVisible = useSelector((state) => state.ui.overlayIsVisible)
@@ -68,6 +68,7 @@ const AccountModal = ({})=>{
     const handleOverlayClick = () =>{
         setDeletionMode(false)
         dispatch(setOverAndAccModal(false,false))
+        dispatch(setOverAndIncomeModal(false,false))
         dispatch(setAccountModalDataForEditing(null))
     }
 
