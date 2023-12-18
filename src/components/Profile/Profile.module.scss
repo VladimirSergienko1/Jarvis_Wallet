@@ -286,13 +286,12 @@
         }
         .history_row{
           display: flex;
-          justify-content: space-between;
-          width: 29.5rem;
+          justify-content: space-around;
+          width: 36.24356rem;
           margin-bottom: 0.2rem;
 
           .row_label{
             @extend .utility_label;
-            padding-left: 1.7rem;
           }
         }
         .history_list{

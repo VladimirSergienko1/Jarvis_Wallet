@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
-import styles from "../../components/Account/Account.module.scss";
-import styles1 from "../../pages/Accounting/Accounting.scss";
+import styles from "./Accounting.module.scss";
 import EditButton from "../../components/Account/EditButton.jsx";
 import CloseButton from "../../components/CloseButton/CloseButton.jsx";
-import AccountBalance from "../../components/Account/AccountBalance.jsx";
-import ChartBlock from "../../components/Chart/ChartBlock.jsx";
+import AccountingList from "./AccountingList.jsx";
 
 const IncomePage = () => {
     const [selectedItem, setSelectedItem] = useState(0);
     const handleSelect = (index)=>{
         setSelectedItem(index)
     }
+
 
     return (
         <div className={styles.account__view_nav_container}>
@@ -23,14 +22,15 @@ const IncomePage = () => {
                     <CloseButton />
                 </div>
             </div>
-            <div className={styles1.nav_container_body}>
-                <ul className={styles1.nav_container_list}>
-                    <li className={selectedItem===0 ? styles1.nav_container_item_selected : styles1.nav_container_item}
+            <div className={styles.nav_container_body}>
+                <ul className={styles.nav_container_list}>
+                    <li className={selectedItem===0 ? styles.nav_container_item_selected : styles.nav_container_item}
                         onClick={()=>handleSelect(0)}>List</li>
-                    <li className={selectedItem===1 ? styles1.nav_container_item_selected : styles1.nav_container_item}
+                    <li className={selectedItem===1 ? styles.nav_container_item_selected : styles.nav_container_item}
                         onClick={()=>handleSelect(1)}>Sources</li>
                 </ul>
             </div>
+            <AccountingList/>
         </div>
     );
 };

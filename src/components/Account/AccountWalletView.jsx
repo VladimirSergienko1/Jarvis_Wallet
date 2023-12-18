@@ -14,6 +14,8 @@ const   AccountWalletView = () => {
     const dispatch = useDispatch();
     const { accountId } = useParams();
 
+    const userTheme = useSelector((state)=> state.user.userData?.style)
+    
    /* const isLoading = useSelector((state) => state.user.isLoading);
     const error = useSelector((state) => state.user.error);*/
 

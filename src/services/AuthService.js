@@ -23,6 +23,13 @@ class AuthService {
         return $apiAccounts.post('/create', {name, comment, currency, value, ico_id})
     }
 
+    static async editAccount(account_id, name, comment, currency, value,ico_id  = 0){
+        return $apiAccounts.put(`/update/${account_id}`, {name, comment, currency, value, ico_id})
+    }
+    static async deleteAccount(account_id){
+        return $apiAccounts.delete(`/delete/${account_id}`)
+    }
+
     static async getAccountList (){
         return $apiAccounts.get('/list')
 

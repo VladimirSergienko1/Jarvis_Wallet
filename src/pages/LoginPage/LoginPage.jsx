@@ -9,8 +9,6 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
-import axios from "axios";
-import Cookies from 'js-cookie';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../../features/login/loginSlice.js";

@@ -6,9 +6,10 @@ import button_help from "../../assets/Account/button_help.svg"
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {createAccount} from "../../features/user/userSlice.js";
+import {createAccount, deleteAccount, editAccount} from "../../features/user/userSlice.js";
 import CloseButton from "../CloseButton/CloseButton.jsx";
 import {setAccountModalDataForEditing, setOverAndAccModal} from "../../features/ui/uiSlice.js";
+import {useParams} from "react-router-dom";
 
 
 const validationSchema = Yup.object({
@@ -35,8 +36,11 @@ const AccountModal = ({})=>{
     const dispatch = useDispatch()
     const accountModalIsVisible = useSelector((state) => state.ui.accountModalIsVisible)
     const overlayIsVisible = useSelector((state) => state.ui.overlayIsVisible)
+    const [isDeletionMode, setDeletionMode] = useState(false);
     const accountModalDataForEditing = useSelector((state) => state.ui.accountModalDataForEditing);
-    console.log('accountModalDataForEditing',accountModalDataForEditing)
+    //console.log('accountModalDataForEditing',accountModalDataForEditing)
+    const { accountId } = useParams();
+
     const options = [
         { value: 'USD', label: 'USD' },
         { value: 'EUR', label: 'EUR' },
@@ -55,7 +59,14 @@ const AccountModal = ({})=>{
         formik.setFieldValue('currency', option.value);
     };
 
+    const handleDeleteAccount = (accountId)=>{
+        console.log('accountId',accountId)
+        dispatch(deleteAccount((accountId)))
+        dispatch(setOverAndAccModal(false,false))
+    }
+
     const handleOverlayClick = () =>{
+        setDeletionMode(false)
         dispatch(setOverAndAccModal(false,false))
         dispatch(setAccountModalDataForEditing(null))
     }
@@ -70,13 +81,30 @@ const AccountModal = ({})=>{
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            console.log(values);
-            const accountData = {...values, ico_id: activeIndex}
-            try {
-                dispatch(createAccount(accountData));
-            } catch (error) {
-                console.error("Ошибка в создании кошелька:", error);
+            if (!accountModalDataForEditing){
+                console.log(values);
+                const accountData = {...values, ico_id: activeIndex}
+                try {
+                    dispatch(createAccount(accountData));
+                } catch (error) {
+                    console.error("Ошибка в создании кошелька:", error);
+                }
             }
+            else {
+                try {
+                    const accountData = {
+                        account_id: accountModalDataForEditing.id,
+                        ...values,
+                        ico_id: activeIndex
+                    };
+                    dispatch(editAccount(accountData));
+                } catch (error) {
+                    console.error("Ошибка при редактировании аккаунта:", error);
+                }
+                console.log('accountModalDataForEditing', values);
+            }
+
+
         },
     });
     useEffect(() => {
@@ -85,7 +113,7 @@ const AccountModal = ({})=>{
                 name: accountModalDataForEditing?.name || '',
                 comment: accountModalDataForEditing?.comment || '',
                 value: accountModalDataForEditing?.value || '',
-                currency: selectedOption.value,
+                currency: selectedOption.value, //FIXME
                 ico_id: activeIndex
             }
         });
@@ -97,10 +125,10 @@ return(
         {accountModalIsVisible &&
             <div className={styles.account__container}>
             <div className={styles.account__header}>
-                <h2 className={styles.account_header_title}>{accountModalDataForEditing ? 'Edit account' : 'Add new account'}</h2>
+                <h2 className={styles.account_header_title}>{isDeletionMode ? 'Confirmation': accountModalDataForEditing ? 'Edit account'  : 'Add new account'}</h2>
                 <img className={styles.help_button} src={button_help}/>
             </div>
-            <form className={styles.block_form} onSubmit={formik.handleSubmit}>
+                {!isDeletionMode && <form className={styles.block_form} onSubmit={formik.handleSubmit}>
                 <div className={styles.input_group}>
                     <div className={styles.input_container}>
                         <label htmlFor={'name_input'} className={styles.reg_label_required}>Name</label>
@@ -161,10 +189,20 @@ return(
                 </div>
                 <AccountIcons activeIndex={activeIndex} handleGridItemClick={handleGridItemClick}/>
                 <div className={styles.reg_footer}>
-                    {accountModalDataForEditing &&  <button className={styles.del_button} type={"submit"}>Delete</button>}
+                    {accountModalDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>setDeletionMode(true)}>Delete</button>}
                     <button className={styles.reg_button} type={"submit"}>Continue</button>
                 </div>
-            </form>
+            </form>}
+
+                {isDeletionMode && <form className={styles.block_form} onSubmit={formik.handleSubmit}>
+                    <div className={styles.block_form_content}>
+                        <p className={styles.content_text}>Confirm the deletion operation</p>
+                    </div>
+                        <div className={styles.reg_footer}>
+                            <button className={styles.cancel_button} type={"submit"} onClick={()=>setDeletionMode(false)}>Back</button>
+                            <button className={styles.del_button} type={"button"} onClick={()=>handleDeleteAccount(accountId)}>Delete</button>
+                        </div>
+                </form>}
         </div>}
     </>
 )

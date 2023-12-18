@@ -15,6 +15,35 @@ export const createAccount = createAsyncThunk(
     }
 )
 
+export const editAccount = createAsyncThunk(
+    'edit/account',
+    async ({account_id, name, comment, currency, value, ico_id}, {getState , dispatch,rejectedWithValue})=>{
+        try {
+            const response = await AuthService.editAccount(account_id, name, comment, currency, value, ico_id)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+
+export const deleteAccount = createAsyncThunk(
+    'delete/account',
+    async (account_id, {dispatch, rejectedWithValue})=>{
+        try {
+            const response = await AuthService.deleteAccount(account_id)
+            dispatch(getAccountList());
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+
 export const checkAuth = createAsyncThunk(
     'user/checkAuth',
     async (_,{rejectedWithValue}) =>{
@@ -120,6 +149,29 @@ const userSlice = createSlice({
                 console.log('userData Slice test',action)
             })
             .addCase(createAccount.rejected, (state, action) => {
+                state.error = action.payload;
+                //state.isLoading = false;
+            })
+            .addCase(editAccount.pending, (state,action)=>{
+                // state.isLoading = true;
+            })
+            .addCase(editAccount.fulfilled, (state, action) => {
+                const index = state.userAccounts.findIndex(account => account.id === action.payload.id);
+                if (index !== -1) {
+                    state.userAccounts[index] = action.payload;
+                }
+            })
+            .addCase(editAccount.rejected, (state, action) => {
+                state.error = action.payload;
+                //state.isLoading = false;
+            })
+            .addCase(deleteAccount.pending, (state,action)=>{
+                // state.isLoading = true;
+            })
+            .addCase(deleteAccount.fulfilled, (state, action, { dispatch }) => {
+
+            })
+            .addCase(deleteAccount.rejected, (state, action) => {
                 state.error = action.payload;
                 //state.isLoading = false;
             })

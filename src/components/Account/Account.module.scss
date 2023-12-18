@@ -54,6 +54,20 @@
       font-weight: 500;
       line-height: normal;
     }
+    .block_form_content{
+      display: flex;
+      justify-content: center;
+      margin-top: auto;
+      .content_text{
+        color: #04071E;
+        text-align: center;
+        font-family: Roboto;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+    }
     .input_group{
       display: flex;
       gap: 2rem;
@@ -122,6 +136,15 @@
         border: 1px solid #FF3B30;
         &:hover{
           color: #FF3B30;
+        }
+      }
+      .cancel_button{
+        @extend .utility_btn;
+        color: #F7F7F8;
+        background-color: #7D7D8C;
+        border: 1px solid #7D7D8C;
+        &:hover{
+          color: #7D7D8C;
         }
       }
     }
@@ -214,7 +237,8 @@
   width: 10rem;
   padding: 0.8rem 0 0.8rem 0;
   border-radius: 2rem;
-  background: #F7F7F8;
+  background: var(--bg-accent);
+  color: var(--primary-color);
   cursor: pointer;
   outline: 1px solid transparent;
 

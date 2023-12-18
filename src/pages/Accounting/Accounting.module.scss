@@ -1,0 +1,133 @@
+@import '/src/styles/UtilityStyles.scss';
+.account__view_nav_container{
+  width: 63.6275rem;
+  display: flex;
+  flex-direction: column;
+
+
+  margin-left: 2.7rem;
+
+  .account__nav_header{
+    display: flex;
+    align-items: center;
+    /* width: 63.6275rem;*/
+
+    justify-content: space-between;
+
+    margin-bottom: 1.85rem;
+
+    .account__nav_header_row{
+      display: flex;
+      align-items: baseline;
+
+      gap: 1rem;
+
+
+      .account__nav_header_title{
+        color: var(--primary-color);
+        font-family: Roboto;
+        font-size: 2.5rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+      .account__nav_header_subtitle{
+        color: #7D7D8C;
+        font-family: Roboto;
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+    }
+  }
+
+  .nav_container_body{
+    display: flex;
+
+    .nav_container_list{
+      display: flex;
+      gap: 0.63rem;
+
+      .nav_container_item{
+        list-style: none;
+        width: 8.75rem;
+        text-align: center;
+        cursor: pointer;
+        color: var(--primary-color);
+        font-family: Roboto;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        padding: 0.4rem;
+
+        /*&:active{
+          color: white;
+        }*/
+
+      }
+      .nav_container_item_selected{
+        list-style: none;
+        width: 8.75rem;
+        text-align: center;
+        cursor: pointer;
+
+        color: white;
+        background-color: var(--primary-green);
+        font-family: Roboto;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        border-radius: 2rem;
+        padding: 0.4em;
+        transition: 0.3s ease-in-out;
+      }
+    }
+  }
+}
+
+.accountingList{
+  display: flex;
+  flex-direction: column;
+  padding: 1.44rem 2rem 1.44rem 2rem;
+  flex-wrap: wrap;
+  border-radius: 2rem;
+  background: var(--bg-accent);
+  box-shadow: var(--shadow);
+
+  margin-top: 3rem;
+
+  .listHeader{
+    display: flex;
+    width: 50rem;
+    justify-content: space-between;
+    align-items: baseline;
+
+
+    .inputGroup{
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+
+      .listInput{
+        @extend .utility_input;
+        width: 180px;
+        position: relative;
+        margin-bottom: 1.85rem;
+      }
+    }
+  }
+
+  .listBody{
+    display: flex;
+    flex-direction: column;
+
+    .listGroups{
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+}
