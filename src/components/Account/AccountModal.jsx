@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createAccount, deleteAccount, editAccount} from "../../features/user/userSlice.js";
 import CloseButton from "../CloseButton/CloseButton.jsx";
 import {setAccountModalDataForEditing, setOverAndAccModal, setOverAndIncomeModal} from "../../features/ui/uiSlice.js";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 
 const validationSchema = Yup.object({
@@ -37,6 +37,7 @@ const AccountModal = ()=>{
     const accountModalIsVisible = useSelector((state) => state.ui.accountModalIsVisible)
     const overlayIsVisible = useSelector((state) => state.ui.overlayIsVisible)
     const [isDeletionMode, setDeletionMode] = useState(false);
+    const navigate = useNavigate();
     const accountModalDataForEditing = useSelector((state) => state.ui.accountModalDataForEditing);
     //console.log('accountModalDataForEditing',accountModalDataForEditing)
     const { accountId } = useParams();
@@ -63,6 +64,8 @@ const AccountModal = ()=>{
         console.log('accountId',accountId)
         dispatch(deleteAccount((accountId)))
         dispatch(setOverAndAccModal(false,false))
+        navigate('/main');
+        setDeletionMode(false)
     }
 
     const handleOverlayClick = () =>{
@@ -83,10 +86,11 @@ const AccountModal = ()=>{
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             if (!accountModalDataForEditing){
-                console.log(values);
                 const accountData = {...values, ico_id: activeIndex}
                 try {
                     dispatch(createAccount(accountData));
+                    dispatch(setOverAndAccModal(false,false))
+                    formik.resetForm();
                 } catch (error) {
                     console.error("Ошибка в создании кошелька:", error);
                 }
@@ -114,13 +118,22 @@ const AccountModal = ()=>{
                 name: accountModalDataForEditing?.name || '',
                 comment: accountModalDataForEditing?.comment || '',
                 value: accountModalDataForEditing?.value || '',
-                currency: selectedOption.value, //FIXME
-                ico_id: activeIndex
+                ico_id:  setActiveIndex(accountModalDataForEditing?.ico_id)
             }
         });
     }, [accountModalDataForEditing]);
 
-return(
+    useEffect(() => { //FIXME
+        if (accountModalDataForEditing) {
+            const currentOption = options.find(option => option.value === accountModalDataForEditing.currency);
+            if (currentOption) {
+                setSelectedOption(currentOption);
+            }
+        }
+    }, [accountModalDataForEditing]);
+
+
+    return(
     <>
         {overlayIsVisible && <div className={styles.overlay} onClick={handleOverlayClick}></div>}
         {accountModalIsVisible &&

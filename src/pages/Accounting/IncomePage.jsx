@@ -1,16 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from "./Accounting.module.scss";
 import EditButton from "../../components/Account/EditButton.jsx";
 import CloseButton from "../../components/CloseButton/CloseButton.jsx";
 import AccountingList from "./AccountingList.jsx";
 import AddButton from "../../components/Accounting/AddButton.jsx";
+import {getAccountList, getIncomeSourceList} from "../../features/user/userSlice.js";
+import {useDispatch, useSelector} from "react-redux";
 
 const IncomePage = () => {
+    const dispatch = useDispatch()
+    const sources = useSelector((state) => state.user.userIncomeSource);
+    console.log('sources',sources)
     const [selectedItem, setSelectedItem] = useState(0);
     const handleSelect = (index)=>{
         setSelectedItem(index)
     }
-
+    useEffect(() => {
+        dispatch(getIncomeSourceList())
+    }, []);
 
     return (
         <div className={styles.account__view_nav_container}>

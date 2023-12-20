@@ -11,7 +11,7 @@ import CustomSelect from "../../pages/LoginPage/CustomSelect.jsx";
 import AccountIcons from "../AccountIcons/AccountIcons.jsx";
 
 const validationSchema = Yup.object({
-    name: Yup.string()
+    time : Yup.string()
         .max(256, 'Name should be less than 256 characters ')
         .required('Name is required'),
     /*  comment: Yup.string()
@@ -24,7 +24,7 @@ const validationSchema = Yup.object({
             .test('is-valid-phone', 'Invalid phone number', value =>
                 value ? isPossiblePhoneNumber(value) : true
             ),*/
-    value: Yup.number()
+    amount: Yup.number()
         .positive('Value must be positive')
         .integer('Value must be an integer')
         .required('Start balance is required'),
@@ -39,7 +39,8 @@ const AccountingModal = () => {
     //console.log('accountModalDataForEditing',accountModalDataForEditing)
     const { accountId } = useParams();
     const accounts = useSelector((state) => state.user.userAccounts);
-
+    const sources = useSelector((state) => state.user.userIncomeSource);
+    console.log('sources',sources)
 
     const accOptions = useMemo(() => {
         const uniqueNames = new Set(accounts.map(acc => acc.name));
@@ -48,6 +49,14 @@ const AccountingModal = () => {
             label: name
         }));
     }, [accounts]);
+
+    const sourceOptions = useMemo(() => {
+        const uniqueNames = new Set(sources.map(source => source.name));
+        return Array.from(uniqueNames).map(name => ({
+            value: name,
+            label: name
+        }));
+    }, [sources]);
 
 
     const [accOption1, setAccOption] = useState({ value: 'KZT', label: 'KZT' });
@@ -75,11 +84,12 @@ const AccountingModal = () => {
 
     const formik = useFormik({
         initialValues: {
-            name: '',
-            comment: '',
-            value: '',
-            currency: accOption1.value,
-            ico_id: activeIndex
+            account: '',
+            source: '',
+            amount: '',
+            comment:'',
+            time: '',
+           // currency: accOption1.value,
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
@@ -145,7 +155,7 @@ const AccountingModal = () => {
                                 <label htmlFor={'source_input'} className={styles.reg_label}>Source</label>
                                 <CustomSelect
                                     onChange={handleCurrencyChange}
-                                    options={accOptions}
+                                    options={sourceOptions}
                                     width={'280px'}
                                     placeholder={'Choose source'}
                                 />
@@ -153,18 +163,18 @@ const AccountingModal = () => {
                         </div>
                         <div className={styles.input_group}>
                             <div className={styles.input_container}>
-                                <label htmlFor={'amount_input'} className={styles.reg_label}>Amount</label>
+                                <label htmlFor={'amount_input'} className={styles.reg_label_required}>Amount</label>
                                 <input
                                     id="amount_input"
-                                    name="comment"
+                                    name="amount"
                                     type="text"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.comment}
+                                    value={formik.values.amount}
                                     className={styles.reg_input}
                                 />
-                                {formik.touched.comment && formik.errors.comment && (
-                                    <p className={styles.error_text}>{formik.errors.comment}</p>
+                                {formik.touched.amount && formik.errors.amount && (
+                                    <p className={styles.error_text}>{formik.errors.amount}</p>
                                 )}
                             </div>
                             <div className={styles.input_container}>
@@ -185,18 +195,18 @@ const AccountingModal = () => {
                         </div>
                         <div className={styles.input_group}>
                             <div className={styles.input_container}>
-                                <label htmlFor={'time_input'} className={styles.reg_label}>Time</label>
+                                <label htmlFor={'time_input'} className={styles.reg_label_required}>Time</label>
                                 <input
                                     id="time_input"
                                     name="time"
                                     type="text"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.comment}
+                                    value={formik.values.time}
                                     className={styles.reg_input}
                                 />
-                                {formik.touched.comment && formik.errors.comment && (
-                                    <p className={styles.error_text}>{formik.errors.comment}</p>
+                                {formik.touched.time && formik.errors.time && (
+                                    <p className={styles.error_text}>{formik.errors.time}</p>
                                 )}
                             </div>
                         </div>

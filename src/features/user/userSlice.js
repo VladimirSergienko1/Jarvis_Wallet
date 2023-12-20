@@ -71,6 +71,19 @@ export const getAccountList = createAsyncThunk(
         }
     }
 )
+export const getIncomeSourceList = createAsyncThunk(
+    'get/incomeSourceList',
+    async (_,{rejectedWithValue})=>{
+        try {
+            const response = await AuthService.getIncomeSourcesList()
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
 
 export const getSingleAccount = createAsyncThunk(
     'get/singleAccount',
@@ -92,6 +105,7 @@ const initialState ={
     accountsLoading: true,
     userData: null,
     userAccounts: [],
+    userIncomeSource: [],
 }
 
 const userSlice = createSlice({
@@ -137,6 +151,15 @@ const userSlice = createSlice({
                 state.error = action.payload;
                 state.accountsLoading = false;
             })
+            .addCase(getIncomeSourceList.pending, (state,action)=>{
+            })
+            .addCase(getIncomeSourceList.fulfilled, (state, action) => {
+                state.userIncomeSource = action.payload
+            })
+            .addCase(getIncomeSourceList.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+
 
             //
             .addCase(createAccount.pending, (state,action)=>{

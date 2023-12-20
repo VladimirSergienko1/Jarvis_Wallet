@@ -1,4 +1,4 @@
-import $api, {$apiAccounts} from "../http/api.js";
+import $api, {$apiAccounts, $apiIncomeSources} from "../http/api.js";
 import { $apiUser } from "../http/api.js";
 
 class AuthService {
@@ -32,12 +32,15 @@ class AuthService {
 
     static async getAccountList (){
         return $apiAccounts.get('/list')
-
     }
     static async getSingleAccount (id){
         return $apiAccounts.get(`/${id}`)
 
     }
+    static async getIncomeSourcesList (){
+        return $apiIncomeSources.get('/list')
+    }
+
 }
 
 export default AuthService;
