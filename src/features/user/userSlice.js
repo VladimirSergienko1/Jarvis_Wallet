@@ -44,6 +44,20 @@ export const deleteAccount = createAsyncThunk(
     }
 )
 
+export const createIncome = createAsyncThunk(
+    'create/income',
+    async ({source_id, account_id, amount, comment, time_at}, {rejectedWithValue})=>{
+        try {
+            const response = await AuthService.createIncome(source_id, account_id, amount, comment, time_at)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+
 export const checkAuth = createAsyncThunk(
     'user/checkAuth',
     async (_,{rejectedWithValue}) =>{
@@ -105,6 +119,7 @@ const initialState ={
     accountsLoading: true,
     userData: null,
     userAccounts: [],
+    userIncomes: [],
     userIncomeSource: [],
 }
 
@@ -195,6 +210,16 @@ const userSlice = createSlice({
 
             })
             .addCase(deleteAccount.rejected, (state, action) => {
+                state.error = action.payload;
+                //state.isLoading = false;
+            })
+            .addCase(createIncome.pending, (state,action)=>{
+                // state.isLoading = true;
+            })
+            .addCase(createIncome.fulfilled, (state, action) => {
+                state.userIncomes.push(action.payload);
+            })
+            .addCase(createIncome.rejected, (state, action) => {
                 state.error = action.payload;
                 //state.isLoading = false;
             })

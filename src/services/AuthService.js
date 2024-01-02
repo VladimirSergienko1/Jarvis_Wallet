@@ -1,4 +1,4 @@
-import $api, {$apiAccounts, $apiIncomeSources} from "../http/api.js";
+import $api, {$apiAccounts, $apiIncome, $apiIncomeSources} from "../http/api.js";
 import { $apiUser } from "../http/api.js";
 
 class AuthService {
@@ -21,6 +21,9 @@ class AuthService {
 
     static async createAccount(name, comment, currency, value,ico_id  = 0){
         return $apiAccounts.post('/create', {name, comment, currency, value, ico_id})
+    }
+    static async createIncome(source_id, account_id, amount, comment, time_at ){
+        return $apiIncome.post('/create', {source_id, account_id, amount, comment, time_at})
     }
 
     static async editAccount(account_id, name, comment, currency, value,ico_id  = 0){

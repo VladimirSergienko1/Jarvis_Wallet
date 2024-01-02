@@ -22,10 +22,6 @@ const validationSchema = Yup.object({
             /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
             "Invalid email format"
         ),*/
-/*    currency: Yup.string()
-        .test('is-valid-phone', 'Invalid phone number', value =>
-            value ? isPossiblePhoneNumber(value) : true
-        ),*/
     value: Yup.number()
         .positive('Value must be positive')
         .integer('Value must be an integer')
@@ -103,6 +99,8 @@ const AccountModal = ()=>{
                         ico_id: activeIndex
                     };
                     dispatch(editAccount(accountData));
+                    dispatch(setOverAndAccModal(false,false))
+                    formik.resetForm();
                 } catch (error) {
                     console.error("Ошибка при редактировании аккаунта:", error);
                 }
@@ -123,7 +121,7 @@ const AccountModal = ()=>{
         });
     }, [accountModalDataForEditing]);
 
-    useEffect(() => { //FIXME
+    useEffect(() => { //FIXME for dynamic value change in edit
         if (accountModalDataForEditing) {
             const currentOption = options.find(option => option.value === accountModalDataForEditing.currency);
             if (currentOption) {
@@ -194,7 +192,7 @@ const AccountModal = ()=>{
                     <div className={styles.input_container} >
                         <label htmlFor={'language_input'} className={styles.reg_label}>Currency</label>
                         <CustomSelect
-                            defaultValue={selectedOption}
+                            value={selectedOption}
                             onChange={handleCurrencyChange}
                             options={options}
                             width={'280px'}

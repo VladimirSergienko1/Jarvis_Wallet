@@ -40,7 +40,7 @@ import Select from 'react-select';
                         cursor: 'pointer',
                     }),
                 }}
-                defaultValue={props.defaultValue}
+                value={props.value}
                 onChange={props.onChange}
                 options={props.options}
                 placeholder={props.placeholder}

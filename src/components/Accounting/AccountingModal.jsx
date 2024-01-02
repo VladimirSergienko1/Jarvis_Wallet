@@ -2,18 +2,17 @@ import React, {useEffect, useMemo, useState} from 'react';
 import * as Yup from "yup";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import {createAccount, deleteAccount, editAccount} from "../../features/user/userSlice.js";
+import {createIncome, deleteAccount, editAccount} from "../../features/user/userSlice.js";
 import {setAccountModalDataForEditing, setOverAndAccModal} from "../../features/ui/uiSlice.js";
 import {useFormik} from "formik";
 import styles from "./AccountingModal.module.scss";
 import button_help from "../../assets/Account/button_help.svg";
 import CustomSelect from "../../pages/LoginPage/CustomSelect.jsx";
-import AccountIcons from "../AccountIcons/AccountIcons.jsx";
 
 const validationSchema = Yup.object({
-    time : Yup.string()
+    time_at : Yup.string()
         .max(256, 'Name should be less than 256 characters ')
-        .required('Name is required'),
+        .required('Time is required'),
     /*  comment: Yup.string()
           .email('Invalid email format')
           .matches(
@@ -27,7 +26,7 @@ const validationSchema = Yup.object({
     amount: Yup.number()
         .positive('Value must be positive')
         .integer('Value must be an integer')
-        .required('Start balance is required'),
+        .required('Amount is required'),
 
 });
 const AccountingModal = () => {
@@ -36,38 +35,31 @@ const AccountingModal = () => {
     const accountingOverlayIsVisible = useSelector((state) => state.ui.accountingOverlayIsVisible)
     const [isDeletionMode, setDeletionMode] = useState(false);
     const accountModalDataForEditing = useSelector((state) => state.ui.accountModalDataForEditing);
-    //console.log('accountModalDataForEditing',accountModalDataForEditing)
     const { accountId } = useParams();
     const accounts = useSelector((state) => state.user.userAccounts);
     const sources = useSelector((state) => state.user.userIncomeSource);
     console.log('sources',sources)
 
-    const accOptions = useMemo(() => {
-        const uniqueNames = new Set(accounts.map(acc => acc.name));
-        return Array.from(uniqueNames).map(name => ({
-            value: name,
-            label: name
+    const accountOptions = useMemo(() => {
+        return accounts.map(acc => ({
+            value: acc.id, // Использовать id для значения
+            label: acc.name // Имя для отображения
         }));
     }, [accounts]);
 
     const sourceOptions = useMemo(() => {
-        const uniqueNames = new Set(sources.map(source => source.name));
-        return Array.from(uniqueNames).map(name => ({
-            value: name,
-            label: name
+        return sources.map(source => ({
+            value: source.id, // Использовать id для значения
+            label: source.name // Имя для отображения
         }));
     }, [sources]);
 
-
-    const [accOption1, setAccOption] = useState({ value: 'KZT', label: 'KZT' });
-    const [activeIndex, setActiveIndex] = useState( 0);
-    const handleGridItemClick = (index) => {
-        setActiveIndex(index);
-        console.log(index)
+    const handleAccountChange = (selectedOption) => {
+        formik.setFieldValue('account_id', selectedOption.value);
     };
-    const handleCurrencyChange = (option) => {
-        setAccOption(option);
-        formik.setFieldValue('currency', option.value);
+
+    const handleSourceChange = (selectedOption) => {
+        formik.setFieldValue('source_id', selectedOption.value);
     };
 
     const handleDeleteAccount = (accountId)=>{
@@ -84,52 +76,50 @@ const AccountingModal = () => {
 
     const formik = useFormik({
         initialValues: {
-            account: '',
-            source: '',
+            account_id: '',
+            source_id: '',
             amount: '',
             comment:'',
-            time: '',
-           // currency: accOption1.value,
+            time_at: '',
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            if (!accountModalDataForEditing){
-                console.log(values);
-                const accountData = {...values, ico_id: activeIndex}
+            //if (!accountModalDataForEditing){
+                console.log('IncomeTest',values)
+                const incomeData = {...values}
                 try {
-                    dispatch(createAccount(accountData));
+                    dispatch(createIncome(incomeData));
                 } catch (error) {
-                    console.error("Ошибка в создании кошелька:", error);
+                    console.error("Ошибка в создании Income:", error);
                 }
-            }
-            else {
+          //  }
+          //  else {
                 try {
-                    const accountData = {
+                    const incomeData = {
                         account_id: accountModalDataForEditing.id,
                         ...values,
-                        ico_id: activeIndex
                     };
-                    dispatch(editAccount(accountData));
+                    dispatch(editAccount(incomeData));
                 } catch (error) {
-                    console.error("Ошибка при редактировании аккаунта:", error);
+                    console.error("Ошибка при редактировании Income:", error);
                 }
                 console.log('accountModalDataForEditing', values);
-            }
+          //  }
 
 
         },
     });
-    useEffect(() => {
+   /* useEffect(() => {
         formik.resetForm({
             values: {
                 name: accountModalDataForEditing?.name || '',
                 comment: accountModalDataForEditing?.comment || '',
                 value: accountModalDataForEditing?.value || '',
-                currency: accOption1.value, //FIXME
+                currency: accOptions.value, //FIXME
                 ico_id: activeIndex
             }
         });
-    }, [accountModalDataForEditing]);
+    }, [accountModalDataForEditing]);*/
 
     return(
         <>
@@ -145,8 +135,8 @@ const AccountingModal = () => {
                             <div className={styles.input_container} >
                                 <label htmlFor={'acc_input'} className={styles.reg_label}>Account</label>
                                 <CustomSelect
-                                    onChange={handleCurrencyChange}
-                                    options={accOptions}
+                                    onChange={handleAccountChange}
+                                    options={accountOptions}
                                     width={'280px'}
                                     placeholder={'Choose account'}
                                 />
@@ -154,7 +144,7 @@ const AccountingModal = () => {
                             <div className={styles.input_container} >
                                 <label htmlFor={'source_input'} className={styles.reg_label}>Source</label>
                                 <CustomSelect
-                                    onChange={handleCurrencyChange}
+                                    onChange={handleSourceChange}
                                     options={sourceOptions}
                                     width={'280px'}
                                     placeholder={'Choose source'}
@@ -198,15 +188,15 @@ const AccountingModal = () => {
                                 <label htmlFor={'time_input'} className={styles.reg_label_required}>Time</label>
                                 <input
                                     id="time_input"
-                                    name="time"
+                                    name="time_at"
                                     type="text"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.time}
+                                    value={formik.values.time_at}
                                     className={styles.reg_input}
                                 />
-                                {formik.touched.time && formik.errors.time && (
-                                    <p className={styles.error_text}>{formik.errors.time}</p>
+                                {formik.touched.time_at && formik.errors.time_at && (
+                                    <p className={styles.error_text}>{formik.errors.time_at}</p>
                                 )}
                             </div>
                         </div>
