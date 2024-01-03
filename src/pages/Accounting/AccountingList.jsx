@@ -3,6 +3,8 @@ import styles from "./Accounting.module.scss";
 import CustomSelect from "../LoginPage/CustomSelect.jsx";
 import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
+import ReactInputDateMask from 'react-input-date-mask';
+import ElementsContainer from "./ElementsContainer.jsx";
 
 const options = [
     { value: 'all', label: 'ALL' },
@@ -24,7 +26,7 @@ const AccountingList = () => {
         <div className={styles.accountingList}>
             <div className={styles.listHeader}>
                 <div className={styles.inputGroup}>
-                    <label htmlFor={'Sources'} className={styles}>Sources</label>
+                    <label htmlFor={'Sources'} className={styles.inputLabels}>Source</label>
                     <CustomSelect
                         placeholder="All"
                         defaultValue={selectedOption}
@@ -33,8 +35,8 @@ const AccountingList = () => {
                     />
                 </div>
                 <div className={styles.inputGroup}>
-                    <label htmlFor={'from_input'} className={styles}>From</label>
-                        <input
+                    <label htmlFor={'from_input'} className={styles.inputLabels}>From</label>
+                      {/*  <input
                             id="from_input"
                             name="password"
                             type="password"
@@ -43,33 +45,44 @@ const AccountingList = () => {
                             // onBlur={formik.handleBlur}
                             // value={formik.values.password}
                             className={styles.listInput}
-                        />
+                        />*/}
+                    <ReactInputDateMask
+                        mask='dd/mm/yyyy'
+                        id="from_input"
+                        name="from"
+                        showMaskOnFocus={false}
+                        className={styles.listInput}
+                        placeholder={'dd/mm/yyyy'}
+                        showMaskOnHover={true}
+                    />
                 </div>
                 <div className={styles.inputGroup}>
-                    <label htmlFor={'to_input'} className={styles}>To</label>
-                        <input
-                            id="to_input"
-                            name="password"
-                            type="password"
-                            placeholder={'dd/mm/yyyy'}
-                              // onChange={formik.handleChange}
-                              // onBlur={formik.handleBlur}
-                              // value={formik.values.password}
-                            className={styles.listInput}
-                        />
+                    <label htmlFor={'to_input'} className={styles.inputLabels}>To</label>
+                    <ReactInputDateMask
+                        mask='dd/mm/yyyy'
+                        id="to_input"
+                        name="to"
+                        showMaskOnFocus={false}
+                        className={styles.listInput}
+                        placeholder={'dd/mm/yyyy'}
+                        showMaskOnHover={true}
+                    />
                 </div>
             </div>
             <div className={styles.listBody}>
                     <div className={styles.listGroups}>
-                        <span className={styles.row_label}>Position</span>
-                        <span className={styles.row_label}>Type</span>
-                        <span className={styles.row_label}>Source</span>
-                        <span className={styles.row_label}>Value</span>
-                        <span className={styles.row_label}>Time</span>
-                        <span className={styles.row_label}>Action</span>
+                        <span className={styles.listLabels}>Position</span>
+                        <span className={styles.listLabels}>Type</span>
+                        <span className={styles.listLabels}>Source</span>
+                        <span className={styles.listLabels}>Value</span>
+                        <span className={styles.listLabels}>Time</span>
+                        <span className={styles.listLabels}>Action</span>
                     </div>
+                <ElementsContainer/>
             </div>
+
         </div>
+
     );
 };
 

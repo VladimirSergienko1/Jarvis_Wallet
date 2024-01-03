@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {createIncome, deleteAccount, editAccount} from "../../features/user/userSlice.js";
-import {setAccountModalDataForEditing, setOverAndAccModal} from "../../features/ui/uiSlice.js";
+import {setAccountModalDataForEditing, setOverAndAccModal, setOverAndIncomeModal} from "../../features/ui/uiSlice.js";
 import {useFormik} from "formik";
 import styles from "./AccountingModal.module.scss";
 import button_help from "../../assets/Account/button_help.svg";
@@ -89,6 +89,8 @@ const AccountingModal = () => {
                 const incomeData = {...values}
                 try {
                     dispatch(createIncome(incomeData));
+                    setDeletionMode(false)
+                    dispatch(setOverAndIncomeModal(false,false))
                 } catch (error) {
                     console.error("Ошибка в создании Income:", error);
                 }

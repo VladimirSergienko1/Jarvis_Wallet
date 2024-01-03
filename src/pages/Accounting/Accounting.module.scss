@@ -91,7 +91,7 @@
 .accountingList{
   display: flex;
   flex-direction: column;
-  padding: 1.44rem 2rem 1.44rem 2rem;
+  padding: 1.44rem 1.8rem 1.44rem 1.8rem;
   flex-wrap: wrap;
   border-radius: 2rem;
   background: var(--bg-accent);
@@ -111,6 +111,15 @@
       align-items: baseline;
       gap: 0.8rem;
 
+      .inputLabels{
+        color: var(--primary-color);
+        font-family: Roboto;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+
       .listInput{
         @extend .utility_input;
         width: 180px;
@@ -127,7 +136,67 @@
     .listGroups{
       display: flex;
       justify-content: space-between;
+      margin-bottom: 19px;
+
+      .listLabels{
+        color: var(--primary-color);
+        text-align: center;
+        font-family: Roboto;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
     }
+    .elContainer{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .listEl{
+        display: flex;
+        justify-content: space-between;
+        border-radius: 32px;
+        padding: 16px;
+        width: auto;
+        background: var(--bg-color);
+        align-items: center;
+
+        .elText{
+          color: var(--primary-color);
+          font-family: Roboto;
+          font-size: 13px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+        }
+        .elBtn{
+          @extend .utility_btn;
+          width: 70px;
+          padding: 4px 24px;
+          border-radius: 32px;
+          background: var(--primary-green);
+
+          color: var(--primary-color);
+          text-align: center;
+          font-family: Roboto;
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          border: 1px solid var(--primary-green);
+          cursor: pointer;
+
+          &:hover{
+            background: #F7F7F8;
+            color: var(--primary-green);
+          }
+        }
+      }
+    }
+
+
+
   }
 
 }
