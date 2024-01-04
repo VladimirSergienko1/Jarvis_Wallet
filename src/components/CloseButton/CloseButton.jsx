@@ -11,7 +11,8 @@ import menuBackgroundDark from "../../assets/WalletsPage/menu-background-dark.sv
 const CloseButton = () => {
     const dispatch = useDispatch();
     const accountModalVisible = useSelector((state) => state.ui.accountModalIsVisible)
-    const theme = useSelector((state)=> state.user.userData?.style)
+    const accountingIncomeModalVisible = useSelector((state) => state.ui.accountingIncomeModalIsVisible)
+    const theme = useSelector((state)=> state.user.userTheme)
 
     let navigate = useNavigate()
     const close = ()=>{
@@ -19,8 +20,11 @@ const CloseButton = () => {
             dispatch(setOverAndAccModal(false, false))
             dispatch(setAccountModalDataForEditing(null))
         }
+        if(accountingIncomeModalVisible){
+            dispatch(setOverAndIncomeModal(false, false));
+        }
         else {
-           // dispatch(setOverAndIncomeModal(false, false));
+
 
             navigate('/main')
         }

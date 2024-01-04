@@ -120,6 +120,7 @@ const initialState ={
     userData: null,
     userAccounts: [],
     userIncomes: [],
+    userTheme: localStorage.getItem('theme') || 'light',
     userIncomeSource: [],
 }
 
@@ -133,8 +134,8 @@ const userSlice = createSlice({
         setUserAccounts: (state, action) => {
             state.userAccounts = action.payload;
         },
-        setUserTheme : (state, action)=>{
-            state.userData.style = action.payload
+        setUserTheme: (state, action) => {
+            state.userTheme = action.payload;
         }
     },
     extraReducers:(builder)=> {

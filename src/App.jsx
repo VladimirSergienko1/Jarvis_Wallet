@@ -4,7 +4,7 @@ import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import React, {Suspense, useEffect} from "react";
 import Cookies from "js-cookie";
 import {useStore} from "effector-react";
-import {checkAuth} from "./features/user/userSlice.js";
+import {checkAuth, setUserTheme} from "./features/user/userSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import MainLayout from "./pages/MainLayout.jsx";
 
@@ -12,7 +12,7 @@ function App() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const userTheme = useSelector((state)=> state.user.userData?.style)
+    const userTheme = useSelector((state)=> state.user.userTheme)
     console.log('userTheme',userTheme)
     //del
     const test = useSelector((state) => state.user.userData);
@@ -28,6 +28,16 @@ function App() {
         });
     }, [dispatch, navigate]);
 
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            dispatch(setUserTheme(savedTheme));
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        localStorage.setItem('theme', userTheme);
+    }, [userTheme]);
 
   return (
 

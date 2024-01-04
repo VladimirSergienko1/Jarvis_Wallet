@@ -12,10 +12,9 @@ import {setUserTheme} from "../../features/user/userSlice.js";
 
 const MenuBurger = () => {
     const dispatch = useDispatch();
-    const userTheme = useSelector((state)=> state.user.userData?.style)
+    const userTheme = useSelector((state) => state.user.userTheme);
 
     const [isActive, setIsActive] = useState(false)
-    const [theme, setTheme] = useState(userTheme || 'light');
 
     const [openProfile, setOpenProfile] = useState(false)
 
@@ -23,9 +22,9 @@ const MenuBurger = () => {
         setIsActive(!isActive)
     }
     const toggleTheme = () => {
-        const newTheme = theme === 'light' ? 'dark' : 'light';
+        const newTheme = userTheme === 'light' ? 'dark' : 'light';
         dispatch(setUserTheme(newTheme))
-        setTheme(newTheme)
+        localStorage.setItem('theme', newTheme);
     }
 
     const toggleProfile = ()=> {
@@ -42,7 +41,7 @@ const MenuBurger = () => {
             </ul>
 
             <div className={styles.menuBackground} onClick={toggleActive}>
-                <img src={theme === 'light' ? menuBackground : menuBackgroundDark}/>
+                <img src={userTheme === 'light' ? menuBackground : menuBackgroundDark}/>
                 <svg
                     className={styles.burgerIcon}
                     xmlns="http://www.w3.org/2000/svg"
@@ -51,9 +50,9 @@ const MenuBurger = () => {
                     viewBox="0 0 32 32"
                     fill="none"
                 >
-                    <path d="M6.66663 9.33325H25.3333"  stroke={theme === 'light' ? "#33363F" : "#F7F7F8"} strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M6.66663 16H25.3333" stroke={theme === 'light' ? "#33363F" : "#F7F7F8"} strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M6.66663 22.6667H25.3333" stroke={theme === 'light' ? "#33363F" : "#F7F7F8"} strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M6.66663 9.33325H25.3333"  stroke={userTheme === 'light' ? "#33363F" : "#F7F7F8"} strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M6.66663 16H25.3333" stroke={userTheme === 'light' ? "#33363F" : "#F7F7F8"} strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M6.66663 22.6667H25.3333" stroke={userTheme === 'light' ? "#33363F" : "#F7F7F8"} strokeWidth="2" strokeLinecap="round"/>
                 </svg>
             </div>
             {openProfile && <Profile toggleProfile={toggleProfile}/>}
