@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import styles from "./Accounting.module.scss";
 import CustomSelect from "../LoginPage/CustomSelect.jsx";
 import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
 import ReactInputDateMask from 'react-input-date-mask';
 import ElementsContainer from "./ElementsContainer.jsx";
+import {useSelector} from "react-redux";
 
 const options = [
     { value: 'all', label: 'ALL' },
@@ -16,11 +17,17 @@ const options = [
 const AccountingList = () => {
 
     const [selectedOption, setSelectedOption] = useState(null);
-
+    const sources = useSelector((state) => state.user.userIncomeSource);
     const handleLanguageChange = (option) => {
         setSelectedOption(option);
       //  formik.setFieldValue('language', option.value);
     };
+    const sourceOptions = useMemo(() => {
+        return sources.map(source => ({
+            value: source.id, // Использовать id для значения
+            label: source.name // Имя для отображения
+        }));
+    }, [sources]);
 
     return (
         <div className={styles.accountingList}>
@@ -31,7 +38,7 @@ const AccountingList = () => {
                         placeholder="All"
                         defaultValue={selectedOption}
                         onChange={handleLanguageChange}
-                        options={options}
+                        options={sourceOptions}
                     />
                 </div>
                 <div className={styles.inputGroup}>

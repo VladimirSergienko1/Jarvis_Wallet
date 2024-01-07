@@ -28,6 +28,9 @@ const Wallet = () =>{
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [filter, setFilter] = useState('');
+
+
     useEffect(() => {
         dispatch(checkAuth())
     }, []);
@@ -75,13 +78,24 @@ const Wallet = () =>{
                     <AccountingModal/>
                 </div>
                 <div className={styles.container_body}>
-                    <input className={styles.body_input}/>
+                    <div className={styles.inputContainer}>
+                        <input
+                            className={styles.body_input}
+                            placeholder="Search"
+                            onChange={(e) => setFilter(e.target.value)}
+                        />
+                        <svg className={styles.searchIcon} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <ellipse cx="11" cy="11.0581" rx="7" ry="6.66458" stroke="#7D7D8C" strokeWidth="2"/>
+                            <path d="M20 19.6272L17 16.771" stroke="#7D7D8C" strokeWidth="2" strokeLinecap="round"/>
+                        </svg>
+                    </div>
+
                     {!accounts.length ? (<div className={styles.body_empty}>
                         <img className={styles.empty_image} src={wallet}/>
                          <h2 className={styles.empty_title}>No wallets available</h2>
                     </div>)
                     :
-                    <AccountList/>
+                    <AccountList filter={filter}/>
                         }
                 </div>
             </div>

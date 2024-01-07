@@ -35,14 +35,40 @@
       }
     }
     .container_body{
+      .inputContainer {
+        position: relative;
+        display: flex;
+        align-items: center;
 
-      .body_input{
-        @extend .utility_input;
-        width: 20rem;
-        margin-bottom: 1.5rem;
+        .body_input{
+          @extend .utility_input;
+          width: 20rem;
+          padding-left: 40px;
+          margin-bottom: 1.5rem;
+          margin-top: 2rem;
 
-        margin-top: 2rem;
+          &::placeholder{
+            color: #AAACB6;
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+          }
+        }
+        .searchIcon {
+          position: absolute;
+          left: 10px; /* Регулируйте это значение в зависимости от вашего дизайна */
+          top: 39px;
+        }
       }
+
+
+
+
+
+
+
 
       .body_empty{
         display: flex;

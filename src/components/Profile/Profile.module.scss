@@ -120,7 +120,7 @@
           justify-content: space-between;
           .footer_back{
             @extend .utility_btn;
-            color: #F7F7F8;
+            color: var(--bg-accent);
             background-color: #7D7D8C;
             border: 1px solid #7D7D8C;
             &:hover{
@@ -215,7 +215,7 @@
           margin-top: auto; // Добавьте эту строку
           .footer_back{
             @extend .utility_btn;
-            color: #F7F7F8;
+            color: var(--primary-color);
             background-color: #FF3B30;
             border: 1px solid #FF3B30;
             &:hover{
@@ -229,7 +229,7 @@
           //Acc deletion btn
           .avatar_back{
             @extend .utility_btn;
-            color: #F7F7F8;
+            color: var(--bg-accent);
             background-color: #7D7D8C;
             border: 1px solid #7D7D8C;
 
@@ -258,7 +258,7 @@
             width: 24rem;
             height: 1rem;
             border-radius: 2rem;
-            background-color: #F0F0F6;
+            background-color: var(--bg-color);
             position: relative;
 
             .subscription__progress{
@@ -307,7 +307,7 @@
             display: flex;
             justify-content: space-between;
             border-radius: 2rem;
-            background: #EFEFF4;
+            background: var(--bg-color);
             width: 36.24356rem;
             padding: 1rem 1.7rem 1rem 1.7rem;
 
@@ -364,7 +364,7 @@
 
     .avatar_back{
       @extend .utility_btn;
-      color: #F7F7F8;
+      color: var(--bg-accent);
       background-color: #7D7D8C;
       border: 1px solid #7D7D8C;
 

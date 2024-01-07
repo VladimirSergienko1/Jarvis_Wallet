@@ -3,7 +3,12 @@ import * as Yup from "yup";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {createIncome, deleteAccount, editAccount} from "../../features/user/userSlice.js";
-import {setAccountModalDataForEditing, setOverAndAccModal, setOverAndIncomeModal} from "../../features/ui/uiSlice.js";
+import {
+    setAccountModalDataForEditing,
+    setIncomeDataForEditing,
+    setOverAndAccModal,
+    setOverAndIncomeModal
+} from "../../features/ui/uiSlice.js";
 import {useFormik} from "formik";
 import styles from "./AccountingModal.module.scss";
 import button_help from "../../assets/Account/button_help.svg";
@@ -31,18 +36,19 @@ const validationSchema = Yup.object({
 });
 const AccountingModal = () => {
     const dispatch = useDispatch()
-    const accountingIncomeModalIsVisible = useSelector((state) => state.ui.accountingIncomeModalIsVisible)
+    const incomeModalIsVisible = useSelector((state) => state.ui.incomeModalIsVisible)
     const accountingOverlayIsVisible = useSelector((state) => state.ui.accountingOverlayIsVisible)
     const [isDeletionMode, setDeletionMode] = useState(false);
-    const accountModalDataForEditing = useSelector((state) => state.ui.accountModalDataForEditing);
+    const incomeDataForEditing = useSelector((state) => state.ui.incomeDataForEditing);
     const { accountId } = useParams();
     const accounts = useSelector((state) => state.user.userAccounts);
     const sources = useSelector((state) => state.user.userIncomeSource);
     console.log('sources',sources)
+    console.log('incomeDataForEditing',incomeDataForEditing)
 
     const accountOptions = useMemo(() => {
         return accounts.map(acc => ({
-            value: acc.id, // Использовать id для значения
+            value: acc.id, // Использоват   ь id для значения
             label: acc.name // Имя для отображения
         }));
     }, [accounts]);
@@ -71,7 +77,7 @@ const AccountingModal = () => {
     const handleOverlayClick = () =>{
         setDeletionMode(false)
         dispatch(setOverAndAccModal(false,false))
-        dispatch(setAccountModalDataForEditing(null))
+        dispatch(setIncomeDataForEditing(null))
     }
 
     const formik = useFormik({
@@ -84,7 +90,7 @@ const AccountingModal = () => {
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            //if (!accountModalDataForEditing){
+            //if (!incomeDataForEditing){
                 console.log('IncomeTest',values)
                 const incomeData = {...values}
                 try {
@@ -98,14 +104,14 @@ const AccountingModal = () => {
           //  else {
                 try {
                     const incomeData = {
-                        account_id: accountModalDataForEditing.id,
+                        account_id: incomeDataForEditing.id,
                         ...values,
                     };
                     dispatch(editAccount(incomeData));
                 } catch (error) {
                     console.error("Ошибка при редактировании Income:", error);
                 }
-                console.log('accountModalDataForEditing', values);
+                console.log('incomeDataForEditing', values);
           //  }
 
 
@@ -126,10 +132,10 @@ const AccountingModal = () => {
     return(
         <>
             {accountingOverlayIsVisible && <div className={styles.overlay} onClick={handleOverlayClick}></div>}
-            {accountingIncomeModalIsVisible &&
+            {incomeModalIsVisible &&
                 <div className={styles.account__container}>
                     <div className={styles.account__header}>
-                        <h2 className={styles.account_header_title}>{isDeletionMode ? 'Confirmation': accountModalDataForEditing ? 'Edit account'  : 'Add new income'}</h2>
+                        <h2 className={styles.account_header_title}>{isDeletionMode ? 'Confirmation': incomeDataForEditing ? 'Edit income'  : 'Add new income'}</h2>
                         <img className={styles.help_button} src={button_help}/>
                     </div>
                     {!isDeletionMode && <form className={styles.block_form} onSubmit={formik.handleSubmit}>
@@ -203,7 +209,7 @@ const AccountingModal = () => {
                             </div>
                         </div>
                         <div className={styles.reg_footer}>
-                            {accountModalDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>setDeletionMode(true)}>Delete</button>}
+                            {incomeDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>setDeletionMode(true)}>Delete</button>}
                             <button className={styles.reg_button} type={"submit"}>Add</button>
                         </div>
                     </form>}

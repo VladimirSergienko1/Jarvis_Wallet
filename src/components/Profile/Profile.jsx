@@ -1,5 +1,5 @@
 import styles from './Profile.module.scss'
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import profileImg from "../../assets/Profile/profile_image.svg";
 import errorIcon from "../../assets/LoginPage/Error_round.svg";
 import correctIcon from "../../assets/LoginPage/Done_round.svg";
@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import gridImg from "../../assets/Profile/grid_image.svg";
 import {useDispatch, useSelector} from "react-redux";
 import SubscriptionBlock from "./SubscriptionBlock.jsx";
+import {use} from "i18next";
 
 
 const options = [
@@ -60,7 +61,7 @@ const Profile = (props) =>{
     const [isAvatarOpen, setAvatarOpen] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);
-    const [selectedOption, setSelectedOption] = useState({ value: 'eng', label: 'English' });
+    const [selectedOption, setSelectedOption] = useState({ value: 'en', label: 'English' });
     const [isOverlayVisible, setIsOverlayVisible] = useState(true);
 
     const [openProfile, setOpenProfile] = useState(false)
@@ -90,8 +91,16 @@ const Profile = (props) =>{
     const handleOverlay = () =>{
         setIsOverlayVisible(false)
         props.toggleProfile();
-
     }
+
+    useEffect(() => { //FIXME for dynamic value change in edit
+        if (userInfo) {
+            const currentOption = options.find(option => option.value === userInfo.language);
+            if (currentOption) {
+                setSelectedOption(currentOption);
+            }
+        }
+    }, [userInfo]);
 
     const formik = useFormik({
         initialValues: {
@@ -178,7 +187,7 @@ const Profile = (props) =>{
                             <div className={styles.input_container}>
                             <label className={styles.reg_label}>Language</label>
                             <CustomSelect
-                                defaultValue={selectedOption}
+                                value={selectedOption}
                                 onChange={handleLanguageChange}
                                 options={options}
                             />
@@ -193,7 +202,7 @@ const Profile = (props) =>{
                         <div className={styles.form_content}>
                             <div className={styles.block_form_title}>Change password</div>
                             <div className={styles.input_container}>
-                                <label htmlFor={'email_input'} className={styles.reg_label}>Password</label>
+                                <label htmlFor={'email_input'} className={styles.reg_label}>Current</label>
                                 <input
                                     id="pass_input"
                                     name="password"
@@ -208,7 +217,7 @@ const Profile = (props) =>{
                                 )}
                             </div>
                             <div className={styles.input_container}>
-                                <label htmlFor={'email_input'} className={styles.reg_label}>Email</label>
+                                <label htmlFor={'email_input'} className={styles.reg_label}>New</label>
                                 <input
                                     id="repass_input"
                                     name="rePassword"

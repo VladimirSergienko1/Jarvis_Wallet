@@ -2,10 +2,11 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const initialState ={
     accountModalIsVisible: false,
+    accountingOverlayIsVisible:false, //FIXME account is not accounting
     accountModalDataForEditing: null,
+    incomeDataForEditing: null,
     overlayIsVisible: false,
-    accountingOverlayIsVisible:false,
-    accountingIncomeModalIsVisible: false,
+    incomeModalIsVisible: false,
     error: null,
     isLoading: false,
 }
@@ -26,10 +27,13 @@ const uiSlice = createSlice({
         },
         setOverAndIncomeModal: (state, action) => {
             state.overlayIsVisible = action.payload;
-            state.accountingIncomeModalIsVisible = action.payload;
+            state.incomeModalIsVisible = action.payload;
         },
         setAccountModalDataForEditing: (state,action) => {
             state.accountModalDataForEditing = action.payload
+        },
+        setIncomeDataForEditing: (state,action) => {
+            state.incomeDataForEditing = action.payload
         }
 
     },
@@ -43,5 +47,5 @@ const uiSlice = createSlice({
 })
 
 console.log('uiSlice',uiSlice)
-export const {setAccountModalVisible,setOverlayVisible, setOverAndAccModal, setAccountModalDataForEditing, setOverAndIncomeModal} = uiSlice.actions
+export const {setAccountModalVisible,setOverlayVisible, setOverAndAccModal, setAccountModalDataForEditing, setOverAndIncomeModal, setIncomeDataForEditing} = uiSlice.actions
 export default uiSlice.reducer

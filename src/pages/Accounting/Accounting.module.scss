@@ -92,12 +92,15 @@
   display: flex;
   flex-direction: column;
   padding: 1.44rem 1.8rem 1.44rem 1.8rem;
-  flex-wrap: wrap;
+  /*flex-wrap: wrap;*/
   border-radius: 2rem;
   background: var(--bg-accent);
   box-shadow: var(--shadow);
+  max-height: max-content;
+  overflow-y: auto;
 
   margin-top: 3rem;
+
 
   .listHeader{
     display: flex;
@@ -157,7 +160,8 @@
         display: flex;
         justify-content: space-between;
         border-radius: 32px;
-        padding: 16px;
+        /*padding: 12px;*/
+        padding: 22px;
         width: auto;
         background: var(--bg-color);
         align-items: center;

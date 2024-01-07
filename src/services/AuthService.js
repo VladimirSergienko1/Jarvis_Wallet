@@ -43,6 +43,9 @@ class AuthService {
     static async getIncomeSourcesList (){
         return $apiIncomeSources.get('/list')
     }
+    static async getIncomeList (){
+        return $apiIncome.get('/list')
+    }
 
 }
 

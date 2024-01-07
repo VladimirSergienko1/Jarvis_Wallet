@@ -4,7 +4,7 @@ import EditButton from "../../components/Account/EditButton.jsx";
 import CloseButton from "../../components/CloseButton/CloseButton.jsx";
 import AccountingList from "./AccountingList.jsx";
 import AddButton from "../../components/Accounting/AddButton.jsx";
-import {getAccountList, getIncomeSourceList} from "../../features/user/userSlice.js";
+import {getAccountList, getIncomeList, getIncomeSourceList} from "../../features/user/userSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 
 const IncomePage = () => {
@@ -18,6 +18,10 @@ const IncomePage = () => {
     useEffect(() => {
         dispatch(getIncomeSourceList())
     }, []);
+    useEffect(() => {
+        dispatch(getIncomeList())
+    }, []);
+
 
     return (
         <div className={styles.account__view_nav_container}>
