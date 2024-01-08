@@ -8,7 +8,12 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {createAccount, deleteAccount, editAccount} from "../../features/user/userSlice.js";
 import CloseButton from "../CloseButton/CloseButton.jsx";
-import {setAccountModalDataForEditing, setOverAndAccModal, setOverAndIncomeModal} from "../../features/ui/uiSlice.js";
+import {
+    setAccountModalDataForEditing,
+    setIncomeDataForEditing,
+    setOverAndAccModal,
+    setOverAndIncomeModal
+} from "../../features/ui/uiSlice.js";
 import {useNavigate, useParams} from "react-router-dom";
 
 
@@ -69,6 +74,7 @@ const AccountModal = ()=>{
         dispatch(setOverAndAccModal(false,false))
         dispatch(setOverAndIncomeModal(false,false))
         dispatch(setAccountModalDataForEditing(null))
+        dispatch(setIncomeDataForEditing(null))
     }
 
     const formik = useFormik({

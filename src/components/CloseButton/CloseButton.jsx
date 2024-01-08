@@ -2,7 +2,12 @@ import React, {useState} from 'react';
 import styles from "./CloseButton.module.scss";
 import closeImg from "../../assets/Account/close.svg";
 import closeImgDark from "../../assets/Account/close-dark.svg";
-import {setAccountModalDataForEditing, setOverAndAccModal, setOverAndIncomeModal} from "../../features/ui/uiSlice.js";
+import {
+    setAccountModalDataForEditing,
+    setIncomeDataForEditing,
+    setOverAndAccModal,
+    setOverAndIncomeModal
+} from "../../features/ui/uiSlice.js";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import menuBackground from "../../assets/WalletsPage/menu-background.svg";
@@ -19,13 +24,12 @@ const CloseButton = () => {
         if(accountModalVisible){
             dispatch(setOverAndAccModal(false, false))
             dispatch(setAccountModalDataForEditing(null))
+            dispatch(setIncomeDataForEditing(null))
         }
-        if(accountingIncomeModalVisible){
+        if(incomeModalVisible){
             dispatch(setOverAndIncomeModal(false, false));
         }
         else {
-
-
             navigate('/main')
         }
     }

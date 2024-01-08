@@ -58,6 +58,20 @@ export const createIncome = createAsyncThunk(
     }
 )
 
+export const editIncome = createAsyncThunk(
+    'edit/income',
+    async ({income_id, source_id, account_id, amount, comment, time_at}, {getState , dispatch,rejectedWithValue})=>{
+        try {
+            const response = await AuthService.editIncome(income_id, source_id, account_id, amount, comment, time_at)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+
 export const checkAuth = createAsyncThunk(
     'user/checkAuth',
     async (_,{rejectedWithValue}) =>{
@@ -217,6 +231,19 @@ const userSlice = createSlice({
                 const index = state.userAccounts.findIndex(account => account.id === action.payload.id);
                 if (index !== -1) {
                     state.userAccounts[index] = action.payload;
+                }
+            })
+            .addCase(editIncome.rejected, (state, action) => {
+                state.error = action.payload;
+                //state.isLoading = false;
+            })
+            .addCase(editIncome.pending, (state,action)=>{
+                // state.isLoading = true;
+            })
+            .addCase(editIncome.fulfilled, (state, action) => {
+                const index = state.userIncomes.findIndex(income => income.id === action.payload.id);
+                if (index !== -1) {
+                    state.userIncomes[index] = action.payload;
                 }
             })
             .addCase(editAccount.rejected, (state, action) => {

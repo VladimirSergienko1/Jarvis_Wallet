@@ -2,9 +2,14 @@ import React, {useEffect, useMemo, useState} from 'react';
 import * as Yup from "yup";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import {createIncome, deleteAccount, editAccount} from "../../features/user/userSlice.js";
 import {
-    setAccountModalDataForEditing,
+    createIncome,
+    deleteAccount,
+    editIncome,
+    getAccountList,
+    getIncomeSourceList
+} from "../../features/user/userSlice.js";
+import {
     setIncomeDataForEditing,
     setOverAndAccModal,
     setOverAndIncomeModal
@@ -43,26 +48,23 @@ const AccountingModal = () => {
     const { accountId } = useParams();
     const accounts = useSelector((state) => state.user.userAccounts);
     const sources = useSelector((state) => state.user.userIncomeSource);
-    console.log('sources',sources)
+    console.log('accountsйцуйцуйцуйц',accounts)
     console.log('incomeDataForEditing',incomeDataForEditing)
 
-    const accountOptions = useMemo(() => {
-        return accounts.map(acc => ({
-            value: acc.id, // Использоват   ь id для значения
-            label: acc.name // Имя для отображения
-        }));
-    }, [accounts]);
+    const [accountOptions, setAccountOptions] = useState([]);
+    const [sourceOptions, setSourceOptions] = useState([]);
 
-    const sourceOptions = useMemo(() => {
-        return sources.map(source => ({
-            value: source.id, // Использовать id для значения
-            label: source.name // Имя для отображения
-        }));
-    }, [sources]);
+    useEffect(() => {
+        dispatch(getAccountList())
+        dispatch(getIncomeSourceList())
+    }, []);
+
+
 
     const handleAccountChange = (selectedOption) => {
         formik.setFieldValue('account_id', selectedOption.value);
     };
+
 
     const handleSourceChange = (selectedOption) => {
         formik.setFieldValue('source_id', selectedOption.value);
@@ -90,44 +92,61 @@ const AccountingModal = () => {
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            //if (!incomeDataForEditing){
+            if (!incomeDataForEditing){
                 console.log('IncomeTest',values)
                 const incomeData = {...values}
                 try {
                     dispatch(createIncome(incomeData));
                     setDeletionMode(false)
                     dispatch(setOverAndIncomeModal(false,false))
+                    formik.resetForm();
                 } catch (error) {
                     console.error("Ошибка в создании Income:", error);
                 }
-          //  }
-          //  else {
+            }
+            else {
                 try {
                     const incomeData = {
-                        account_id: incomeDataForEditing.id,
+                        income_id: incomeDataForEditing.id,
                         ...values,
                     };
-                    dispatch(editAccount(incomeData));
+                    dispatch(editIncome(incomeData));
+                    dispatch(setOverAndIncomeModal(false,false))
+                    formik.resetForm();
                 } catch (error) {
                     console.error("Ошибка при редактировании Income:", error);
                 }
                 console.log('incomeDataForEditing', values);
-          //  }
-
+           }
 
         },
     });
-   /* useEffect(() => {
+    useEffect(() => {
         formik.resetForm({
             values: {
-                name: accountModalDataForEditing?.name || '',
-                comment: accountModalDataForEditing?.comment || '',
-                value: accountModalDataForEditing?.value || '',
-                currency: accOptions.value, //FIXME
-                ico_id: activeIndex
+                account_id: accountOptions || '',
+                source_id: sourceOptions || '',
+                amount: incomeDataForEditing?.amount || '',
+                comment: incomeDataForEditing?.comment, //FIXME
+                time_at: incomeDataForEditing?.time_at
             }
         });
-    }, [accountModalDataForEditing]);*/
+    }, [incomeDataForEditing]);
+
+    useEffect(() => {
+        if (incomeDataForEditing) {
+            // Режим редактирования
+            const editingAccountValue = accounts.find(acc => acc.id === incomeDataForEditing.account_id);
+            const editingSourceValue = sources.find(src => src.id === incomeDataForEditing.source_id);
+
+            formik.setFieldValue('account_id', editingAccountValue ? editingAccountValue.id : '');
+            formik.setFieldValue('source_id', editingSourceValue ? editingSourceValue.id : '');
+        } else {
+            // Режим создания
+            setAccountOptions(accounts.map(acc => ({ value: acc.id, label: acc.name })));
+            setSourceOptions(sources.map(src => ({ value: src.id, label: src.name })));
+        }
+    }, [incomeDataForEditing, accounts, formik.setFieldValue]);
 
     return(
         <>
@@ -143,6 +162,7 @@ const AccountingModal = () => {
                             <div className={styles.input_container} >
                                 <label htmlFor={'acc_input'} className={styles.reg_label}>Account</label>
                                 <CustomSelect
+                                    value={accountOptions.find(option => option.value === formik.values.account_id)}
                                     onChange={handleAccountChange}
                                     options={accountOptions}
                                     width={'280px'}
@@ -152,6 +172,7 @@ const AccountingModal = () => {
                             <div className={styles.input_container} >
                                 <label htmlFor={'source_input'} className={styles.reg_label}>Source</label>
                                 <CustomSelect
+                                    value={sourceOptions.find(option => option.value === formik.values.source_id)}
                                     onChange={handleSourceChange}
                                     options={sourceOptions}
                                     width={'280px'}
@@ -197,7 +218,7 @@ const AccountingModal = () => {
                                 <input
                                     id="time_input"
                                     name="time_at"
-                                    type="text"
+                                    type="datetime-local"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.time_at}

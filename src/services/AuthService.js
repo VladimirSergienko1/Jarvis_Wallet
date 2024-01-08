@@ -22,12 +22,15 @@ class AuthService {
     static async createAccount(name, comment, currency, value,ico_id  = 0){
         return $apiAccounts.post('/create', {name, comment, currency, value, ico_id})
     }
-    static async createIncome(source_id, account_id, amount, comment, time_at ){
-        return $apiIncome.post('/create', {source_id, account_id, amount, comment, time_at})
-    }
 
     static async editAccount(account_id, name, comment, currency, value,ico_id  = 0){
         return $apiAccounts.put(`/update/${account_id}`, {name, comment, currency, value, ico_id})
+    }
+    static async createIncome(source_id, account_id, amount, comment, time_at ){
+        return $apiIncome.post('/create', {source_id, account_id, amount, comment, time_at})
+    }
+    static async editIncome(income_id, source_id, account_id, amount, comment, time_at){
+        return $apiIncome.put(`/update/${income_id}`, {source_id, account_id, amount, comment, time_at})
     }
     static async deleteAccount(account_id){
         return $apiAccounts.delete(`/delete/${account_id}`)

@@ -6,7 +6,7 @@ import MenuBurger from "../../components/MenuBurger/MenuBurger.jsx";
 import AccountModal from "../../components/Account/AccountModal.jsx";
 import acc_img from '../../assets/Account/acc_img.svg'
 import rightArrow from '../../assets/Account/rightArrow.svg'
-import {checkAuth, getAccountList} from "../../features/user/userSlice.js";
+import {checkAuth, getAccountList, getIncomeSourceList} from "../../features/user/userSlice.js";
 import {setAccountModalVisible, setOverAndAccModal, setOverlayVisible} from "../../features/ui/uiSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import AccountList from "../../components/Account/AccountList.jsx";
@@ -41,6 +41,7 @@ const Wallet = () =>{
 
     useEffect(() => {
         dispatch(getAccountList())
+        dispatch(getIncomeSourceList())
     }, []);
 
 
