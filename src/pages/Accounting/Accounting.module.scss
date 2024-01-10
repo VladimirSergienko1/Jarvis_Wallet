@@ -127,7 +127,6 @@
         @extend .utility_input;
         width: 180px;
         position: relative;
-        margin-bottom: 1.85rem;
       }
     }
   }
@@ -135,6 +134,7 @@
   .listBody{
     display: flex;
     flex-direction: column;
+    margin-top: 1.85rem;
 
     .listGroups{
       display: flex;

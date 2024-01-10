@@ -7,17 +7,12 @@ import ReactInputDateMask from 'react-input-date-mask';
 import ElementsContainer from "./ElementsContainer.jsx";
 import {useSelector} from "react-redux";
 
-const options = [
-    { value: 'all', label: 'ALL' },
-    { value: 'en', label: 'English' },
-    { value: 'ru', label: 'Russian' },
-    { value: 'kk', label: 'Kazakh' },
-    { value: 'ua', label: 'Ukrainian' },
-];
 const AccountingList = () => {
 
     const [selectedOption, setSelectedOption] = useState(null);
     const sources = useSelector((state) => state.user.userIncomeSource);
+    const incomeTab = useSelector((state) => state.ui.incomeTab);
+    console.log('incomeTab',incomeTab)
     const handleLanguageChange = (option) => {
         setSelectedOption(option);
       //  formik.setFieldValue('language', option.value);
@@ -31,7 +26,7 @@ const AccountingList = () => {
 
     return (
         <div className={styles.accountingList}>
-            <div className={styles.listHeader}>
+            { incomeTab === 'income' && ( <div className={styles.listHeader}>
                 <div className={styles.inputGroup}>
                     <label htmlFor={'Sources'} className={styles.inputLabels}>Source</label>
                     <CustomSelect
@@ -39,20 +34,11 @@ const AccountingList = () => {
                         defaultValue={selectedOption}
                         onChange={handleLanguageChange}
                         options={sourceOptions}
+                        className={styles.listInput}
                     />
                 </div>
                 <div className={styles.inputGroup}>
                     <label htmlFor={'from_input'} className={styles.inputLabels}>From</label>
-                      {/*  <input
-                            id="from_input"
-                            name="password"
-                            type="password"
-                            placeholder={'dd/mm/yyyy'}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // value={formik.values.password}
-                            className={styles.listInput}
-                        />*/}
                     <ReactInputDateMask
                         mask='dd/mm/yyyy'
                         id="from_input"
@@ -75,8 +61,22 @@ const AccountingList = () => {
                         showMaskOnHover={true}
                     />
                 </div>
-            </div>
+            </div>)}
+            { incomeTab === 'source' && (
+            <div className={styles.listHeader}>
+                <div className={styles.inputGroup}>
+                    <label htmlFor={'Sources'} className={styles.inputLabels}>Name</label>
+                    <CustomSelect
+                        placeholder="All"
+                        defaultValue={selectedOption}
+                        onChange={handleLanguageChange}
+                        options={sourceOptions}
+                        className={styles.listInput}
+                    />
+                </div>
+            </div>)}
             <div className={styles.listBody}>
+                {incomeTab === 'income' && (
                     <div className={styles.listGroups}>
                         <span className={styles.listLabels}>Position</span>
                         <span className={styles.listLabels}>Type</span>
@@ -85,8 +85,20 @@ const AccountingList = () => {
                         <span className={styles.listLabels}>Time</span>
                         <span className={styles.listLabels}>Action</span>
                     </div>
+                )}
+                {incomeTab === 'source' && (
+                    <div className={styles.listGroups}>
+                        <span className={styles.listLabels}>Position</span>
+                        <span className={styles.listLabels}>Ico</span>
+                        <span className={styles.listLabels}>Name</span>
+                        <span className={styles.listLabels}>Common</span>
+                        <span className={styles.listLabels}>Used</span>
+                        <span className={styles.listLabels}>Action</span>
+                    </div>
+                )}
                 <ElementsContainer/>
             </div>
+
 
         </div>
 

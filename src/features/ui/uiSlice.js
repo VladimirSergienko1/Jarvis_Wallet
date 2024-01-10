@@ -5,6 +5,7 @@ const initialState ={
     accountingOverlayIsVisible:false, //FIXME account is not accounting
     accountModalDataForEditing: null,
     incomeDataForEditing: null,
+    incomeTab: 'income',
     overlayIsVisible: false,
     incomeModalIsVisible: false,
     error: null,
@@ -34,7 +35,10 @@ const uiSlice = createSlice({
         },
         setIncomeDataForEditing: (state,action) => {
             state.incomeDataForEditing = action.payload
-        }
+        },
+        setIncomeTab: (state, action) => {
+            state.incomeTab = action.payload;
+        },
 
     },
     extraReducers: (builder) => {
@@ -47,5 +51,5 @@ const uiSlice = createSlice({
 })
 
 console.log('uiSlice',uiSlice)
-export const {setAccountModalVisible,setOverlayVisible, setOverAndAccModal, setAccountModalDataForEditing, setOverAndIncomeModal, setIncomeDataForEditing} = uiSlice.actions
+export const {setAccountModalVisible,setOverlayVisible, setOverAndAccModal, setIncomeTab, setAccountModalDataForEditing, setOverAndIncomeModal, setIncomeDataForEditing} = uiSlice.actions
 export default uiSlice.reducer

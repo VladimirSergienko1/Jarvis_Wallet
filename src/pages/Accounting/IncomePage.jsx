@@ -6,15 +6,17 @@ import AccountingList from "./AccountingList.jsx";
 import AddButton from "../../components/Accounting/AddButton.jsx";
 import {getAccountList, getIncomeList, getIncomeSourceList} from "../../features/user/userSlice.js";
 import {useDispatch, useSelector} from "react-redux";
+import {setIncomeTab} from "../../features/ui/uiSlice.js";
 
 const IncomePage = () => {
     const dispatch = useDispatch()
     const sources = useSelector((state) => state.user.userIncomeSource);
-    console.log('sources',sources)
-    const [selectedItem, setSelectedItem] = useState(0);
-    const handleSelect = (index)=>{
-        setSelectedItem(index)
-    }
+    const incomeTab = useSelector((state) => state.ui.incomeTab);
+
+    const handleSelect = (value) => {
+        dispatch(setIncomeTab(value))
+    };
+
     useEffect(() => {
         dispatch(getIncomeSourceList())
     }, []);
@@ -36,10 +38,10 @@ const IncomePage = () => {
             </div>
             <div className={styles.nav_container_body}>
                 <ul className={styles.nav_container_list}>
-                    <li className={selectedItem===0 ? styles.nav_container_item_selected : styles.nav_container_item}
-                        onClick={()=>handleSelect(0)}>List</li>
-                    <li className={selectedItem===1 ? styles.nav_container_item_selected : styles.nav_container_item}
-                        onClick={()=>handleSelect(1)}>Sources</li>
+                    <li className={incomeTab === 'income' ? styles.nav_container_item_selected : styles.nav_container_item}
+                        onClick={()=>handleSelect('income')}>List</li>
+                    <li className={incomeTab === 'source' ? styles.nav_container_item_selected : styles.nav_container_item}
+                        onClick={()=>handleSelect('source')}>Sources</li>
                 </ul>
             </div>
             <AccountingList/>

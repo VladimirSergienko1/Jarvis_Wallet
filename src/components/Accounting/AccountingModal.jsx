@@ -135,14 +135,12 @@ const AccountingModal = () => {
 
     useEffect(() => {
         if (incomeDataForEditing) {
-            // Режим редактирования
             const editingAccountValue = accounts.find(acc => acc.id === incomeDataForEditing.account_id);
             const editingSourceValue = sources.find(src => src.id === incomeDataForEditing.source_id);
 
             formik.setFieldValue('account_id', editingAccountValue ? editingAccountValue.id : '');
             formik.setFieldValue('source_id', editingSourceValue ? editingSourceValue.id : '');
         } else {
-            // Режим создания
             setAccountOptions(accounts.map(acc => ({ value: acc.id, label: acc.name })));
             setSourceOptions(sources.map(src => ({ value: src.id, label: src.name })));
         }
