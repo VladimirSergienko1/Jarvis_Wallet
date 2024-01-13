@@ -1,28 +1,27 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import * as Yup from "yup";
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router-dom";
 import {
     createIncome, createIncomeSource,
-    deleteIncome, deleteIncomeSource,
-    editIncome, editIncomeSource,
+    deleteIncome,
+    deleteIncomeSource, editIncome, editIncomeSource,
     getAccountList,
     getIncomeSourceList
 } from "../../../features/user/userSlice.js";
 import {
-    setAccountModalDataForEditing,
     setDeletionMode,
     setIncomeDataForEditing,
-    setOverAndAccModal,
-    setOverAndIncomeModal, setSourceDataForEditing
+    setOverAndExpenseModal, setOverAndIncomeModal,
+    setSourceDataForEditing
 } from "../../../features/ui/uiSlice.js";
 import {useFormik} from "formik";
-import styles from "./AccountingModal.module.scss";
+import styles from "../Income/AccountingModal.module.scss";
 import button_help from "../../../assets/Account/button_help.svg";
 import CustomSelect from "../../LoginPage/CustomSelect.jsx";
 import AccountIcons from "../../../components/AccountIcons/AccountIcons.jsx";
+import * as Yup from "yup";
 
-const incomeValidationSchema = Yup.object({
+
+const expenseValidationSchema = Yup.object({
     time_at : Yup.string()
         .max(256, 'Name should be less than 256 characters ')
         .required('Time is required'),
@@ -32,22 +31,23 @@ const incomeValidationSchema = Yup.object({
         .required('Amount is required'),
     comment: Yup.string()
         .required('comment is required')
+
 });
 const sourceValidationSchema = Yup.object({
     name: Yup.string()
         .required('name is required')
 });
-const IncomeModal = () => {
+const ExpensesModal = () => {
     const dispatch = useDispatch()
-    const incomeModalIsVisible = useSelector((state) => state.ui.incomeModalIsVisible)
-    const incomeOverlayIsVisible = useSelector((state) => state.ui.incomeOverlayIsVisible)
+    const expenseModalIsVisible = useSelector((state) => state.ui.expenseModalIsVisible)
+    const expenseOverlayIsVisible = useSelector((state) => state.ui.expenseOverlayIsVisible)
     const isDeletionMode = useSelector((state) => state.ui.isDeletionMode)
     const [activeIndex, setActiveIndex] = useState( 0);
     const incomeDataForEditing = useSelector((state) => state.ui.incomeDataForEditing);
     const sourceDataForEditing = useSelector((state) => state.ui.sourceDataForEditing);
     const accounts = useSelector((state) => state.user.userAccounts);
     const sources = useSelector((state) => state.user.userIncomeSource);
-    const incomeTab = useSelector((state) => state.ui.incomeTab);
+    const expenseTab = useSelector((state) => state.ui.expenseTab);
     const incomeId = incomeDataForEditing?.id
     const sourceId = sourceDataForEditing?.id
     const [accountOptions, setAccountOptions] = useState([]);
@@ -66,30 +66,28 @@ const IncomeModal = () => {
         setActiveIndex(index);
     };
 
-    const handleOverlayClick = ()=>{
-            dispatch(setOverAndIncomeModal(false,false))
-            dispatch(setIncomeDataForEditing(null))
-            dispatch(setSourceDataForEditing(null))
-            dispatch(setDeletionMode(false))
-    }
     const handleSourceChange = (selectedOption) => {
         formik.setFieldValue('source_id', selectedOption.value);
     };
-
+    const handleOverlayClick = ()=>{
+        dispatch(setOverAndExpenseModal(false,false))
+        //dispatch(setIncomeDataForEditing(null))
+        //dispatch(setSourceDataForEditing(null))
+        dispatch(setDeletionMode(false))
+    }
     const handleDelete = (incomeId)=>{
-        if (incomeTab === 'income') {
+        if (expenseTab === 'expense') {
             dispatch(deleteIncome(incomeId))
-            dispatch(setOverAndIncomeModal(false,false))
+            dispatch(setOverAndExpenseModal(false,false))
             dispatch(setIncomeDataForEditing(null))
             dispatch(setDeletionMode(false))
         }
-        if (incomeTab === 'source'){
+        if (expenseTab === 'source'){
             dispatch(deleteIncomeSource(incomeId))
-            dispatch(setOverAndIncomeModal(false,false))
+            dispatch(setOverAndExpenseModal(false,false))
             dispatch(setSourceDataForEditing(null))
             dispatch(setDeletionMode(false))
         }
-
     }
 
     const formik = useFormik({
@@ -100,14 +98,14 @@ const IncomeModal = () => {
             comment:'',
             time_at: '',
         },
-        validationSchema: incomeValidationSchema,
+        validationSchema: expenseValidationSchema,
         onSubmit: async (values) => {
             if (!incomeDataForEditing){
                 const incomeData = {...values}
                 try {
                     dispatch(createIncome(incomeData));
                     dispatch(setDeletionMode(false))
-                    dispatch(setOverAndIncomeModal(false,false))
+                    dispatch(setOverAndExpenseModal(false,false))
                     formik.resetForm();
                 } catch (error) {
                     console.error("Ошибка в создании Income:", error);
@@ -121,13 +119,13 @@ const IncomeModal = () => {
                     };
                     console.log('incomeData',incomeData)
                     dispatch(editIncome(incomeData));
-                    dispatch(setOverAndIncomeModal(false,false))
+                    dispatch(setOverAndExpenseModal(false,false))
                     formik.resetForm();
                 } catch (error) {
                     console.error("Ошибка при редактировании Income:", error);
                 }
                 console.log('incomeDataForEditing', values);
-           }
+            }
 
         },
     });
@@ -144,7 +142,7 @@ const IncomeModal = () => {
                 try {
                     dispatch(createIncomeSource(sourceData));
                     dispatch(setDeletionMode(false))
-                    dispatch(setOverAndIncomeModal(false,false))
+                    dispatch(setOverAndExpenseModal(false,false))
                     sourceFormik.resetForm();
                 } catch (error) {
                     console.error("Ошибка в создании Source:", error);
@@ -158,7 +156,7 @@ const IncomeModal = () => {
                         ico_id: activeIndex
                     };
                     dispatch(editIncomeSource(sourceData));
-                    dispatch(setOverAndIncomeModal(false,false))
+                    dispatch(setOverAndExpenseModal(false,false))
                     sourceFormik.resetForm();
                 } catch (error) {
                     console.error("Ошибка при редактировании Source:", error);
@@ -193,7 +191,6 @@ const IncomeModal = () => {
         if (incomeDataForEditing) {
             const editingAccountValue = accounts.find(acc => acc.id === incomeDataForEditing.account_id);
             const editingSourceValue = sources.find(src => src.id === incomeDataForEditing.source_id);
-
             formik.setFieldValue('account_id', editingAccountValue ? editingAccountValue.id : '');
             formik.setFieldValue('source_id', editingSourceValue ? editingSourceValue.id : '');
         } else {
@@ -204,14 +201,14 @@ const IncomeModal = () => {
 
     return(
         <>
-            {incomeOverlayIsVisible && <div className={styles.overlay} onClick={handleOverlayClick}></div>}
-            {incomeModalIsVisible &&
+            {expenseOverlayIsVisible && <div className={styles.overlay} onClick={handleOverlayClick}></div>}
+            {expenseModalIsVisible &&
                 <div className={styles.account__container}>
                     <div className={styles.account__header}>
-                        <h2 className={styles.account_header_title}>{isDeletionMode ? 'Confirmation': (incomeDataForEditing || sourceDataForEditing) ? `Edit  ${incomeTab === 'income' ? 'income' : 'income source'}`  : `Add new  ${incomeTab === 'income' ? 'income' : 'income source'}`}</h2>
+                        <h2 className={styles.account_header_title}>{isDeletionMode ? 'Confirmation': (incomeDataForEditing || sourceDataForEditing) ? `Edit  ${expenseTab === 'expense' ? 'expense' : 'expense source'}`  : `Add new  ${expenseTab === 'expense' ? 'expense' : 'expense source'}`}</h2>
                         <img className={styles.help_button} src={button_help}/>
                     </div>
-                    {(!isDeletionMode && incomeTab === 'income') && <form className={styles.block_form} onSubmit={formik.handleSubmit}>
+                    {(!isDeletionMode && expenseTab === 'expense') && <form className={styles.block_form} onSubmit={formik.handleSubmit}>
                         <div className={styles.input_group}>
                             <div className={styles.input_container} >
                                 <label htmlFor={'acc_input'} className={styles.reg_label}>Account</label>
@@ -289,7 +286,7 @@ const IncomeModal = () => {
                         </div>
                     </form>}
 
-                    {(!isDeletionMode && incomeTab === 'source') && <form className={styles.block_form} onSubmit={sourceFormik.handleSubmit}>
+                    {(!isDeletionMode && expenseTab === 'source') && <form className={styles.block_form} onSubmit={sourceFormik.handleSubmit}>
                         <div className={styles.input_group}>
                             <div className={styles.input_container} >
                                 <label htmlFor={'name_input'} className={styles.reg_label_required}>Name</label>
@@ -329,7 +326,7 @@ const IncomeModal = () => {
                         </div>
                     </form>}
 
-                    {(isDeletionMode &&  incomeTab === 'income') && <form className={styles.block_form} onSubmit={formik.handleSubmit}>
+                    {(isDeletionMode &&  expenseTab === 'expense') && <form className={styles.block_form} onSubmit={formik.handleSubmit}>
                         <div className={styles.block_form_content}>
                             <p className={styles.content_text}>Confirm the deletion operation</p>
                         </div>
@@ -339,7 +336,7 @@ const IncomeModal = () => {
                         </div>
                     </form>}
 
-                    {(isDeletionMode &&  incomeTab === 'source') && <form className={styles.block_form} onSubmit={sourceFormik.handleSubmit}>
+                    {(isDeletionMode &&  expenseTab === 'source') && <form className={styles.block_form} onSubmit={sourceFormik.handleSubmit}>
                         <div className={styles.block_form_content}>
                             <p className={styles.content_text}>Confirm the deletion operation</p>
                         </div>
@@ -353,4 +350,4 @@ const IncomeModal = () => {
     )
 };
 
-export default IncomeModal;
+export default ExpensesModal;

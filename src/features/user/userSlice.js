@@ -125,6 +125,48 @@ export const deleteIncomeSource = createAsyncThunk(
         }
     }
 )
+export const createExpense = createAsyncThunk(
+    'create/expense',
+    async ({source_id, account_id, amount, comment, time_at}, {rejectedWithValue})=>{
+        try {
+            const response = await AuthService.createExpense(source_id, account_id, amount, comment, time_at)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+
+export const editExpense = createAsyncThunk(
+    'edit/expense',
+    async ({expense_id, source_id, amount, comment, time_at}, {getState , dispatch,rejectedWithValue})=>{
+        try {
+            const response = await AuthService.editIncome(expense_id, source_id, amount, comment, time_at)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+export const deleteExpense = createAsyncThunk(
+    'delete/expense',
+    async (expense_id, {dispatch, rejectedWithValue})=>{
+        try {
+            const response = await AuthService.deleteIncome(expense_id)
+            dispatch(getExpenseList());
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+
 
 export const checkAuth = createAsyncThunk(
     'user/checkAuth',
@@ -179,6 +221,20 @@ export const getIncomeList = createAsyncThunk(
         }
     }
 )
+export const getExpenseList = createAsyncThunk(
+    'get/expenseList',
+    async (_,{rejectedWithValue})=>{
+        try {
+            const response = await AuthService.getExpenseList()
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+
 
 export const getSingleAccount = createAsyncThunk(
     'get/singleAccount',
@@ -202,6 +258,7 @@ const initialState ={
     userAccounts: [],
     userTheme: localStorage.getItem('theme') || 'light',
     userIncomes: [],
+    userExpenses: [],
     userIncomeSource: [],
 }
 
@@ -262,6 +319,14 @@ const userSlice = createSlice({
             .addCase(getIncomeList.rejected, (state, action) => {
                 state.error = action.payload;
             })
+            .addCase(getExpenseList.pending, (state,action)=>{
+            })
+            .addCase(getExpenseList.fulfilled, (state, action) => {
+                state.userExpenses = action.payload
+            })
+            .addCase(getExpenseList.rejected, (state, action) => {
+                state.error = action.payload;
+            })
             //
             .addCase(createAccount.pending, (state,action)=>{
            // state.isLoading = true;
@@ -293,6 +358,17 @@ const userSlice = createSlice({
                     state.userIncomes[index] = action.payload;
                 }
             })
+            .addCase(editExpense.rejected, (state, action) => {
+                state.error = action.payload;
+                //state.isLoading = false;
+            })
+
+            .addCase(editExpense.fulfilled, (state, action) => {
+                const index = state.userExpenses.findIndex(expense => expense.id === action.payload.id);
+                if (index !== -1) {
+                    state.userExpenses[index] = action.payload;
+                }
+            })
             .addCase(editIncomeSource.fulfilled, (state, action) => {
                 const index = state.userIncomeSource.findIndex(income => income.id === action.payload.id);
                 if (index !== -1) {
@@ -303,10 +379,7 @@ const userSlice = createSlice({
                 state.error = action.payload;
                 //state.isLoading = false;
             })
-            .addCase(deleteAccount.fulfilled, (state, action, { dispatch }) => {
-
-            })
-            .addCase(deleteAccount.rejected, (state, action) => {
+            .addCase(deleteExpense.rejected, (state, action) => {
                 state.error = action.payload;
                 //state.isLoading = false;
             })
@@ -314,6 +387,12 @@ const userSlice = createSlice({
                 state.userIncomes.push(action.payload);
             })
             .addCase(createIncome.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+            .addCase(createExpense.fulfilled, (state, action) => {
+                state.userExpenses.push(action.payload);
+            })
+            .addCase(createExpense.rejected, (state, action) => {
                 state.error = action.payload;
             })
             .addCase(createIncomeSource.fulfilled, (state, action) => {

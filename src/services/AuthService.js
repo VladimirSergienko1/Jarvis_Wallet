@@ -1,4 +1,4 @@
-import $api, {$apiAccounts, $apiIncome, $apiIncomeSources} from "../http/api.js";
+import $api, {$apiAccounts, $apiExpense, $apiIncome, $apiIncomeSources} from "../http/api.js";
 import { $apiUser } from "../http/api.js";
 
 class AuthService {
@@ -49,8 +49,15 @@ class AuthService {
     static async deleteIncomeSource(incomeSource_id){
         return $apiIncomeSources.delete(`/delete/${incomeSource_id}`)
     }
-
-
+    static async createExpense(source_id, account_id, amount, comment, time_at){
+        return $apiExpense.post('/create', {source_id, account_id, amount, comment, time_at})
+    }
+    static async editExpense(expense_id, source_id, amount, comment, time_at){
+        return $apiExpense.put(`/update/${expense_id}`, {source_id, amount, comment, time_at})
+    }
+    static async deleteExpense(expense_id){
+        return $apiExpense.delete(`/delete/${expense_id}`)
+    }
 
     static async getAccountList (){
         return $apiAccounts.get('/list')
@@ -64,6 +71,9 @@ class AuthService {
     }
     static async getIncomeList (){
         return $apiIncome.get('/list')
+    }
+    static async getExpenseList (){
+        return $apiExpense.get('/list')
     }
 
 }

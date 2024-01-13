@@ -17,6 +17,7 @@ import {RotatingLines} from "react-loader-spinner";
 import IncomePage from "../Accounting/Income/IncomePage.jsx";
 import ExpensesPage from "../Accounting/Expenses/ExpensesPage.jsx";
 import IncomeModal from "../Accounting/Income/IncomeModal.jsx";
+import ExpensesModal from "../Accounting/Expenses/ExpensesModal.jsx";
 
 const Wallet = () =>{
     const dispatch = useDispatch();
@@ -73,6 +74,7 @@ const Wallet = () =>{
                     <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}} alt={'plusIcon'}/>
                     <AccountModal/>
                     <IncomeModal/>
+                    <ExpensesModal/>
                 </div>
                 <div className={styles.container_body}>
                     <div className={styles.inputContainer}>

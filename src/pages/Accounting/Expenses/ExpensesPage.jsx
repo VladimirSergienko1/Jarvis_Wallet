@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {setExpenseTab} from "../../../features/ui/uiSlice.js";
-import {getIncomeList, getIncomeSourceList} from "../../../features/user/userSlice.js";
+import {getExpenseList, getIncomeList, getIncomeSourceList} from "../../../features/user/userSlice.js";
 import styles from "../Accounting.module.scss";
-import AddButton from "../Income/AddButton.jsx";
+import AddButton from "../Expenses/AddButton.jsx";
 import CloseButton from "../../../components/CloseButton/CloseButton.jsx";
 import ExpensesList from "./ExpensesList.jsx";
 
@@ -20,9 +20,8 @@ const ExpensesPage = () => {
         dispatch(getIncomeSourceList())
     }, []);
     useEffect(() => {
-        dispatch(getIncomeList())
+        dispatch(getExpenseList())
     }, []);
-
 
     return (
         <div className={styles.account__view_nav_container}>

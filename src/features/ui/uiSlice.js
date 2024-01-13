@@ -2,14 +2,21 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const initialState ={
     accountModalIsVisible: false,
-    accountingOverlayIsVisible:false, //FIXME account is not accounting
+    overlayIsVisible: false,
+    incomeOverlayIsVisible:false,
+    expenseOverlayIsVisible:false,
+    incomeModalIsVisible: false,
+    expenseModalIsVisible: false,
+    transferModalIsVisible: false,
+    loanModalIsVisible: false,
+    obligationModalIsVisible: false,
+    assetModalIsVisible: false,
+    budgetModalIsVisible: false,
     accountModalDataForEditing: null,
     incomeDataForEditing: null,
     sourceDataForEditing: null,
     incomeTab: 'income',
     expenseTab: 'expense',
-    overlayIsVisible: false,
-    incomeModalIsVisible: false,
     error: null,
     isDeletionMode: false,
     isLoading: false,
@@ -33,8 +40,12 @@ const uiSlice = createSlice({
             state.accountModalIsVisible = action.payload;
         },
         setOverAndIncomeModal: (state, action) => {
-            state.overlayIsVisible = action.payload;
+            state.incomeOverlayIsVisible = action.payload;
             state.incomeModalIsVisible = action.payload;
+        },
+        setOverAndExpenseModal: (state, action) => {
+            state.expenseOverlayIsVisible = action.payload;
+            state.expenseModalIsVisible = action.payload;
         },
         setAccountModalDataForEditing: (state,action) => {
             state.accountModalDataForEditing = action.payload
@@ -63,5 +74,5 @@ const uiSlice = createSlice({
 })
 
 console.log('uiSlice',uiSlice)
-export const {setAccountModalVisible,setOverlayVisible,setDeletionMode,setSourceDataForEditing, setOverAndAccModal, setIncomeTab, setAccountModalDataForEditing, setOverAndIncomeModal, setExpenseTab, setIncomeDataForEditing} = uiSlice.actions
+export const {setAccountModalVisible,setOverAndExpenseModal,setOverlayVisible,setDeletionMode,setSourceDataForEditing, setOverAndAccModal, setIncomeTab, setAccountModalDataForEditing, setOverAndIncomeModal, setExpenseTab, setIncomeDataForEditing} = uiSlice.actions
 export default uiSlice.reducer

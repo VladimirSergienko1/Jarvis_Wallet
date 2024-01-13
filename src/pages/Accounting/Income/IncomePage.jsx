@@ -10,7 +10,6 @@ import {setIncomeTab} from "../../../features/ui/uiSlice.js";
 
 const IncomePage = () => {
     const dispatch = useDispatch()
-    const sources = useSelector((state) => state.user.userIncomeSource);
     const incomeTab = useSelector((state) => state.ui.incomeTab);
 
     const handleSelect = (value) => {

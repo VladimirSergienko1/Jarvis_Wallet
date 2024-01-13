@@ -31,10 +31,8 @@ const IncomesListElement = (props) => {
     return (
         <div className={styles.listEl}>
             <span className={styles.elText}>354</span>
-            <div>
                 <span className={styles.elText}>Income</span>
                 <img/>
-            </div>
             <span className={styles.elText}>{props.source_id}</span>
             <span className={styles.elText}>{props.amount}</span>
             <span className={styles.elText}>{formatDate(props.time_at)}</span>

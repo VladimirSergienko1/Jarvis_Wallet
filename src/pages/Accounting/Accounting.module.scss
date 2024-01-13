@@ -138,17 +138,22 @@
 
     .listGroups{
       display: flex;
-      justify-content: space-between;
       margin-bottom: 19px;
+      padding-left: 20px;
+      padding-right: 30px;
 
       .listLabels{
         color: var(--primary-color);
-        text-align: center;
         font-family: Roboto;
         font-size: 16px;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
+        width: 200px;
+
+        &:nth-last-child(1){
+          width: auto;
+        }
       }
     }
     .elContainer{
@@ -161,10 +166,10 @@
         justify-content: space-between;
         border-radius: 32px;
         /*padding: 12px;*/
+        align-items: center;
         padding: 22px;
         width: auto;
         background: var(--bg-color);
-        align-items: center;
 
         .elText{
           color: var(--primary-color);
@@ -173,6 +178,10 @@
           font-style: normal;
           font-weight: 400;
           line-height: normal;
+          width: 130px;
+          &:nth-last-child(1){
+            width: auto;
+          }
         }
         .elBtn{
           @extend .utility_btn;

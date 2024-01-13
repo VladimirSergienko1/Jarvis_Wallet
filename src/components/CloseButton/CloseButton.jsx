@@ -5,7 +5,7 @@ import closeImgDark from "../../assets/Account/close-dark.svg";
 import {
     setAccountModalDataForEditing, setDeletionMode,
     setIncomeDataForEditing,
-    setOverAndAccModal,
+    setOverAndAccModal, setOverAndExpenseModal,
     setOverAndIncomeModal, setSourceDataForEditing
 } from "../../features/ui/uiSlice.js";
 import {useNavigate} from "react-router-dom";
@@ -15,6 +15,7 @@ const CloseButton = () => {
     const dispatch = useDispatch();
     const accountModalVisible = useSelector((state) => state.ui.accountModalIsVisible)
     const incomeModalVisible = useSelector((state) => state.ui.incomeModalIsVisible)
+    const expenseModalVisible = useSelector((state) => state.ui.expenseModalIsVisible)
     const theme = useSelector((state)=> state.user.userTheme)
 
     let navigate = useNavigate()
@@ -28,6 +29,12 @@ const CloseButton = () => {
             dispatch(setOverAndIncomeModal(false, false));
             dispatch(setIncomeDataForEditing(null))
             dispatch(setSourceDataForEditing(null))
+            dispatch(setDeletionMode(false))
+        }
+        else if (expenseModalVisible){
+            dispatch(setOverAndExpenseModal(false, false));
+            //dispatch(setIncomeDataForEditing(null))
+            //dispatch(setSourceDataForEditing(null))
             dispatch(setDeletionMode(false))
         }
         else {

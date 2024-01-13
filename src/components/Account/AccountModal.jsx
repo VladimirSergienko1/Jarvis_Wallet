@@ -68,10 +68,7 @@ const AccountModal = ()=>{
 
     const handleOverlayClick = () =>{
         dispatch(setOverAndAccModal(false,false))
-        dispatch(setOverAndIncomeModal(false,false))
         dispatch(setAccountModalDataForEditing(null))
-        dispatch(setIncomeDataForEditing(null))
-        dispatch(setSourceDataForEditing(null))
         dispatch(setDeletionMode(false))
     }
 
