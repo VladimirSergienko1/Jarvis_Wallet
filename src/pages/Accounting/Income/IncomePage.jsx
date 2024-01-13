@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import styles from "./Accounting.module.scss";
-import EditButton from "../../components/Account/EditButton.jsx";
-import CloseButton from "../../components/CloseButton/CloseButton.jsx";
-import AccountingList from "./AccountingList.jsx";
-import AddButton from "../../components/Accounting/AddButton.jsx";
-import {getAccountList, getIncomeList, getIncomeSourceList} from "../../features/user/userSlice.js";
+import styles from "../Accounting.module.scss";
+import EditButton from "../../../components/Account/EditButton.jsx";
+import CloseButton from "../../../components/CloseButton/CloseButton.jsx";
+import IncomeList from "./IncomeList.jsx";
+import AddButton from "./AddButton.jsx";
+import {getAccountList, getIncomeList, getIncomeSourceList} from "../../../features/user/userSlice.js";
 import {useDispatch, useSelector} from "react-redux";
-import {setIncomeTab} from "../../features/ui/uiSlice.js";
+import {setIncomeTab} from "../../../features/ui/uiSlice.js";
 
 const IncomePage = () => {
     const dispatch = useDispatch()
@@ -32,7 +32,7 @@ const IncomePage = () => {
                     <h3 className={styles.account__nav_header_title}>Income</h3>
                 </div>
                 <div style={{display:'flex',alignItems:'center', gap: '1rem'}}>
-                    <AddButton title={'Add income'}/>
+                    <AddButton title={`Add ${incomeTab === 'income' ? 'income' : 'source'}`}/>
                     <CloseButton />
                 </div>
             </div>
@@ -44,7 +44,7 @@ const IncomePage = () => {
                         onClick={()=>handleSelect('source')}>Sources</li>
                 </ul>
             </div>
-            <AccountingList/>
+            <IncomeList/>
         </div>
     );
 };

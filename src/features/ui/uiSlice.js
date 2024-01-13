@@ -5,10 +5,13 @@ const initialState ={
     accountingOverlayIsVisible:false, //FIXME account is not accounting
     accountModalDataForEditing: null,
     incomeDataForEditing: null,
+    sourceDataForEditing: null,
     incomeTab: 'income',
+    expenseTab: 'expense',
     overlayIsVisible: false,
     incomeModalIsVisible: false,
     error: null,
+    isDeletionMode: false,
     isLoading: false,
 }
 
@@ -21,6 +24,9 @@ const uiSlice = createSlice({
         },
         setOverlayVisible: (state, action) => {
             state.overlayIsVisible = action.payload;
+        },
+        setDeletionMode: (state, action) => {
+            state.isDeletionMode = action.payload;
         },
         setOverAndAccModal: (state, action) => {
             state.overlayIsVisible = action.payload;
@@ -36,8 +42,14 @@ const uiSlice = createSlice({
         setIncomeDataForEditing: (state,action) => {
             state.incomeDataForEditing = action.payload
         },
+        setSourceDataForEditing: (state,action) => {
+            state.sourceDataForEditing = action.payload
+        },
         setIncomeTab: (state, action) => {
             state.incomeTab = action.payload;
+        },
+        setExpenseTab: (state, action) => {
+            state.expenseTab = action.payload;
         },
 
     },
@@ -51,5 +63,5 @@ const uiSlice = createSlice({
 })
 
 console.log('uiSlice',uiSlice)
-export const {setAccountModalVisible,setOverlayVisible, setOverAndAccModal, setIncomeTab, setAccountModalDataForEditing, setOverAndIncomeModal, setIncomeDataForEditing} = uiSlice.actions
+export const {setAccountModalVisible,setOverlayVisible,setDeletionMode,setSourceDataForEditing, setOverAndAccModal, setIncomeTab, setAccountModalDataForEditing, setOverAndIncomeModal, setExpenseTab, setIncomeDataForEditing} = uiSlice.actions
 export default uiSlice.reducer

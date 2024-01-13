@@ -71,6 +71,60 @@ export const editIncome = createAsyncThunk(
         }
     }
 )
+export const deleteIncome = createAsyncThunk(
+    'delete/income',
+    async (income_id, {dispatch, rejectedWithValue})=>{
+        try {
+            const response = await AuthService.deleteIncome(income_id)
+            dispatch(getIncomeList());
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+export const createIncomeSource = createAsyncThunk(
+    'create/incomeSource',
+    async ({name, comment, ico_id}, {rejectedWithValue})=>{
+        try {
+            const response = await AuthService.createIncomeSource(name, comment, ico_id)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+export const editIncomeSource = createAsyncThunk(
+    'edit/incomeSource',
+    async ({source_id, name, comment, ico_id}, {getState , dispatch,rejectedWithValue})=>{
+        try {
+            const response = await AuthService.editIncomeSource(source_id, name, comment, ico_id)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+export const deleteIncomeSource = createAsyncThunk(
+    'delete/incomeSource',
+    async (incomeSource_id, {dispatch, rejectedWithValue})=>{
+        try {
+            const response = await AuthService.deleteIncomeSource(incomeSource_id)
+            dispatch(getIncomeSourceList());
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
 
 export const checkAuth = createAsyncThunk(
     'user/checkAuth',
@@ -180,8 +234,6 @@ const userSlice = createSlice({
                 state.error = action.payload;
                 state.isLoading = false;
             })
-
-            //
             .addCase(getAccountList.pending, (state,action)=>{
                 state.accountsLoading = true;
             })
@@ -224,9 +276,6 @@ const userSlice = createSlice({
                 state.error = action.payload;
                 //state.isLoading = false;
             })
-            .addCase(editAccount.pending, (state,action)=>{
-                // state.isLoading = true;
-            })
             .addCase(editAccount.fulfilled, (state, action) => {
                 const index = state.userAccounts.findIndex(account => account.id === action.payload.id);
                 if (index !== -1) {
@@ -237,21 +286,22 @@ const userSlice = createSlice({
                 state.error = action.payload;
                 //state.isLoading = false;
             })
-            .addCase(editIncome.pending, (state,action)=>{
-                // state.isLoading = true;
-            })
+
             .addCase(editIncome.fulfilled, (state, action) => {
                 const index = state.userIncomes.findIndex(income => income.id === action.payload.id);
                 if (index !== -1) {
                     state.userIncomes[index] = action.payload;
                 }
             })
+            .addCase(editIncomeSource.fulfilled, (state, action) => {
+                const index = state.userIncomeSource.findIndex(income => income.id === action.payload.id);
+                if (index !== -1) {
+                    state.userIncomeSource[index] = action.payload;
+                }
+            })
             .addCase(editAccount.rejected, (state, action) => {
                 state.error = action.payload;
                 //state.isLoading = false;
-            })
-            .addCase(deleteAccount.pending, (state,action)=>{
-                // state.isLoading = true;
             })
             .addCase(deleteAccount.fulfilled, (state, action, { dispatch }) => {
 
@@ -260,15 +310,17 @@ const userSlice = createSlice({
                 state.error = action.payload;
                 //state.isLoading = false;
             })
-            .addCase(createIncome.pending, (state,action)=>{
-                // state.isLoading = true;
-            })
             .addCase(createIncome.fulfilled, (state, action) => {
                 state.userIncomes.push(action.payload);
             })
             .addCase(createIncome.rejected, (state, action) => {
                 state.error = action.payload;
-                //state.isLoading = false;
+            })
+            .addCase(createIncomeSource.fulfilled, (state, action) => {
+                state.userIncomeSource.push(action.payload);
+            })
+            .addCase(createIncomeSource.rejected, (state, action) => {
+                state.error = action.payload;
             })
             .addCase(getSingleAccount.pending,(state, action) => {
                 state.isLoading = true;

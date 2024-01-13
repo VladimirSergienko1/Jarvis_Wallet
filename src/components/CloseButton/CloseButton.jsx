@@ -3,15 +3,13 @@ import styles from "./CloseButton.module.scss";
 import closeImg from "../../assets/Account/close.svg";
 import closeImgDark from "../../assets/Account/close-dark.svg";
 import {
-    setAccountModalDataForEditing,
+    setAccountModalDataForEditing, setDeletionMode,
     setIncomeDataForEditing,
     setOverAndAccModal,
-    setOverAndIncomeModal
+    setOverAndIncomeModal, setSourceDataForEditing
 } from "../../features/ui/uiSlice.js";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import menuBackground from "../../assets/WalletsPage/menu-background.svg";
-import menuBackgroundDark from "../../assets/WalletsPage/menu-background-dark.svg";
 
 const CloseButton = () => {
     const dispatch = useDispatch();
@@ -21,13 +19,16 @@ const CloseButton = () => {
 
     let navigate = useNavigate()
     const close = ()=>{
-        if(accountModalVisible){
+        if (accountModalVisible){
             dispatch(setOverAndAccModal(false, false))
             dispatch(setAccountModalDataForEditing(null))
-            dispatch(setIncomeDataForEditing(null))
+            dispatch(setDeletionMode(false))
         }
-        if(incomeModalVisible){
+        else if (incomeModalVisible){
             dispatch(setOverAndIncomeModal(false, false));
+            dispatch(setIncomeDataForEditing(null))
+            dispatch(setSourceDataForEditing(null))
+            dispatch(setDeletionMode(false))
         }
         else {
             navigate('/main')
@@ -36,7 +37,6 @@ const CloseButton = () => {
     return (
             <div className={styles.menuBurger} onClick={close}>
                 <div className={styles.menuBackground}>
-
                     <img  className={styles.burgerIcon} src={theme === 'light' ? closeImg : closeImgDark} alt={'close'}/>
                 </div>
             </div>

@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import {setAccountModalDataForEditing, setOverAndAccModal, setOverAndIncomeModal} from "../../features/ui/uiSlice.js";
-import styles from "../Account/Account.module.scss";
+import {setAccountModalDataForEditing, setOverAndAccModal, setOverAndIncomeModal} from "../../../features/ui/uiSlice.js";
+import styles from "../../../components/Account/Account.module.scss";
 
 const AddButton = ({title}) => {
     const dispatch = useDispatch();

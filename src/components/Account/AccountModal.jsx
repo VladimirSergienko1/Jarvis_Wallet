@@ -7,12 +7,11 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {createAccount, deleteAccount, editAccount} from "../../features/user/userSlice.js";
-import CloseButton from "../CloseButton/CloseButton.jsx";
 import {
-    setAccountModalDataForEditing,
+    setAccountModalDataForEditing, setDeletionMode,
     setIncomeDataForEditing,
     setOverAndAccModal,
-    setOverAndIncomeModal
+    setOverAndIncomeModal, setSourceDataForEditing
 } from "../../features/ui/uiSlice.js";
 import {useNavigate, useParams} from "react-router-dom";
 
@@ -36,13 +35,12 @@ const validationSchema = Yup.object({
 const AccountModal = ()=>{
     const dispatch = useDispatch()
     const accountModalIsVisible = useSelector((state) => state.ui.accountModalIsVisible)
+    const isDeletionMode = useSelector((state) => state.ui.isDeletionMode)
     const overlayIsVisible = useSelector((state) => state.ui.overlayIsVisible)
-    const [isDeletionMode, setDeletionMode] = useState(false);
     const navigate = useNavigate();
     const accountModalDataForEditing = useSelector((state) => state.ui.accountModalDataForEditing);
     //console.log('accountModalDataForEditing',accountModalDataForEditing)
     const { accountId } = useParams();
-
     const options = [
         { value: 'USD', label: 'USD' },
         { value: 'EUR', label: 'EUR' },
@@ -62,19 +60,19 @@ const AccountModal = ()=>{
     };
 
     const handleDeleteAccount = (accountId)=>{
-        console.log('accountId',accountId)
         dispatch(deleteAccount((accountId)))
         dispatch(setOverAndAccModal(false,false))
         navigate('/main');
-        setDeletionMode(false)
+        dispatch(setDeletionMode(false))
     }
 
     const handleOverlayClick = () =>{
-        setDeletionMode(false)
         dispatch(setOverAndAccModal(false,false))
         dispatch(setOverAndIncomeModal(false,false))
         dispatch(setAccountModalDataForEditing(null))
         dispatch(setIncomeDataForEditing(null))
+        dispatch(setSourceDataForEditing(null))
+        dispatch(setDeletionMode(false))
     }
 
     const formik = useFormik({
@@ -207,7 +205,7 @@ const AccountModal = ()=>{
                 </div>
                 <AccountIcons activeIndex={activeIndex} handleGridItemClick={handleGridItemClick}/>
                 <div className={styles.reg_footer}>
-                    {accountModalDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>setDeletionMode(true)}>Delete</button>}
+                    {accountModalDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>dispatch(setDeletionMode(true))}>Delete</button>}
                     <button className={styles.reg_button} type={"submit"}>Continue</button>
                 </div>
             </form>}
@@ -217,7 +215,7 @@ const AccountModal = ()=>{
                         <p className={styles.content_text}>Confirm the deletion operation</p>
                     </div>
                         <div className={styles.reg_footer}>
-                            <button className={styles.cancel_button} type={"submit"} onClick={()=>setDeletionMode(false)}>Back</button>
+                            <button className={styles.cancel_button} type={"submit"} onClick={()=>dispatch(setDeletionMode(false))}>Back</button>
                             <button className={styles.del_button} type={"button"} onClick={()=>handleDeleteAccount(accountId)}>Delete</button>
                         </div>
                 </form>}

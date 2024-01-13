@@ -1,17 +1,16 @@
 import React from 'react';
-import styles from "./Accounting.module.scss";
+import styles from "../Accounting.module.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {
     setAccountModalDataForEditing,
     setIncomeDataForEditing,
     setOverAndAccModal,
     setOverAndIncomeModal
-} from "../../features/ui/uiSlice.js";
+} from "../../../features/ui/uiSlice.js";
 
-const ListElement = (props) => {
+const IncomesListElement = (props) => {
     const dispatch = useDispatch();
     const income = useSelector((state) => state.user.userIncomes);
-    const sources = useSelector((state) => state.user.userIncomeSource);
     const incomeTab = useSelector((state) => state.ui.incomeTab);
 
     const incomeData = useSelector((state) =>
@@ -44,4 +43,4 @@ const ListElement = (props) => {
     );
 };
 
-export default ListElement;
+export default IncomesListElement;

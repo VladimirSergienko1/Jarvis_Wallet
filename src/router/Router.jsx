@@ -12,8 +12,8 @@ import PrivateRoute from "./AuthRoute.jsx";
 import Profile from "../components/Profile/Profile.jsx";
 import AccountWalletView from "../components/Account/AccountWalletView.jsx";
 import AccountModal from "../components/Account/AccountModal.jsx";
-import IncomePage from "../pages/Accounting/IncomePage.jsx";
-import ExpensesPage from "../pages/Accounting/ExpensesPage.jsx";
+import IncomePage from "../pages/Accounting/Income/IncomePage.jsx";
+import ExpensesPage from "../pages/Accounting/Expenses/ExpensesPage.jsx";
 
 
 /*const routes = createBrowserRouter([

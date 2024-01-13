@@ -1,4 +1,5 @@
 @import '/src/styles/UtilityStyles.scss';
+
 .overlay {
   position: fixed;
   top: 0;
@@ -45,6 +46,8 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    min-height: 314px;
+    max-height: 314px;
     .block_form_title{
       color: var(--primary-color);
       text-align: center;

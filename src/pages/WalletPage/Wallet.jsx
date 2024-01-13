@@ -14,9 +14,9 @@ import InitialWalletView from "../../components/Wallet/InitialWalletView.jsx";
 import AccountWalletView from "../../components/Account/AccountWalletView.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {RotatingLines} from "react-loader-spinner";
-import IncomePage from "../Accounting/IncomePage.jsx";
-import ExpensesPage from "../Accounting/ExpensesPage.jsx";
-import AccountingModal from "../../components/Accounting/AccountingModal.jsx";
+import IncomePage from "../Accounting/Income/IncomePage.jsx";
+import ExpensesPage from "../Accounting/Expenses/ExpensesPage.jsx";
+import IncomeModal from "../Accounting/Income/IncomeModal.jsx";
 
 const Wallet = () =>{
     const dispatch = useDispatch();
@@ -34,10 +34,6 @@ const Wallet = () =>{
     useEffect(() => {
         dispatch(checkAuth())
     }, []);
-
-/*    useEffect(() => {
-        dispatch(checkAuth())
-    }, [dispatch]);*/
 
     useEffect(() => {
         dispatch(getAccountList())
@@ -76,7 +72,7 @@ const Wallet = () =>{
                     <h2 className={styles.header_title}>Accounts</h2>
                     <img src={PlusIcon} onClick={openAccModal} style={{cursor: 'pointer'}} alt={'plusIcon'}/>
                     <AccountModal/>
-                    <AccountingModal/>
+                    <IncomeModal/>
                 </div>
                 <div className={styles.container_body}>
                     <div className={styles.inputContainer}>

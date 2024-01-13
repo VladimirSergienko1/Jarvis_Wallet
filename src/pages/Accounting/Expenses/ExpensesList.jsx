@@ -1,38 +1,33 @@
 import React, {useMemo, useState} from 'react';
-import styles from "./Accounting.module.scss";
-import CustomSelect from "../LoginPage/CustomSelect.jsx";
-import errorIcon from "../../assets/LoginPage/Error_round.svg";
-import correctIcon from "../../assets/LoginPage/Done_round.svg";
-import ReactInputDateMask from 'react-input-date-mask';
-import ElementsContainer from "./ElementsContainer.jsx";
 import {useSelector} from "react-redux";
+import styles from "../Accounting.module.scss";
+import CustomSelect from "../../LoginPage/CustomSelect.jsx";
+import ReactInputDateMask from "react-input-date-mask";
+import IncomeElementsContainer from "../Income/IncomeElementsContainer.jsx";
 
-const AccountingList = () => {
-
+const ExpensesList = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const sources = useSelector((state) => state.user.userIncomeSource);
-    const incomeTab = useSelector((state) => state.ui.incomeTab);
-    console.log('incomeTab',incomeTab)
-    const handleLanguageChange = (option) => {
+    const expenseTab = useSelector((state) => state.ui.expenseTab);
+    const handleSourceChange = (option) => {
         setSelectedOption(option);
-      //  formik.setFieldValue('language', option.value);
     };
     const sourceOptions = useMemo(() => {
         return sources.map(source => ({
-            value: source.id, // Использовать id для значения
-            label: source.name // Имя для отображения
+            value: source.id,
+            label: source.name
         }));
     }, [sources]);
 
     return (
         <div className={styles.accountingList}>
-            { incomeTab === 'income' && ( <div className={styles.listHeader}>
+            { expenseTab === 'expense' && ( <div className={styles.listHeader}>
                 <div className={styles.inputGroup}>
                     <label htmlFor={'Sources'} className={styles.inputLabels}>Source</label>
                     <CustomSelect
                         placeholder="All"
                         defaultValue={selectedOption}
-                        onChange={handleLanguageChange}
+                        onChange={handleSourceChange}
                         options={sourceOptions}
                         className={styles.listInput}
                     />
@@ -62,21 +57,21 @@ const AccountingList = () => {
                     />
                 </div>
             </div>)}
-            { incomeTab === 'source' && (
-            <div className={styles.listHeader}>
-                <div className={styles.inputGroup}>
-                    <label htmlFor={'Sources'} className={styles.inputLabels}>Name</label>
-                    <CustomSelect
-                        placeholder="All"
-                        defaultValue={selectedOption}
-                        onChange={handleLanguageChange}
-                        options={sourceOptions}
-                        className={styles.listInput}
-                    />
-                </div>
-            </div>)}
+            { expenseTab === 'source' && (
+                <div className={styles.listHeader}>
+                    <div className={styles.inputGroup}>
+                        <label htmlFor={'Sources'} className={styles.inputLabels}>Name</label>
+                        <CustomSelect
+                            placeholder="All"
+                            defaultValue={selectedOption}
+                            onChange={handleSourceChange}
+                            options={sourceOptions}
+                            className={styles.listInput}
+                        />
+                    </div>
+                </div>)}
             <div className={styles.listBody}>
-                {incomeTab === 'income' && (
+                {expenseTab === 'expense' && (
                     <div className={styles.listGroups}>
                         <span className={styles.listLabels}>Position</span>
                         <span className={styles.listLabels}>Type</span>
@@ -86,7 +81,7 @@ const AccountingList = () => {
                         <span className={styles.listLabels}>Action</span>
                     </div>
                 )}
-                {incomeTab === 'source' && (
+                {expenseTab === 'source' && (
                     <div className={styles.listGroups}>
                         <span className={styles.listLabels}>Position</span>
                         <span className={styles.listLabels}>Ico</span>
@@ -96,7 +91,7 @@ const AccountingList = () => {
                         <span className={styles.listLabels}>Action</span>
                     </div>
                 )}
-                <ElementsContainer/>
+                <IncomeElementsContainer/>
             </div>
 
 
@@ -104,5 +99,4 @@ const AccountingList = () => {
 
     );
 };
-
-export default AccountingList;
+export default ExpensesList;

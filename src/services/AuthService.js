@@ -19,12 +19,15 @@ class AuthService {
         return $api.post('/logout');
     }
 
-    static async createAccount(name, comment, currency, value,ico_id  = 0){
+    static async createAccount(name, comment, currency, value, ico_id  = 0){
         return $apiAccounts.post('/create', {name, comment, currency, value, ico_id})
     }
 
     static async editAccount(account_id, name, comment, currency, value,ico_id  = 0){
         return $apiAccounts.put(`/update/${account_id}`, {name, comment, currency, value, ico_id})
+    }
+    static async deleteAccount(account_id){
+        return $apiAccounts.delete(`/delete/${account_id}`)
     }
     static async createIncome(source_id, account_id, amount, comment, time_at ){
         return $apiIncome.post('/create', {source_id, account_id, amount, comment, time_at})
@@ -32,9 +35,22 @@ class AuthService {
     static async editIncome(income_id, source_id, account_id, amount, comment, time_at){
         return $apiIncome.put(`/update/${income_id}`, {source_id, account_id, amount, comment, time_at})
     }
-    static async deleteAccount(account_id){
-        return $apiAccounts.delete(`/delete/${account_id}`)
+    static async deleteIncome(income_id){
+        return $apiIncome.delete(`/delete/${income_id}`)
     }
+
+    static async createIncomeSource(name, comment, ico_id = 0 ){
+        return $apiIncomeSources.post('/create', {name, comment, ico_id})
+    }
+
+    static async editIncomeSource(source_id, name, comment, ico_id = 0){
+        return $apiIncomeSources.put(`/update/${source_id}`, {name, comment, ico_id})
+    }
+    static async deleteIncomeSource(incomeSource_id){
+        return $apiIncomeSources.delete(`/delete/${incomeSource_id}`)
+    }
+
+
 
     static async getAccountList (){
         return $apiAccounts.get('/list')
