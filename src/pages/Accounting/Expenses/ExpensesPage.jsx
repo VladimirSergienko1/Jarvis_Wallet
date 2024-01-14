@@ -1,7 +1,12 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {setExpenseTab} from "../../../features/ui/uiSlice.js";
-import {getExpenseList, getIncomeList, getIncomeSourceList} from "../../../features/user/userSlice.js";
+import {
+    getExpenseList,
+    getExpenseSourceList,
+    getIncomeList,
+    getIncomeSourceList
+} from "../../../features/user/userSlice.js";
 import styles from "../Accounting.module.scss";
 import AddButton from "../Expenses/AddButton.jsx";
 import CloseButton from "../../../components/CloseButton/CloseButton.jsx";
@@ -9,7 +14,7 @@ import ExpensesList from "./ExpensesList.jsx";
 
 const ExpensesPage = () => {
     const dispatch = useDispatch()
-    const sources = useSelector((state) => state.user.userIncomeSource);
+    const sources = useSelector((state) => state.user.userExpenseSource);
     const expenseTab = useSelector((state) => state.ui.expenseTab);
 
     const handleSelect = (value) => {
@@ -17,7 +22,7 @@ const ExpensesPage = () => {
     };
 
     useEffect(() => {
-        dispatch(getIncomeSourceList())
+        dispatch(getExpenseSourceList())
     }, []);
     useEffect(() => {
         dispatch(getExpenseList())

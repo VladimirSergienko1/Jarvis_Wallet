@@ -3,11 +3,11 @@ import {useSelector} from "react-redux";
 import styles from "../Accounting.module.scss";
 import CustomSelect from "../../LoginPage/CustomSelect.jsx";
 import ReactInputDateMask from "react-input-date-mask";
-import IncomeElementsContainer from "../Income/IncomeElementsContainer.jsx";
+import ExpensesElementsContainer from "./ExpensesElementsContainer.jsx";
 
 const ExpensesList = () => {
     const [selectedOption, setSelectedOption] = useState(null);
-    const sources = useSelector((state) => state.user.userIncomeSource);
+    const sources = useSelector((state) => state.user.userExpenseSource);
     const expenseTab = useSelector((state) => state.ui.expenseTab);
     const handleSourceChange = (option) => {
         setSelectedOption(option);
@@ -91,10 +91,9 @@ const ExpensesList = () => {
                         <span className={styles.listLabels}>Action</span>
                     </div>
                 )}
-                <IncomeElementsContainer/>
+                <ExpensesElementsContainer/>
+
             </div>
-
-
         </div>
 
     );

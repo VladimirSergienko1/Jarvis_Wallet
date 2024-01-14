@@ -1,27 +1,27 @@
 import React from 'react';
-import styles from "../Accounting.module.scss";
-import IncomesListElement from "./IncomesListElement.jsx";
 import {useSelector} from "react-redux";
-import SourcesListElement from "./SourcesListElement.jsx";
+import styles from "../Accounting.module.scss";
+import ExpensesListElement from "./ExpensesListElement.jsx";
+import ExpensesSourcesListElement from "./ExpensesSourcesListElement.jsx";
 
-const ExpensesElementContainer = () => {
-    const incomes = useSelector((state) => state.user.userIncomes);
-    const sources = useSelector((state) => state.user.userIncomeSource);
-    const incomeTab = useSelector((state) => state.ui.incomeTab);
+const ExpensesElementsContainer = () => {
+    const expenses = useSelector((state) => state.user.userExpenses);
+    const sources = useSelector((state) => state.user.userExpenseSource);
+    const expenseTab = useSelector((state) => state.ui.expenseTab);
     return (
         <>
-            {incomeTab === 'income' && (<div className={styles.elContainer}>
-                {incomes.map(income => (
-                    <IncomesListElement key={income.id} amount = {income.amount} incomeId = {income.id} source_id={income.source_id} comment={income.comment} time_at={income.time_at} />
+            {expenseTab === 'expense' && (<div className={styles.elContainer}>
+                {expenses.map((expense, index) => (
+                    <ExpensesListElement key={expense.id} index={index + 1} amount = {expense.amount} incomeId = {expense.id} source_id={expense.source_id} comment={expense.comment} time_at={expense.time_at} />
                 ))}
             </div>)}
-            {incomeTab === 'source' && (<div className={styles.elContainer}>
-                {sources.map(source => (
-                    <SourcesListElement key={source.id} Ico = {source.ico_id} is_common = {source.is_common} sourceId = {source.id} />
+            {expenseTab === 'source' && (<div className={styles.elContainer}>
+                {sources.map((source, index) => (
+                    <ExpensesSourcesListElement key={source.id} index={index + 1} ico_id = {source.ico_id} is_common = {source.is_common} name = {source.name} sourceId = {source.id} />
                 ))}
             </div>)}
         </>
-    );
+    )
 };
 
-export default ExpensesElementContainer;
+export default ExpensesElementsContainer;

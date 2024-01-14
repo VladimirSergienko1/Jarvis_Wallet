@@ -1,20 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
-    createIncome, createIncomeSource,
-    deleteIncome,
-    deleteIncomeSource, editIncome, editIncomeSource,
-    getAccountList,
+    createExpense, createExpenseSource, deleteExpense, deleteExpenseSource,
+    editExpense, editExpenseSource, editIncome, editIncomeSource,
+    getAccountList, getExpenseSourceList,
     getIncomeSourceList
 } from "../../../features/user/userSlice.js";
 import {
-    setDeletionMode,
+    setDeletionMode, setExpenseDataForEditing, setExpenseSourceDataForEditing,
     setIncomeDataForEditing,
     setOverAndExpenseModal, setOverAndIncomeModal,
     setSourceDataForEditing
 } from "../../../features/ui/uiSlice.js";
 import {useFormik} from "formik";
-import styles from "../Income/AccountingModal.module.scss";
+import styles from "../AccountingModal.module.scss";
 import button_help from "../../../assets/Account/button_help.svg";
 import CustomSelect from "../../LoginPage/CustomSelect.jsx";
 import AccountIcons from "../../../components/AccountIcons/AccountIcons.jsx";
@@ -33,7 +32,7 @@ const expenseValidationSchema = Yup.object({
         .required('comment is required')
 
 });
-const sourceValidationSchema = Yup.object({
+const expenseSourceValidationSchema = Yup.object({
     name: Yup.string()
         .required('name is required')
 });
@@ -43,19 +42,19 @@ const ExpensesModal = () => {
     const expenseOverlayIsVisible = useSelector((state) => state.ui.expenseOverlayIsVisible)
     const isDeletionMode = useSelector((state) => state.ui.isDeletionMode)
     const [activeIndex, setActiveIndex] = useState( 0);
-    const incomeDataForEditing = useSelector((state) => state.ui.incomeDataForEditing);
-    const sourceDataForEditing = useSelector((state) => state.ui.sourceDataForEditing);
+    const expenseDataForEditing = useSelector((state) => state.ui.expenseDataForEditing);
+    const expenseSourceDataForEditing = useSelector((state) => state.ui.expenseSourceDataForEditing);
     const accounts = useSelector((state) => state.user.userAccounts);
-    const sources = useSelector((state) => state.user.userIncomeSource);
+    const expenseSources = useSelector((state) => state.user.userExpenseSource);
     const expenseTab = useSelector((state) => state.ui.expenseTab);
-    const incomeId = incomeDataForEditing?.id
-    const sourceId = sourceDataForEditing?.id
+    const expenseId = expenseDataForEditing?.id
+    const expenseSourceId = expenseSourceDataForEditing?.id
     const [accountOptions, setAccountOptions] = useState([]);
     const [sourceOptions, setSourceOptions] = useState([]);
 
     useEffect(() => {
         dispatch(getAccountList())
-        dispatch(getIncomeSourceList())
+        dispatch(getExpenseSourceList())
     }, []);
 
 
@@ -71,21 +70,21 @@ const ExpensesModal = () => {
     };
     const handleOverlayClick = ()=>{
         dispatch(setOverAndExpenseModal(false,false))
-        //dispatch(setIncomeDataForEditing(null))
-        //dispatch(setSourceDataForEditing(null))
+        dispatch(setExpenseDataForEditing(null))
+        dispatch(setExpenseSourceDataForEditing(null))
         dispatch(setDeletionMode(false))
     }
-    const handleDelete = (incomeId)=>{
+    const handleDelete = (id)=>{
         if (expenseTab === 'expense') {
-            dispatch(deleteIncome(incomeId))
+            dispatch(deleteExpense(id))
             dispatch(setOverAndExpenseModal(false,false))
-            dispatch(setIncomeDataForEditing(null))
+            dispatch(setExpenseDataForEditing(null))
             dispatch(setDeletionMode(false))
         }
         if (expenseTab === 'source'){
-            dispatch(deleteIncomeSource(incomeId))
+            dispatch(deleteExpenseSource(id))
             dispatch(setOverAndExpenseModal(false,false))
-            dispatch(setSourceDataForEditing(null))
+            dispatch(setExpenseSourceDataForEditing(null))
             dispatch(setDeletionMode(false))
         }
     }
@@ -100,50 +99,50 @@ const ExpensesModal = () => {
         },
         validationSchema: expenseValidationSchema,
         onSubmit: async (values) => {
-            if (!incomeDataForEditing){
-                const incomeData = {...values}
+            if (!expenseDataForEditing){
+                const expenseData = {...values}
                 try {
-                    dispatch(createIncome(incomeData));
+                    dispatch(createExpense(expenseData));
                     dispatch(setDeletionMode(false))
                     dispatch(setOverAndExpenseModal(false,false))
                     formik.resetForm();
                 } catch (error) {
-                    console.error("Ошибка в создании Income:", error);
+                    console.error("Ошибка в создании Expense:", error);
                 }
             }
             else {
                 try {
-                    const incomeData = {
-                        income_id: incomeDataForEditing.id,
+                    const expenseData = {
+                        expense_id: expenseDataForEditing.id,
                         ...values,
                     };
-                    console.log('incomeData',incomeData)
-                    dispatch(editIncome(incomeData));
+                    console.log('expenseData',expenseData)
+                    dispatch(editExpense(expenseData));
                     dispatch(setOverAndExpenseModal(false,false))
                     formik.resetForm();
                 } catch (error) {
-                    console.error("Ошибка при редактировании Income:", error);
+                    console.error("Ошибка при редактировании Expense:", error);
                 }
-                console.log('incomeDataForEditing', values);
+                console.log('expenseDataForEditing', values);
             }
 
         },
     });
-    const sourceFormik = useFormik({
+    const expenseSourceFormik = useFormik({
         initialValues: {
             name: '',
             comment: '',
             ico_id: activeIndex,
         },
-        validationSchema: sourceValidationSchema,
+        validationSchema: expenseSourceValidationSchema,
         onSubmit: async (values) => {
-            if (!sourceDataForEditing){
-                const sourceData = {...values}
+            if (!expenseSourceDataForEditing){
+                const expenseSourceData = {...values}
                 try {
-                    dispatch(createIncomeSource(sourceData));
+                    dispatch(createExpenseSource(expenseSourceData));
                     dispatch(setDeletionMode(false))
                     dispatch(setOverAndExpenseModal(false,false))
-                    sourceFormik.resetForm();
+                    expenseSourceFormik.resetForm();
                 } catch (error) {
                     console.error("Ошибка в создании Source:", error);
                 }
@@ -151,13 +150,13 @@ const ExpensesModal = () => {
             else {
                 try {
                     const sourceData = {
-                        source_id: sourceDataForEditing.id,
+                        source_id: expenseSourceDataForEditing.id,
                         ...values,
                         ico_id: activeIndex
                     };
-                    dispatch(editIncomeSource(sourceData));
+                    dispatch(editExpenseSource(sourceData));
                     dispatch(setOverAndExpenseModal(false,false))
-                    sourceFormik.resetForm();
+                    expenseSourceFormik.resetForm();
                 } catch (error) {
                     console.error("Ошибка при редактировании Source:", error);
                 }
@@ -170,34 +169,34 @@ const ExpensesModal = () => {
             values: {
                 account_id: accountOptions || '',
                 source_id: sourceOptions || '',
-                amount: incomeDataForEditing?.amount || '',
-                comment: incomeDataForEditing?.comment,
-                time_at: incomeDataForEditing?.time_at
+                amount: expenseDataForEditing?.amount || '',
+                comment: expenseDataForEditing?.comment,
+                time_at: expenseDataForEditing?.time_at
             }
         });
-    }, [incomeDataForEditing]);
+    }, [expenseDataForEditing]);
 
     useEffect(() => {
-        sourceFormik.resetForm({
+        expenseSourceFormik.resetForm({
             values: {
-                name: sourceDataForEditing?.name,
-                comment: sourceDataForEditing?.comment,
-                ico_id: setActiveIndex(sourceDataForEditing?.ico_id),
+                name: expenseSourceDataForEditing?.name,
+                comment: expenseSourceDataForEditing?.comment,
+                ico_id: setActiveIndex(expenseSourceDataForEditing?.ico_id),
             }
         });
-    }, [sourceDataForEditing]);
+    }, [expenseSourceDataForEditing]);
 
     useEffect(() => {
-        if (incomeDataForEditing) {
-            const editingAccountValue = accounts.find(acc => acc.id === incomeDataForEditing.account_id);
-            const editingSourceValue = sources.find(src => src.id === incomeDataForEditing.source_id);
+        if (expenseDataForEditing) {
+            const editingAccountValue = accounts.find(acc => acc.id === expenseDataForEditing.account_id);
+            const editingSourceValue = expenseSources.find(src => src.id === expenseDataForEditing.source_id);
             formik.setFieldValue('account_id', editingAccountValue ? editingAccountValue.id : '');
             formik.setFieldValue('source_id', editingSourceValue ? editingSourceValue.id : '');
         } else {
             setAccountOptions(accounts.map(acc => ({ value: acc.id, label: acc.name })));
-            setSourceOptions(sources.map(src => ({ value: src.id, label: src.name })));
+            setSourceOptions(expenseSources.map(src => ({ value: src.id, label: src.name })));
         }
-    }, [incomeDataForEditing, accounts, sources,  formik.setFieldValue]);
+    }, [expenseDataForEditing, accounts, expenseSources,  formik.setFieldValue]);
 
     return(
         <>
@@ -205,7 +204,7 @@ const ExpensesModal = () => {
             {expenseModalIsVisible &&
                 <div className={styles.account__container}>
                     <div className={styles.account__header}>
-                        <h2 className={styles.account_header_title}>{isDeletionMode ? 'Confirmation': (incomeDataForEditing || sourceDataForEditing) ? `Edit  ${expenseTab === 'expense' ? 'expense' : 'expense source'}`  : `Add new  ${expenseTab === 'expense' ? 'expense' : 'expense source'}`}</h2>
+                        <h2 className={styles.account_header_title}>{isDeletionMode ? 'Confirmation': (expenseDataForEditing || expenseSourceDataForEditing) ? `Edit  ${expenseTab === 'expense' ? 'expense' : 'expense source'}`  : `Add new  ${expenseTab === 'expense' ? 'expense' : 'expense source'}`}</h2>
                         <img className={styles.help_button} src={button_help}/>
                     </div>
                     {(!isDeletionMode && expenseTab === 'expense') && <form className={styles.block_form} onSubmit={formik.handleSubmit}>
@@ -281,12 +280,12 @@ const ExpensesModal = () => {
                             </div>
                         </div>
                         <div className={styles.reg_footer}>
-                            {incomeDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>dispatch(setDeletionMode(true))}>Delete</button>}
-                            <button className={styles.reg_button} type={"submit"}>Add</button>
+                            {expenseDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>dispatch(setDeletionMode(true))}>Delete</button>}
+                            <button className={styles.reg_button} type={"submit"}>{expenseDataForEditing ? 'Edit' : 'Add'}</button>
                         </div>
                     </form>}
 
-                    {(!isDeletionMode && expenseTab === 'source') && <form className={styles.block_form} onSubmit={sourceFormik.handleSubmit}>
+                    {(!isDeletionMode && expenseTab === 'source') && <form className={styles.block_form} onSubmit={expenseSourceFormik.handleSubmit}>
                         <div className={styles.input_group}>
                             <div className={styles.input_container} >
                                 <label htmlFor={'name_input'} className={styles.reg_label_required}>Name</label>
@@ -294,13 +293,13 @@ const ExpensesModal = () => {
                                     id="name_input"
                                     name="name"
                                     type="text"
-                                    onChange={sourceFormik.handleChange}
-                                    onBlur={sourceFormik.handleBlur}
-                                    value={sourceFormik.values.name}
+                                    onChange={expenseSourceFormik.handleChange}
+                                    onBlur={expenseSourceFormik.handleBlur}
+                                    value={expenseSourceFormik.values.name}
                                     className={styles.reg_input}
                                 />
-                                {sourceFormik.touched.name && sourceFormik.errors.name && (
-                                    <p className={styles.error_text}>{sourceFormik.errors.name}</p>
+                                {expenseSourceFormik.touched.name && expenseSourceFormik.errors.name && (
+                                    <p className={styles.error_text}>{expenseSourceFormik.errors.name}</p>
                                 )}
                             </div>
                             <div className={styles.input_container}>
@@ -309,20 +308,20 @@ const ExpensesModal = () => {
                                     id="comment_input"
                                     name="comment"
                                     type="text"
-                                    onChange={sourceFormik.handleChange}
-                                    onBlur={sourceFormik.handleBlur}
-                                    value={sourceFormik.values.comment}
+                                    onChange={expenseSourceFormik.handleChange}
+                                    onBlur={expenseSourceFormik.handleBlur}
+                                    value={expenseSourceFormik.values.comment}
                                     className={styles.reg_input}
                                 />
-                                {sourceFormik.touched.comment && formik.errors.comment && (
-                                    <p className={styles.error_text}>{sourceFormik.errors.comment}</p>
+                                {expenseSourceFormik.touched.comment && formik.errors.comment && (
+                                    <p className={styles.error_text}>{expenseSourceFormik.errors.comment}</p>
                                 )}
                             </div>
                         </div>
                         <AccountIcons activeIndex={activeIndex} handleGridItemClick={handleGridItemClick}/>
                         <div className={styles.reg_footer}>
-                            {sourceDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>dispatch(setDeletionMode(true))}>Delete</button>}
-                            <button className={styles.reg_button} type={"submit"}>Add</button>
+                            {expenseSourceDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>dispatch(setDeletionMode(true))}>Delete</button>}
+                            <button className={styles.reg_button} type={"submit"}>{expenseSourceDataForEditing ? 'Edit' : 'Add'}</button>
                         </div>
                     </form>}
 
@@ -332,16 +331,16 @@ const ExpensesModal = () => {
                         </div>
                         <div className={styles.reg_footer}>
                             <button className={styles.cancel_button} type={"submit"} onClick={()=>dispatch(setDeletionMode(false))}>Back</button>
-                            <button className={styles.del_button} type={"button"} onClick={()=>handleDelete(incomeId)}>Delete</button>
+                            <button className={styles.del_button} type={"button"} onClick={()=>handleDelete(id)}>Delete</button>
                         </div>
                     </form>}
 
-                    {(isDeletionMode &&  expenseTab === 'source') && <form className={styles.block_form} onSubmit={sourceFormik.handleSubmit}>
+                    {(isDeletionMode &&  expenseTab === 'source') && <form className={styles.block_form} onSubmit={expenseSourceFormik.handleSubmit}>
                         <div className={styles.block_form_content}>
                             <p className={styles.content_text}>Confirm the deletion operation</p>
                         </div>
                         <div className={styles.reg_footer}>
-                            <button className={styles.cancel_button} type={"submit"} onClick={()=>setIncomeDeletionMode(false)}>Back</button>
+                            <button className={styles.cancel_button} type={"submit"} onClick={()=>dispatch(setDeletionMode(false))}>Back</button>
                             <button className={styles.del_button} type={"button"} onClick={()=>handleDelete(sourceId)}>Delete</button>
                         </div>
                     </form>}

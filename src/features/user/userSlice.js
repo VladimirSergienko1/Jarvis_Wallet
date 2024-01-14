@@ -14,7 +14,6 @@ export const createAccount = createAsyncThunk(
         }
     }
 )
-
 export const editAccount = createAsyncThunk(
     'edit/account',
     async ({account_id, name, comment, currency, value, ico_id}, {getState , dispatch,rejectedWithValue})=>{
@@ -28,7 +27,6 @@ export const editAccount = createAsyncThunk(
         }
     }
 )
-
 export const deleteAccount = createAsyncThunk(
     'delete/account',
     async (account_id, {dispatch, rejectedWithValue})=>{
@@ -43,7 +41,6 @@ export const deleteAccount = createAsyncThunk(
         }
     }
 )
-
 export const createIncome = createAsyncThunk(
     'create/income',
     async ({source_id, account_id, amount, comment, time_at}, {rejectedWithValue})=>{
@@ -143,7 +140,7 @@ export const editExpense = createAsyncThunk(
     'edit/expense',
     async ({expense_id, source_id, amount, comment, time_at}, {getState , dispatch,rejectedWithValue})=>{
         try {
-            const response = await AuthService.editIncome(expense_id, source_id, amount, comment, time_at)
+            const response = await AuthService.editExpense(expense_id, source_id, amount, comment, time_at)
             return response.data
         }
         catch (error){
@@ -166,7 +163,46 @@ export const deleteExpense = createAsyncThunk(
         }
     }
 )
-
+export const createExpenseSource = createAsyncThunk(
+    'create/expenseSource',
+    async ({name, comment, ico_id}, {rejectedWithValue})=>{
+        try {
+            const response = await AuthService.createExpenseSource(name, comment, ico_id)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+export const editExpenseSource = createAsyncThunk(
+    'edit/expenseSource',
+    async ({source_id, name, comment, ico_id}, {getState , dispatch,rejectedWithValue})=>{
+        try {
+            const response = await AuthService.editExpenseSource(source_id, name, comment, ico_id)
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+export const deleteExpenseSource = createAsyncThunk(
+    'delete/expenseSource',
+    async (expenseSource_id, {dispatch, rejectedWithValue})=>{
+        try {
+            const response = await AuthService.deleteExpenseSource(expenseSource_id)
+            dispatch(getIncomeSourceList());
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
 
 export const checkAuth = createAsyncThunk(
     'user/checkAuth',
@@ -200,6 +236,19 @@ export const getIncomeSourceList = createAsyncThunk(
     async (_,{rejectedWithValue})=>{
         try {
             const response = await AuthService.getIncomeSourcesList()
+            return response.data
+        }
+        catch (error){
+            console.log(error.message)
+            return rejectedWithValue(error.message)
+        }
+    }
+)
+export const getExpenseSourceList = createAsyncThunk(
+    'get/expenseSourceList',
+    async (_,{rejectedWithValue})=>{
+        try {
+            const response = await AuthService.getExpenseSourcesList()
             return response.data
         }
         catch (error){
@@ -260,6 +309,7 @@ const initialState ={
     userIncomes: [],
     userExpenses: [],
     userIncomeSource: [],
+    userExpenseSource: [],
 }
 
 const userSlice = createSlice({
@@ -307,6 +357,9 @@ const userSlice = createSlice({
             })
             .addCase(getIncomeSourceList.fulfilled, (state, action) => {
                 state.userIncomeSource = action.payload
+            })
+            .addCase(getExpenseSourceList.fulfilled, (state, action) => {
+                state.userExpenseSource = action.payload
             })
             .addCase(getIncomeSourceList.rejected, (state, action) => {
                 state.error = action.payload;
@@ -375,6 +428,12 @@ const userSlice = createSlice({
                     state.userIncomeSource[index] = action.payload;
                 }
             })
+            .addCase(editExpenseSource.fulfilled, (state, action) => {
+                const index = state.userExpenseSource.findIndex(expense => expense.id === action.payload.id);
+                if (index !== -1) {
+                    state.userExpenseSource[index] = action.payload;
+                }
+            })
             .addCase(editAccount.rejected, (state, action) => {
                 state.error = action.payload;
                 //state.isLoading = false;
@@ -397,6 +456,9 @@ const userSlice = createSlice({
             })
             .addCase(createIncomeSource.fulfilled, (state, action) => {
                 state.userIncomeSource.push(action.payload);
+            })
+            .addCase(createExpenseSource.fulfilled, (state, action) => {
+                state.userExpenseSource.push(action.payload);
             })
             .addCase(createIncomeSource.rejected, (state, action) => {
                 state.error = action.payload;

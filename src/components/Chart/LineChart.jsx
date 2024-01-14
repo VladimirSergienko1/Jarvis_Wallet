@@ -1,283 +1,65 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { ResponsiveLine } from '@nivo/line'
-const data = [
-    {
-        "id": "japan",
-        "color": "hsl(18, 70%, 50%)",
-        "data": [
-            {
-                "x": "plane",
-                "y": 247
-            },
-            {
-                "x": "helicopter",
-                "y": 247
-            },
-            {
-                "x": "boat",
-                "y": 1
-            },
-            {
-                "x": "train",
-                "y": 170
-            },
-            {
-                "x": "subway",
-                "y": 87
-            },
-            {
-                "x": "bus",
-                "y": 125
-            },
-            {
-                "x": "car",
-                "y": 184
-            },
-            {
-                "x": "moto",
-                "y": 266
-            },
-            {
-                "x": "bicycle",
-                "y": 81
-            },
-            {
-                "x": "horse",
-                "y": 150
-            },
-            {
-                "x": "skateboard",
-                "y": 95
-            },
-            {
-                "x": "others",
-                "y": 144
-            }
-        ]
-    },
-    {
-        "id": "france",
-        "color": "hsl(75, 70%, 50%)",
-        "data": [
-            {
-                "x": "plane",
-                "y": 252
-            },
-            {
-                "x": "helicopter",
-                "y": 10
-            },
-            {
-                "x": "boat",
-                "y": 175
-            },
-            {
-                "x": "train",
-                "y": 179
-            },
-            {
-                "x": "subway",
-                "y": 200
-            },
-            {
-                "x": "bus",
-                "y": 186
-            },
-            {
-                "x": "car",
-                "y": 236
-            },
-            {
-                "x": "moto",
-                "y": 227
-            },
-            {
-                "x": "bicycle",
-                "y": 162
-            },
-            {
-                "x": "horse",
-                "y": 275
-            },
-            {
-                "x": "skateboard",
-                "y": 63
-            },
-            {
-                "x": "others",
-                "y": 37
-            }
-        ]
-    },
-    {
-        "id": "us",
-        "color": "hsl(317, 70%, 50%)",
-        "data": [
-            {
-                "x": "plane",
-                "y": 284
-            },
-            {
-                "x": "helicopter",
-                "y": 275
-            },
-            {
-                "x": "boat",
-                "y": 168
-            },
-            {
-                "x": "train",
-                "y": 285
-            },
-            {
-                "x": "subway",
-                "y": 86
-            },
-            {
-                "x": "bus",
-                "y": 262
-            },
-            {
-                "x": "car",
-                "y": 237
-            },
-            {
-                "x": "moto",
-                "y": 216
-            },
-            {
-                "x": "bicycle",
-                "y": 152
-            },
-            {
-                "x": "horse",
-                "y": 44
-            },
-            {
-                "x": "skateboard",
-                "y": 233
-            },
-            {
-                "x": "others",
-                "y": 119
-            }
-        ]
-    },
-    {
-        "id": "germany",
-        "color": "hsl(123, 70%, 50%)",
-        "data": [
-            {
-                "x": "plane",
-                "y": 288
-            },
-            {
-                "x": "helicopter",
-                "y": 285
-            },
-            {
-                "x": "boat",
-                "y": 128
-            },
-            {
-                "x": "train",
-                "y": 208
-            },
-            {
-                "x": "subway",
-                "y": 241
-            },
-            {
-                "x": "bus",
-                "y": 102
-            },
-            {
-                "x": "car",
-                "y": 175
-            },
-            {
-                "x": "moto",
-                "y": 227
-            },
-            {
-                "x": "bicycle",
-                "y": 9
-            },
-            {
-                "x": "horse",
-                "y": 187
-            },
-            {
-                "x": "skateboard",
-                "y": 276
-            },
-            {
-                "x": "others",
-                "y": 108
-            }
-        ]
-    },
-    {
-        "id": "norway",
-        "color": "hsl(175, 70%, 50%)",
-        "data": [
-            {
-                "x": "plane",
-                "y": 146
-            },
-            {
-                "x": "helicopter",
-                "y": 136
-            },
-            {
-                "x": "boat",
-                "y": 41
-            },
-            {
-                "x": "train",
-                "y": 152
-            },
-            {
-                "x": "subway",
-                "y": 32
-            },
-            {
-                "x": "bus",
-                "y": 150
-            },
-            {
-                "x": "car",
-                "y": 130
-            },
-            {
-                "x": "moto",
-                "y": 236
-            },
-            {
-                "x": "bicycle",
-                "y": 128
-            },
-            {
-                "x": "horse",
-                "y": 36
-            },
-            {
-                "x": "skateboard",
-                "y": 268
-            },
-            {
-                "x": "others",
-                "y": 7
-            }
-        ]
-    }
-]
+import {getAccountList, getIncomeList, getIncomeSourceList} from "../../features/user/userSlice.js";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
+import moment from "moment";
+
 const LineChart = () => {
+    const dispatch = useDispatch();
+    const {accountId} = useParams()
+
+   /* useEffect(() => {
+        dispatch(getAccountList())
+    }, []);
+    useEffect(() => {
+        dispatch(getIncomeList())
+    }, []);*/
+
+    useEffect(() => {
+        dispatch(getIncomeList())
+    }, []);
+
+    const incomeList = useSelector(state => state.user.userIncomes);
+    const accountList = useSelector(state => state.user.userAccounts);
+    console.log('incomeListGRAPG',incomeList)
+
+    const filteredData = incomeList.filter(income =>
+        income.account_id === Number(accountId) &&
+        income.time_at && moment(income.time_at, 'YYYY-MM-DDTHH:mm:ss', true).isValid()
+    );
+
+    const data = filteredData.length > 0 ? [{
+        id: "Income",
+        data: filteredData.map(income => ({
+            x: moment(income.time_at).format('YYYY-MM-DD'),
+            y: income.amount
+        }))
+    }] : [];
+
+    const customTooltip = (point) => {
+        return (
+            <div style={{ background: 'white', padding: '5px', border: '1px solid black' }}>
+                {point.point.data.y}
+            </div>
+        );
+    };
+
+    if (data.length === 0) {
+        return <div>NO DATA</div>;
+    }
+
     return (
         <ResponsiveLine
             data={data}
             margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-            xScale={{ type: 'point' }}
+            xScale={{
+                type: 'time',
+                format: '%Y-%m-%d',
+                precision: 'day'
+            }}
+            tooltip={customTooltip}
+            xFormat="time:%Y-%m-%d"
             yScale={{
                 type: 'linear',
                 min: 'auto',
@@ -285,14 +67,16 @@ const LineChart = () => {
                 stacked: true,
                 reverse: false
             }}
-            yFormat=" >-.2f"
+            yFormat=""
             axisTop={null}
             axisRight={null}
             axisBottom={{
+                format: '%b %d',
+                tickValues: 'every day',
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'transportation',
+                legend: 'Дата',
                 legendOffset: 36,
                 legendPosition: 'middle'
             }}
@@ -300,7 +84,7 @@ const LineChart = () => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'count',
+                legend: '',
                 legendOffset: -40,
                 legendPosition: 'middle'
             }}
@@ -338,6 +122,7 @@ const LineChart = () => {
             ]}
         />
     );
+
 };
 
 export default LineChart;

@@ -8,6 +8,7 @@ export const API_URL_INCOME_SOURCES = 'https://jarviswallet.pro/api/v1/income_so
 
 export const API_URL_INCOME = 'https://jarviswallet.pro/api/v1/income/'
 export const API_URL_EXPENSE = 'https://jarviswallet.pro/api/v1/expense/'
+export const API_URL_EXPENSE_SOURCES = 'https://jarviswallet.pro/api/v1/expense_source/'
 export const $api = axios.create({
     withCredentials: true,
     baseURL: API_URL
@@ -27,7 +28,10 @@ export const $apiIncomeSources = axios.create({
     withCredentials: true,
     baseURL: API_URL_INCOME_SOURCES
 })
-
+export const $apiExpenseSources = axios.create({
+    withCredentials: true,
+    baseURL: API_URL_EXPENSE_SOURCES
+})
 export const $apiIncome = axios.create({
     withCredentials: true,
     baseURL: API_URL_INCOME
@@ -43,6 +47,10 @@ $apiAccounts.interceptors.request.use(config => {
     return config;
 })
 $apiIncomeSources.interceptors.request.use(config => {
+    config.headers.Authorization = `Bearer ${Cookies.get('access_token')}`;
+    return config;
+})
+$apiExpenseSources.interceptors.request.use(config => {
     config.headers.Authorization = `Bearer ${Cookies.get('access_token')}`;
     return config;
 })

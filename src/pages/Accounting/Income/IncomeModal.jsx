@@ -17,7 +17,7 @@ import {
     setOverAndIncomeModal, setSourceDataForEditing
 } from "../../../features/ui/uiSlice.js";
 import {useFormik} from "formik";
-import styles from "./AccountingModal.module.scss";
+import styles from "../AccountingModal.module.scss";
 import button_help from "../../../assets/Account/button_help.svg";
 import CustomSelect from "../../LoginPage/CustomSelect.jsx";
 import AccountIcons from "../../../components/AccountIcons/AccountIcons.jsx";
@@ -285,7 +285,7 @@ const IncomeModal = () => {
                         </div>
                         <div className={styles.reg_footer}>
                             {incomeDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>dispatch(setDeletionMode(true))}>Delete</button>}
-                            <button className={styles.reg_button} type={"submit"}>Add</button>
+                            <button className={styles.reg_button} type={"submit"}>{incomeDataForEditing ? 'Edit' : 'Add'}</button>
                         </div>
                     </form>}
 
@@ -325,7 +325,7 @@ const IncomeModal = () => {
                         <AccountIcons activeIndex={activeIndex} handleGridItemClick={handleGridItemClick}/>
                         <div className={styles.reg_footer}>
                             {sourceDataForEditing &&  <button className={styles.del_button} type={"button"}  onClick={()=>dispatch(setDeletionMode(true))}>Delete</button>}
-                            <button className={styles.reg_button} type={"submit"}>Add</button>
+                            <button className={styles.reg_button} type={"submit"}>{sourceDataForEditing ? 'Edit' : 'Add'}</button>
                         </div>
                     </form>}
 
@@ -344,7 +344,7 @@ const IncomeModal = () => {
                             <p className={styles.content_text}>Confirm the deletion operation</p>
                         </div>
                         <div className={styles.reg_footer}>
-                            <button className={styles.cancel_button} type={"submit"} onClick={()=>setIncomeDeletionMode(false)}>Back</button>
+                            <button className={styles.cancel_button} type={"submit"} onClick={()=>dispatch(setDeletionMode(false))} >Back</button>
                             <button className={styles.del_button} type={"button"} onClick={()=>handleDelete(sourceId)}>Delete</button>
                         </div>
                     </form>}

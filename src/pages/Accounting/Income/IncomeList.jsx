@@ -97,7 +97,6 @@ const IncomeList = () => {
                 <IncomeElementsContainer/>
             </div>
 
-
         </div>
 
     );

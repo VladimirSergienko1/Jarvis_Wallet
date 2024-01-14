@@ -14,7 +14,9 @@ const initialState ={
     budgetModalIsVisible: false,
     accountModalDataForEditing: null,
     incomeDataForEditing: null,
+    expenseDataForEditing: null,
     sourceDataForEditing: null,
+    expenseSourceDataForEditing: null,
     incomeTab: 'income',
     expenseTab: 'expense',
     error: null,
@@ -53,8 +55,14 @@ const uiSlice = createSlice({
         setIncomeDataForEditing: (state,action) => {
             state.incomeDataForEditing = action.payload
         },
+        setExpenseDataForEditing: (state,action) => {
+            state.expenseDataForEditing= action.payload
+        },
         setSourceDataForEditing: (state,action) => {
             state.sourceDataForEditing = action.payload
+        },
+        setExpenseSourceDataForEditing: (state,action) => {
+            state.expenseSourceDataForEditing = action.payload
         },
         setIncomeTab: (state, action) => {
             state.incomeTab = action.payload;
@@ -74,5 +82,5 @@ const uiSlice = createSlice({
 })
 
 console.log('uiSlice',uiSlice)
-export const {setAccountModalVisible,setOverAndExpenseModal,setOverlayVisible,setDeletionMode,setSourceDataForEditing, setOverAndAccModal, setIncomeTab, setAccountModalDataForEditing, setOverAndIncomeModal, setExpenseTab, setIncomeDataForEditing} = uiSlice.actions
+export const {setAccountModalVisible,setOverAndExpenseModal,setExpenseSourceDataForEditing,setExpenseDataForEditing,setOverlayVisible,setDeletionMode,setSourceDataForEditing, setOverAndAccModal, setIncomeTab, setAccountModalDataForEditing, setOverAndIncomeModal, setExpenseTab, setIncomeDataForEditing} = uiSlice.actions
 export default uiSlice.reducer
